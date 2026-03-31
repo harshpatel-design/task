@@ -7,6 +7,7 @@
   font-family: "Poppins", sans-serif;
 }
 
+
 body {
   background: #fff;
   min-height: 100vh;
@@ -20,24 +21,36 @@ body {
   display: flex;
   gap: 20px;
   align-items: center;
-  justify-content: center;
-  max-width: 80%;
+  justify-content: space-between;
+  width: 50%;
   border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   padding: 20px 30px;
   border-radius: 10px;
   clear: both;
   flex-wrap: wrap;
 }
 
+.heading {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    width: 50%;
+    text-align: center;
+}
+
+
 #sidebar-list {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(3, 1fr);
   list-style: none;
   gap: 10px;
 }
 #sidebar-list li {
-  width: 40px;
-  height: 40px;
+  width: 75px;
+  height: 75px;
   background: #007bff9a;
   color: white;
   display: flex;
@@ -48,7 +61,7 @@ body {
 }
 .quiz-box {
   height: 100%;
-  width: 420px;
+  width: 60%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -86,12 +99,16 @@ body {
 
 #options li {
   list-style: none;
-  padding: 5px 10px;
-  margin: 10px 0px;
+  padding: 8px 10px;
+  margin: 8px 0px;
   background: #f0f0f0;
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px !important;
+}
+
+#options li:nth-child(1) {
+  margin-top: 12px !important;
 }
 
 li:hover {
@@ -110,9 +127,7 @@ button {
   width: 70%;
 }
 
-#submit-btn {
-  display: none;
-}
+
 
 .active {
   background: #28a745 !important;
@@ -127,6 +142,10 @@ button {
 
 .none {
   display: none;
+}
+.selected {
+    background: #007bff !important;
+    color: white !important;
 }
 
 #report {
@@ -167,6 +186,14 @@ button {
   margin: 10px 0;
 }
 
+.term {
+    width: 50%;
+    padding:  10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    margin-top: 10px;
+    border-radius: 10px;
+
+}
 .term-ul {
   list-style: none;
   padding: 0;
@@ -179,4 +206,36 @@ button {
   border-radius: 5px;
   margin: 10px 0;
   font-size: 12px !important;
+}
+
+.correct {
+  background: #28a745 !important;
+  color: white !important;
+}
+.wrong {
+  background: #dc3546e4 !important;
+  color: white !important;
+}
+
+.disable {
+  pointer-events: none;
+  opacity: 0.6;
+  background: red !important;
+}
+
+
+#submit-btn {
+  background: #28a745;
+  color: white;
+}
+
+.result-heading {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto 20px auto;
 }

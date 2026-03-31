@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Quiz App</title>
@@ -8,42 +9,45 @@
 
 <body>
 
-<div class="container">
-  <div class="sidebar">
-    <ul id="sidebar-list"></ul>
-  </div>
+  <h1 class="heading">Quiz App</h1>
 
-  <div class="quiz-box">
-
-    <h2>Question <b id="progress">1</b> / 10</h2>
-    <h3 id="question"></h3>
-
-    <ul id="options"></ul>
-
-    <div class="btns">
-      <button id="prev-btn">Back</button>
-      <button id="next-btn">Next</button>
-      <button id="submit-btn">Submit</button>
+  <div class="container">
+    <div class="sidebar">
+      <ul id="sidebar-list"></ul>
     </div>
 
-    <div class="term">
-      <ul class="term-ul">
-        <li class="term-li"><b>Penalty:</b> 1 mark for each wrong answer</li>
-        <li class="term-li"><b>If first 5 questions: negative</b> -0.5 penalty</li>
-        <li class="term-li"><b>Right Answer:</b> 1 mark</li>
-        <li class="term-li"><b>Wrong Answer:</b> 0 marks</li>
-      </ul>
+    <div class="quiz-box">
+
+      <h2>Question <b id="progress">1</b> / 10</h2>
+      <h3 id="question"></h3>
+
+      <ul id="options"></ul>
+
+      <div class="btns">
+        <button id="prev-btn">Back</button>
+        <button id="next-btn">Next</button>
+        <button id="submit-btn" >Submit</button>
+      </div>
     </div>
   </div>
-</div>
 
- <div id="result" class="result-box none" >
-    <h2>Quiz Result</h2>
+  <div class="term">
+    <ul class="term-ul">
+      <li class="term-li"><b>Penalty:</b> 1 mark for each wrong answer</li>
+      <li class="term-li"><b>If first 5 questions: negative</b> -0.5 penalty</li>
+      <li class="term-li"><b>Right Answer:</b> 1 mark</li>
+      <li class="term-li"><b>Wrong Answer:</b> 0 marks</li>
+    </ul>
+  </div>
+
+  <div id="result" class="result-box none">
+    <h1 class="result-heading">Quiz Result</h1>
     <p id="final-score"></p>
     <div id="report"></div>
     <div class="start-box"></div>
   </div>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
+
 </html>

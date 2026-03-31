@@ -13,10 +13,14 @@ const submitBtn = document.getElementById("submit-btn");
 const resultBox = document.getElementById("result");
 const finalScore = document.getElementById("final-score");
 const report = document.getElementById("report");
+const term = document.querySelector(".term");
+const heading = document.querySelector(".heading");
 
 let currentQuestionIndex = 0;
 let marks = 0;
 let wrongCount = 0;
+
+
 
 const quizData = [
   {
@@ -99,46 +103,36 @@ function loadQuestion() {
   sidebarList.children[currentQuestionIndex].classList.add("active");
 
   q.options.forEach((e) => {
+    
     const li = document.createElement("li");
     li.innerText = e;
 
-    li.onclick = () => handleAnswer(e);
+     if (userAnswers[currentQuestionIndex] === e) {
+      li.classList.add("selected");
+    }
+    
+    li.onclick = () => {
+      handleAnswer(e);
 
+      const allOptions = optionsContainer.querySelectorAll("li");
+      allOptions.forEach((el) => el.classList.remove("selected"));
+
+      li.classList.add("selected");
+    };
+  
     optionsContainer.appendChild(li);
   });
-
-  if (userAnswers[currentQuestionIndex]) {
-    showAnswer(userAnswers[currentQuestionIndex]);
-  }
+  disableOptions();
   checkAllAnswered();
 }
 
 function handleAnswer(selected) {
-  console.log("selected", selected);
-
   userAnswers[currentQuestionIndex] = selected;
-  showAnswer(selected);
+  console.log("userAnswers", userAnswers);
   checkAllAnswered();
+  disableOptions()
 }
 
-function showAnswer(selected) {
-  const q = quizData[currentQuestionIndex];
-  const allOptions = optionsContainer.querySelectorAll("li");
-
-  allOptions.forEach((item) => {
-    item.style.pointerEvents = "none";
-
-    if (item.innerText === q.answer) {
-      item.style.background = "green";
-      item.style.color = "white";
-    }
-
-    if (item.innerText === selected && selected !== q.answer) {
-      item.style.background = "red";
-      item.style.color = "white";
-    }
-  });
-}
 
 nextBtn.onclick = () => {
   if (currentQuestionIndex < quizData.length - 1) {
@@ -158,26 +152,42 @@ submitBtn.onclick = () => {
   calculateResult();
 };
 
+function disableOptions() {
+  if (!userAnswers.every((ans) => ans !== null)) {
+    submitBtn.classList.add("disable");
+} else {
+    submitBtn.classList.remove("disable");
+    
+}
+}
+
+
 function calculateResult() {
   let marks = 0;
   let penalty = 0;
 
+
   report.innerHTML = "";
 
   quizData.forEach((q, i) => {
-    
     const userAns = userAnswers[i];
+
+    const p = document.createElement("p");
+    p.classList.add("box");
+
     if (userAns === q.answer) {
       marks++;
+      p.classList.add("correct");
     } 
     else {
       if (i < 5 && userAns !== null) {
         penalty += 0.5;
       }
+      p.classList.add("wrong");
     }
 
-    const p = document.createElement("p");
-    p.classList.add("box");
+
+
     p.innerText = `Q${i + 1}: Your: ${userAns || "Not Answered"} | Correct: ${q.answer}`;
     report.appendChild(p);
 
@@ -191,14 +201,17 @@ function calculateResult() {
   document.querySelector(".sidebar").style.display = "none";
   resultBox.style.display = "block";
   quizBox.classList.add("none");
+  term.classList.add("none");
+  heading.classList.add("none");
 
   const start = document.createElement("button");
-    start.innerText = "Start Again";
-    startBox.appendChild(start);
-    start.onclick = () => {
-      location.reload();
-      quizBox.classList.remove("none");
-    }
+  start.innerText = "Start Again";
+  startBox.appendChild(start);
+
+  start.onclick = () => {
+    location.reload();
+    quizBox.classList.remove("none");
+  };
 }
 
 loadQuestion();
@@ -208,7 +221,5 @@ function checkAllAnswered() {
 
   if (allAnswered) {
     submitBtn.style.display = "inline-block";
-  } else {
-    submitBtn.style.display = "none";
   }
 }
