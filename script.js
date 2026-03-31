@@ -5,7 +5,7 @@ const questionNumber = document.getElementById("progress");
 const sidebarList = document.getElementById("sidebar-list");
 const quizBox = document.querySelector(".container");
 const startBox = document.querySelector(".start-box");
-
+const question = document.getElementById("question");
 const prevBtn = document.getElementById("prev-btn");
 const nextBtn = document.getElementById("next-btn");
 const submitBtn = document.getElementById("submit-btn");
@@ -15,12 +15,13 @@ const finalScore = document.getElementById("final-score");
 const report = document.getElementById("report");
 const term = document.querySelector(".term");
 const heading = document.querySelector(".heading");
+const body = document.querySelector("body");
+
+body.preventDefault = true;
 
 let currentQuestionIndex = 0;
 let marks = 0;
 let wrongCount = 0;
-
-
 
 const quizData = [
   {
@@ -103,14 +104,13 @@ function loadQuestion() {
   sidebarList.children[currentQuestionIndex].classList.add("active");
 
   q.options.forEach((e) => {
-    
     const li = document.createElement("li");
     li.innerText = e;
 
-     if (userAnswers[currentQuestionIndex] === e) {
+    if (userAnswers[currentQuestionIndex] === e) {
       li.classList.add("selected");
     }
-    
+
     li.onclick = () => {
       handleAnswer(e);
 
@@ -119,20 +119,20 @@ function loadQuestion() {
 
       li.classList.add("selected");
     };
-  
+
     optionsContainer.appendChild(li);
   });
   disableOptions();
   checkAllAnswered();
-}
+  rememberUnanswered();
+  }
 
 function handleAnswer(selected) {
   userAnswers[currentQuestionIndex] = selected;
   console.log("userAnswers", userAnswers);
   checkAllAnswered();
-  disableOptions()
+  disableOptions();
 }
-
 
 nextBtn.onclick = () => {
   if (currentQuestionIndex < quizData.length - 1) {
@@ -155,42 +155,67 @@ submitBtn.onclick = () => {
 function disableOptions() {
   if (!userAnswers.every((ans) => ans !== null)) {
     submitBtn.classList.add("disable");
-} else {
+  } else {
     submitBtn.classList.remove("disable");
-    
+  }
 }
-}
-
 
 function calculateResult() {
   let marks = 0;
   let penalty = 0;
 
-
   report.innerHTML = "";
 
   quizData.forEach((q, i) => {
     const userAns = userAnswers[i];
+    const container = document.createElement("div");
+    container.classList.add("box");
 
-    const p = document.createElement("p");
-    p.classList.add("box");
+    const question = document.createElement("h3");
+    question.classList.add("report-question");
+    question.innerText = `Q${i + 1}: ${q.question}`;
+
+    const ul = document.createElement("ul");
+    ul.classList.add("options-list");
+
+    q.options.forEach((v) => {
+      const li = document.createElement("li");
+      li.classList.add("report-option");
+      li.innerText = v;
+
+      if (v === q.answer) {
+        li.style.backgroundColor = "green";
+        li.style.color = "white";
+      }
+
+      if (v === userAns && v !== q.answer) {
+        li.style.backgroundColor = "red";
+        li.style.color = "white";
+      }
+
+      ul.appendChild(li);
+    });
 
     if (userAns === q.answer) {
       marks++;
-      p.classList.add("correct");
-    } 
-    else {
+    } else {
       if (i < 5 && userAns !== null) {
         penalty += 0.5;
       }
-      p.classList.add("wrong");
     }
 
+    container.appendChild(question);
+    container.appendChild(ul);
+    report.appendChild(container);
 
+    const p = document.createElement("p");
+    container.append(p);
 
-    p.innerText = `Q${i + 1}: Your: ${userAns || "Not Answered"} | Correct: ${q.answer}`;
-    report.appendChild(p);
-
+    p.innerHTML = `
+  <strong>Your Answer:</strong> ${userAns || "Not Answered"} 
+  | 
+  <strong>Correct Answer:</strong> ${q.answer}
+`;
   });
 
   let finalMarks = marks - penalty;
@@ -222,4 +247,24 @@ function checkAllAnswered() {
   if (allAnswered) {
     submitBtn.style.display = "inline-block";
   }
+}
+
+function rememberUnanswered() {
+  const remaining = userAnswers
+  .map((ans, i) => (ans === null ? i + 1 : null))
+  .filter((val) => val !== null);
+
+  const remainingBox = document.createElement("p");
+  remainingBox.classList.add("remaining-box");
+
+if (remaining.length > 0) {
+  remainingBox.innerHTML = `
+    Unanswered Questions: <span>[${remaining.join(", ")}]</span>`;
+} else {
+  remainingBox.innerHTML = `
+    <span style="color:green;">All questions answered ✅</span>
+  `;
+}
+
+question.prepend(remainingBox);
 }

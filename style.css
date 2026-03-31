@@ -151,9 +151,9 @@ button {
 #report {
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   margin: 10px auto 20px auto;
-  background: #fff;
+  background: #fff !important ;
   font-size: 20px;
 }
 
@@ -180,7 +180,7 @@ button {
 }
 
 .box {
-  background: #f0f0f0;
+ border: 1px solid #ccc;
   padding: 10px;
   border-radius: 5px;
   margin: 10px 0;
@@ -238,4 +238,36 @@ button {
     width: 100%;
     text-align: center;
     margin: 0 auto 20px auto;
+}
+
+.report-option {
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 8px 0;
+    font-size: 14px !important;
+    background: #f0f0f0;
+}
+
+.options-list {
+    list-style: none;
+    padding: 0;
+  margin: 0 auto;
+}
+
+.report-question {
+    color: #333;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+     margin: 5px 0px;
+     border-bottom: 1px solid #ccc;
+    
+}
+.remaining-box {
+  font-size: 14px;
+  background: #f0f0f0;
+  font-weight: 500;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+
 }
