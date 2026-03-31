@@ -1,11 +1,22 @@
-const optionsContainer = document.querySelector("ul");
-const answerButton = document.getElementById("answer-btn");
+const optionsContainer = document.getElementById("options");
 const marksElement = document.getElementById("marks");
 const questionElement = document.getElementById("question");
 const questionNumber = document.getElementById("progress");
+const sidebarList = document.getElementById("sidebar-list");
+const quizBox = document.querySelector(".container");
+const startBox = document.querySelector(".start-box");
+
+const prevBtn = document.getElementById("prev-btn");
+const nextBtn = document.getElementById("next-btn");
+const submitBtn = document.getElementById("submit-btn");
+
+const resultBox = document.getElementById("result");
+const finalScore = document.getElementById("final-score");
+const report = document.getElementById("report");
 
 let currentQuestionIndex = 0;
 let marks = 0;
+let wrongCount = 0;
 
 const quizData = [
   {
@@ -14,104 +25,190 @@ const quizData = [
     answer: "Delhi",
   },
   {
-    question: "Which language runs in a web browser?",
+    question: "Which language runs in browser?",
     options: ["Python", "Java", "C++", "JavaScript"],
     answer: "JavaScript",
   },
   {
-    question: "What does HTML stand for?",
-    options: [
-      "Hyper Text Markup Language",
-      "High Text Machine Language",
-      "Hyper Tool Multi Language",
-      "Hyperlinks Text Mark Language",
-    ],
+    question: "HTML stands for?",
+    options: ["Hyper Text Markup Language", "High Text", "Hyper Tool", "None"],
     answer: "Hyper Text Markup Language",
   },
   {
-    question: "Which company developed React?",
-    options: ["Google", "Facebook", "Microsoft", "Amazon"],
+    question: "React developed by?",
+    options: ["Google", "Facebook", "Amazon", "Microsoft"],
     answer: "Facebook",
   },
   {
-    question: "Which tag is used for a paragraph in HTML?",
-    options: ["<h1>", "p", "<div>", "<span>"],
+    question: "Paragraph tag?",
+    options: ["<h1>", "<p>", "<div>", "<span>"],
     answer: "<p>",
   },
   {
-    question: "Which is not a JavaScript data type?",
+    question: "Not JS datatype?",
     options: ["String", "Boolean", "Float", "Undefined"],
     answer: "Float",
   },
   {
-    question: "Which CSS property is used for text color?",
-    options: ["font-color", "text-color", "color", "bgcolor"],
+    question: "CSS color property?",
+    options: ["text-color", "font-color", "color", "bg"],
     answer: "color",
   },
   {
-    question: "Which keyword is used to declare a variable in JS?",
-    options: ["var", "let", "const", "All of these"],
-    answer: "All of these",
+    question: "who is not a Variable keyword?",
+    options: ["var", "let", "const", "All"],
+    answer: "All",
   },
   {
-    question: "Which method is used to print in console?",
-    options: ["console.log()", "print()", "log()", "echo()"],
+    question: "Console print?",
+    options: ["log()", "console.log()", "print()", "echo()"],
     answer: "console.log()",
   },
   {
-    question: "Which symbol is used for comments in JS?",
-    options: ["//", "<!-- -->", "#", "**"],
+    question: "JS comment?",
+    options: ["//", "#", "<!-- -->", "**"],
     answer: "//",
   },
 ];
 
-function loadQuestion() {
-  const currentQuestion = quizData[currentQuestionIndex];
+let userAnswers = new Array(quizData.length).fill(null);
 
-  questionElement.innerHTML = currentQuestion.question;
-  questionNumber.textContent = currentQuestionIndex + 1;
+quizData.forEach((_, i) => {
+  const li = document.createElement("li");
+  li.innerText = i + 1;
+
+  li.onclick = () => {
+    currentQuestionIndex = i;
+    loadQuestion();
+  };
+
+  sidebarList.appendChild(li);
+});
+
+function loadQuestion() {
+  const q = quizData[currentQuestionIndex];
+
+  questionElement.innerText = q.question;
+  questionNumber.innerText = currentQuestionIndex + 1;
 
   optionsContainer.innerHTML = "";
 
-  currentQuestion.options.forEach((v) => {
+  let number = document.querySelectorAll(".sidebar li");
+
+  number.forEach((e) => e.classList.remove("active"));
+  sidebarList.children[currentQuestionIndex].classList.add("active");
+
+  q.options.forEach((e) => {
     const li = document.createElement("li");
-    li.innerHTML = `
-                <input type="radio" name="option" value="${v}">
-                ${v}
-        `;
+    li.innerText = e;
+
+    li.onclick = () => handleAnswer(e);
 
     optionsContainer.appendChild(li);
   });
+
+  if (userAnswers[currentQuestionIndex]) {
+    showAnswer(userAnswers[currentQuestionIndex]);
+  }
+  checkAllAnswered();
+}
+
+function handleAnswer(selected) {
+  console.log("selected", selected);
+
+  userAnswers[currentQuestionIndex] = selected;
+  showAnswer(selected);
+  checkAllAnswered();
+}
+
+function showAnswer(selected) {
+  const q = quizData[currentQuestionIndex];
+  const allOptions = optionsContainer.querySelectorAll("li");
+
+  allOptions.forEach((item) => {
+    item.style.pointerEvents = "none";
+
+    if (item.innerText === q.answer) {
+      item.style.background = "green";
+      item.style.color = "white";
+    }
+
+    if (item.innerText === selected && selected !== q.answer) {
+      item.style.background = "red";
+      item.style.color = "white";
+    }
+  });
+}
+
+nextBtn.onclick = () => {
+  if (currentQuestionIndex < quizData.length - 1) {
+    currentQuestionIndex++;
+    loadQuestion();
+  }
+};
+
+prevBtn.onclick = () => {
+  if (currentQuestionIndex > 0) {
+    currentQuestionIndex--;
+    loadQuestion();
+  }
+};
+
+submitBtn.onclick = () => {
+  calculateResult();
+};
+
+function calculateResult() {
+  let marks = 0;
+  let penalty = 0;
+
+  report.innerHTML = "";
+
+  quizData.forEach((q, i) => {
+    
+    const userAns = userAnswers[i];
+    if (userAns === q.answer) {
+      marks++;
+    } 
+    else {
+      if (i < 5 && userAns !== null) {
+        penalty += 0.5;
+      }
+    }
+
+    const p = document.createElement("p");
+    p.classList.add("box");
+    p.innerText = `Q${i + 1}: Your: ${userAns || "Not Answered"} | Correct: ${q.answer}`;
+    report.appendChild(p);
+
+  });
+
+  let finalMarks = marks - penalty;
+
+  finalScore.innerText = `Final Score: ${finalMarks} / ${quizData.length}`;
+
+  document.querySelector(".quiz-box").style.display = "none";
+  document.querySelector(".sidebar").style.display = "none";
+  resultBox.style.display = "block";
+  quizBox.classList.add("none");
+
+  const start = document.createElement("button");
+    start.innerText = "Start Again";
+    startBox.appendChild(start);
+    start.onclick = () => {
+      location.reload();
+      quizBox.classList.remove("none");
+    }
 }
 
 loadQuestion();
 
-answerButton.addEventListener("click", () => {
-  const selectedOption = document.querySelector('input[name="option"]:checked');
-  
-  if (!selectedOption) {
-    alert("Please select an option!");
-    return;
-  }
+function checkAllAnswered() {
+  const allAnswered = userAnswers.every((ans) => ans !== null);
 
-  const answer = selectedOption.value;
-  const currentQuestion = quizData[currentQuestionIndex];
-  if (answer === currentQuestion.answer) {
-    marks++;
-    marksElement.textContent = marks;
+  if (allAnswered) {
+    submitBtn.style.display = "inline-block";
   } else {
-    alert("Wrong answer! ans is :" + currentQuestion.answer);
+    submitBtn.style.display = "none";
   }
-
-  currentQuestionIndex++;
-
-  if (currentQuestionIndex < quizData.length) {
-    loadQuestion();
-  } else {
-    alert(`Quiz completed! Your score: ${marks}/${quizData.length}`);
-    currentQuestionIndex = 0;
-    marks = 0;
-    marksElement.textContent = marks;
-    loadQuestion();
-  }
-});
+}
