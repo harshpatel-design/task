@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="body-part">
+        <div class="container-fluid">
+            <div class="container main">
+                <div class="left">
+                    <div class="row">
+                        <div class="col">
+                            <div class="sidebar">
+                                <div class="profile-img">
+                                    <img src="download.jpg" alt="Sidebar Image">
+                                    <h3 style="color: #9ba3a3;">Harsh Patel</h3>
+                                </div>
+                                <div>
+                                    <ul class="sidebar-menu">
+                                        <li id="sidebarExpense">Add Expenses</li>
+                                        <li id="approvePageBtn">Approve Expenses </li>
+                                        <li id="balancePageBtn">Balance</li>
+                                        <li>Support</li>
+
+                                    </ul>
+                                </div>
+                                <div class="logo">
+                                    <img src="2.jpg" alt="Sidebar Image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="row content">
+                        <div class="card">
+                            <div class="row pendding-tasks ">
+                                <div class="col box">
+                                    <h4 class="heading">Pendding Expenses <span style="float: right;">last 3</span></h4>
+                                    <ul id="expenseList">
+                                    </ul>
+                                </div>
+                                <div class="col box">
+                                    <h4 class="heading">Approve Expenses <span style="float: right;">last 3</span></h4>
+                                    <ul id="approvedList"></ul>
+                                </div>
+
+                            </div>
+
+                            <div class="row box">
+                                <h3 class="heading">Quick Access</h3>
+                                <ul class="quick-ul">
+                                    <li>
+                                        <div>
+                                            <span id="openExpenseForm">
+                                                <i class="fa-solid fa-file-invoice"></i>
+                                                <p>Add Expenses</p>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li id="desktopExpense">
+                                        <span><i class="fa-solid fa-receipt"></i>
+                                            <p>Approve Expenses</p>
+                                        </span>
+                                    </li>
+                                    <li id="pendingex">
+                                        <span><i class="fa-solid fa-file-circle-plus"></i>
+                                            <p>Pending Expenses</p>
+                                        </span>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                            <div class="row box">
+                                <h3 class="heading">Monthly Summary</h3>
+                                <ul class="quick-ul quick-ul-2">
+                                    <li>
+                                        <div>
+                                            <span>
+
+                                                <p>Total Add</p>
+                                                <p id="totalAdd">$0</p>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <p>Total Expenses</p>
+                                            <p id="totalExpense">$0</p>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <p>Net Balance</p>
+                                            <p id="netBalance">$0</p>
+                                        </span>
+                                    </li>
+                                    <li id="addBalanceBtn">
+                                        <span>
+                                            <p>Add balance</p>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="add none">
+        <div class="add-balance-form" id="balanceForm">
+            <div class="form-box">
+                <h2>Add Balance</h2>
+                <input type="number" placeholder="Enter amount" id="amount">
+                <button onclick="submitBalance()">Submit</button>
+                <button onclick="closeForm()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="expense-form none " id="expenseFormWrapper">
+        <div class="form-box">
+            <h2>Add Expense</h2>
+            <input type="text" id="expenseName" placeholder="Expense name">
+            <input type="number" id="expenseAmount" placeholder="Amount">
+
+            <button onclick="addExpense()">Add</button>
+            <button onclick="closeExpenseForm()">Cancel</button>
+        </div>
+    </div>
+
+
+    <div class="approve-page  none" id="approvePage">
+        <h2>Approved Expenses</h2>
+
+        <ul id="approvedListPage"></ul>
+
+        <button class="back" onclick="backToHome()">Back</button>
+    </div>
+
+    <div class="approve-page none" id="pendingPage">
+        <h2>Pending Expenses</h2>
+
+        <ul id="pendingListPage"></ul>
+
+        <button class="back" onclick="backToHome()">Back</button>
+    </div>
+
+    <div class="approve-page none" id="balancePage">
+        <h2 class="tran">Transactions</h2>
+
+        <table >
+            <thead>
+                <tr>
+                   
+                    <th>Name</th>
+                    <th>Credit</th>
+                    <th>Debit</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody id="transactionTable"></tbody>
+        </table>
+
+        <button class="back" onclick="backToHome()">Back</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
