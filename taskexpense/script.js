@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebarAdd = document.getElementById("sidebarAdd");
   const allIncomeBtn = document.getElementById("allIncome");
   const incomePage = document.getElementById("incomePage");
+  const totalCountTra = document.getElementById("totalCountTra");
 
   let editIndex = -1;
   let incomeEditIndex = -1;
@@ -40,7 +41,32 @@ document.addEventListener("DOMContentLoaded", () => {
     balanceName.innerText = "";
     main.style.display = "none";
     add.style.display = "flex";
+    balanceName.value = "";
+    amount.value = "";
   });
+  
+  function getValidDate(inputId) {
+  const input = document.getElementById(inputId).value;
+
+  if (!input) {
+    alert("Please select date");
+    return null;
+  }
+
+  const selectedDate = new Date(input);
+  const today = new Date();
+
+  selectedDate.setHours(0,0,0,0);
+  today.setHours(0,0,0,0);
+
+  if (selectedDate > today) {
+    alert("Date cannot be in future");
+    return null;
+  }
+
+  const [year, month, day] = input.split("-");
+  return `${day}/${month}/${year}`;
+}
 
   sidebarAdd.addEventListener("click", () => {
     balanceName.innerText = "";
@@ -56,7 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
   window.submitBalance = function () {
     const amountInput = document.getElementById("amount");
     const nameInput = document.getElementById("balanceName");
-    const date = new Date().toLocaleDateString("en-GB");
+   const date = getValidDate("incomeDate");
+if (!date) return;
 
     let name = nameInput.value.trim();
     let amount = parseFloat(amountInput.value);
@@ -118,13 +145,13 @@ document.addEventListener("DOMContentLoaded", () => {
     updateNetBalance();
     updateTransactionTable();
     renderAllIncome();
-    renderIncomeLastThree()
+    renderIncomeLastThree();
 
     amountInput.value = "";
     nameInput.value = "";
 
     document.getElementById("incomeTitle").innerText = "Add Income";
-document.getElementById("incomeBtn").innerText = "Add";
+    document.getElementById("incomeBtn").innerText = "Add";
 
     closeForm();
   };
@@ -152,7 +179,8 @@ document.getElementById("incomeBtn").innerText = "Add";
   window.addExpense = function () {
     let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
     let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
-    const date = new Date().toLocaleDateString("en-GB");
+    const date = getValidDate("expenseDate");
+if (!date) return;
 
     const name = document.getElementById("expenseName").value;
     const amount = parseFloat(document.getElementById("expenseAmount").value);
@@ -202,11 +230,16 @@ document.getElementById("incomeBtn").innerText = "Add";
     document.getElementById("expenseTitle").innerText = "Add Expense";
     document.getElementById("expenseBtn").innerText = "Add";
 
+    main.style.display = "grid"; 
+    pendingPage.style.display = "none";
+    expenseFormWrapper.style.display = "none";
+    
+
     renderExpenses();
     renderPendingPage();
     updateTotalExpense();
     updateTransactionTable();
-    renderIncomeLastThree()
+    renderIncomeLastThree();
 
     closeExpenseForm();
   };
@@ -215,11 +248,12 @@ document.getElementById("incomeBtn").innerText = "Add";
     expenseList.innerHTML = "";
 
     let expensess = JSON.parse(localStorage.getItem("expenses")) || [];
-    let threeEx = expensess.slice(-3);
+    let threeEx = expensess.slice(-3).reverse();
 
-    threeEx.forEach((item, index) => {
+
+    threeEx.forEach((item) => {
       const realIndex = expensess.findIndex(
-        (e) => e.name === item.name && e.amount === item.amount,
+        (e) => e.name === item.name && e.amount === item.amount && e.date === item.date
       );
       const li = document.createElement("li");
 
@@ -240,11 +274,16 @@ document.getElementById("incomeBtn").innerText = "Add";
     });
   }
 
+  function formatToInput(dateStr) {
+  const [day, month, year] = dateStr.split("/");
+  return `${year}-${month}-${day}`;
+}
+
   window.editExpense = function (index) {
     let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
 
     const item = expenses[index];
-
+    document.getElementById("expenseDate").value = formatToInput(item.date);
     document.getElementById("expenseName").value = item.name;
     document.getElementById("expenseAmount").value = item.amount;
 
@@ -330,9 +369,11 @@ document.getElementById("incomeBtn").innerText = "Add";
     document.getElementById("expenseBtn").innerText = "Add";
   }
 
-  function renderPendingPage() {
+  window.renderPendingPage = function () {
     pendingListPage.innerHTML = "";
     let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+
+    
     if (expenses.length === 0) {
       pendingListPage.innerHTML = `
       <tr>
@@ -342,7 +383,15 @@ document.getElementById("incomeBtn").innerText = "Add";
       return;
     }
 
-    expenses.forEach((item, index) => {
+    let revEx = expenses.slice().reverse();
+
+    revEx.forEach((item, index) => {
+      const oriIndex = expenses.findIndex(
+      (e) =>
+        e.name === item.name &&
+        e.amount === item.amount &&
+        e.date === item.date
+    );
       const tr = document.createElement("tr");
 
       tr.innerHTML = `
@@ -351,14 +400,14 @@ document.getElementById("incomeBtn").innerText = "Add";
       <td class="name">${item.name}</td>
       <td>$${item.amount}</td>
       <td class="action">
-        <button class="edit" onclick="editExpense(${index})">Edit</button>
-        <button class="delete" onclick="deleteExpense(${index})">Delete</button>
+        <button class="edit" onclick="editExpense(${oriIndex})">Edit</button>
+        <button class="delete" onclick="deleteExpense(${oriIndex})">Delete</button>
       </td>
     `;
 
       pendingListPage.appendChild(tr);
     });
-  }
+  };
 
   pendingex.addEventListener("click", () => {
     main.style.display = "none";
@@ -367,14 +416,24 @@ document.getElementById("incomeBtn").innerText = "Add";
     renderPendingPage();
   });
 
-  function updateTransactionTable() {
+  window.updateTransactionTable = function () {
     const table = document.getElementById("transactionTable");
     if (!table) return;
     table.innerHTML = "";
-    let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+    let originalTransactions  = JSON.parse(localStorage.getItem("transactions")) || [];
+   let transactions = originalTransactions.slice().reverse();
     let balance = 0;
-
+  
     transactions.forEach((item, index) => {
+      const originalIndex = JSON.parse(
+        localStorage.getItem("transactions"),
+      ).findIndex(
+        (t) =>
+          t.name === item.name &&
+          t.amount === item.amount &&
+          t.type === item.type,
+      );
+
       if (item.type === "income") {
         balance += item.amount;
 
@@ -383,12 +442,12 @@ document.getElementById("incomeBtn").innerText = "Add";
           <td>${index + 1}</td>
           <td>${item.date || "-"}</td>
           <td>${item.name}</td>
-          <td>+${item.amount}</td>
+          <td>${item.amount}</td>
           <td>-</td>
           <td>${balance}</td>
            <td>
-            <button class="edit"  onclick="editTransaction(${index})">Edit</button>
-            <button class="delete" onclick="deleteTransaction(${index})">Delete</button>
+            <button class="edit"  onclick="editTransaction(${originalIndex})">Edit</button>
+            <button class="delete" onclick="deleteTransaction(${originalIndex})">Delete</button>
           </td>
         </tr>
       `;
@@ -404,14 +463,14 @@ document.getElementById("incomeBtn").innerText = "Add";
           <td>${item.amount}</td>
           <td>${balance}</td>
            <td>
-            <button class="edit" onclick="editTransaction(${index})">Edit</button>
-            <button class="delete" onclick="deleteTransaction(${index})">Delete</button>
+            <button class="edit" onclick="editTransaction(${originalIndex})">Edit</button>
+            <button class="delete" onclick="deleteTransaction(${originalIndex})">Delete</button>
           </td>
         </tr>
       `;
       }
     });
-  }
+  };
 
   window.deleteTransaction = function (index) {
     let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
@@ -490,22 +549,15 @@ document.getElementById("incomeBtn").innerText = "Add";
     updateTransactionTable();
   });
 
-  allIncomeBtn.addEventListener("click", () => {
-    main.style.display = "none";
-    pendingPage.style.display = "none";
-    balancePage.style.display = "none";
-    incomePage.style.display = "block";
-
-    renderAllIncome();
-  });
-
-  function renderAllIncome() {
+   window.renderAllIncome = function () {
     const incomeList = document.getElementById("incomeList");
     incomeList.innerHTML = "";
-
-    let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
-
-    let incomes = transactions.filter((item) => item.type === "income");
+    
+     let originalTransactions =
+    JSON.parse(localStorage.getItem("transactions")) || [];
+    let incomes = originalTransactions.filter(
+    (item) => item.type === "income"
+  );
 
     if (incomes.length === 0) {
       incomeList.innerHTML = `
@@ -516,7 +568,16 @@ document.getElementById("incomeBtn").innerText = "Add";
       return;
     }
 
-    incomes.forEach((item, index) => {
+
+  let rev = incomes.slice().reverse();
+
+    rev.forEach((item, index) => {
+       const oriIndex = incomes.findIndex(
+      (t) =>
+        t.name === item.name &&
+        t.amount === item.amount &&
+        t.date === item.date
+    );
       const tr = document.createElement("tr");
 
       tr.innerHTML = `
@@ -525,14 +586,24 @@ document.getElementById("incomeBtn").innerText = "Add";
       <td class= "name">${item.name}</td>
       <td>$${item.amount}</td>
       <td class="action">
-        <button class="edit" onclick="editIncome(${index})">Edit</button>
-        <button class="delete" onclick="deleteIncome(${index})">Delete</button>
+        <button class="edit" onclick="editIncome(${oriIndex})">Edit</button>
+        <button class="delete" onclick="deleteIncome(${oriIndex})">Delete</button>
       </td>
     `;
 
       incomeList.appendChild(tr);
     });
-  }
+  };
+
+  allIncomeBtn.addEventListener("click", () => {
+    main.style.display = "none";
+    pendingPage.style.display = "none";
+    balancePage.style.display = "none";
+    incomePage.style.display = "block";
+
+    renderAllIncome();
+  });
+
 
   function renderIncomeLastThree() {
     const incomeList = document.getElementById("incomeListLastThree");
@@ -541,14 +612,14 @@ document.getElementById("incomeBtn").innerText = "Add";
     let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
     let incomes = transactions.filter((item) => item.type === "income");
 
-    let lastThree = incomes.slice(-3);
+    let lastThree = incomes.slice(-3).reverse();
 
     lastThree.forEach((item) => {
       const realIndex = incomes.findIndex(
-        (i) => i.name === item.name && i.amount === item.amount,
+        (i) => i.name === item.name && i.amount === item.amount && i.date === item.date,
       );
 
-      const li = document.createElement("li");
+      const li = document.createElement("li");  
 
       li.innerHTML = `
       <div class="expenss-con">
@@ -612,14 +683,15 @@ document.getElementById("incomeBtn").innerText = "Add";
     let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
     let incomes = transactions.filter((item) => item.type === "income");
 
-    const item = incomes[index];
 
+    const item = incomes[index];
+    document.getElementById("incomeDate").value = formatToInput(item.date);
     document.getElementById("balanceName").value = item.name;
     document.getElementById("amount").value = item.amount;
     incomeEditIndex = index;
 
     document.getElementById("incomeTitle").innerText = "Update Income";
-  document.getElementById("incomeBtn").innerText = "Update";
+    document.getElementById("incomeBtn").innerText = "Update";
   };
 
   renderExpenses();
@@ -627,3 +699,140 @@ document.getElementById("incomeBtn").innerText = "Add";
   updateNetBalance();
   renderIncomeLastThree();
 });
+
+window.searchTransaction = function (value) {
+  if (!value) {
+    updateTransactionTable();
+    return;
+  }
+
+  const table = document.getElementById("transactionTable");
+  table.innerHTML = "";
+
+  let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
+  let filtered = transactions.filter(
+    (item) =>
+      item.name.toLowerCase().includes(value.toLowerCase()) ||
+      item.amount.toString().includes(value),
+  );
+
+  let balance = 0;
+
+  filtered.forEach((item, index) => {
+    if (item.type === "income") {
+      balance += item.amount;
+
+      table.innerHTML += `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${item.date || "-"}</td>
+        <td>${item.name}</td>
+        <td style="color:#4caf50; font-weight:500;">${item.amount}</td>
+        <td>-</td>
+        <td>${balance}</td>
+        <td>
+          <button class="edit" onclick="editTransaction(${index})">Edit</button>
+          <button class="delete" onclick="deleteTransaction(${index})">Delete</button>
+        </td>
+      </tr>
+    `;
+    } else {
+      balance -= item.amount;
+
+      table.innerHTML += `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${item.date || "-"}</td>
+        <td>${item.name}</td>
+        <td>-</td>
+        <td style="color:#ff5252; font-weight:500;">${item.amount}</td>
+        <td>${balance}</td>
+        <td>
+          <button class="edit" onclick="editTransaction(${index})">Edit</button>
+          <button class="delete" onclick="deleteTransaction(${index})">Delete</button>
+        </td>
+      </tr>
+    `;
+    }
+  });
+};
+
+window.searchIncome = function (value) {
+  if (!value) {
+    renderAllIncome();
+    return;
+  }
+
+  const incomeList = document.getElementById("incomeList");
+  incomeList.innerHTML = "";
+
+  let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+  let incomes = transactions.filter((item) => item.type === "income");
+
+  let filtered = incomes.filter(
+    (item) =>
+      item.name.toLowerCase().includes(value.toLowerCase()) ||
+      item.amount.toString().includes(value),
+  );
+
+  filtered.forEach((item) => {
+    const realIndex = incomes.findIndex(
+      (i) => i.name === item.name && i.amount === item.amount,
+    );
+
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${realIndex + 1}</td>
+      <td>${item.date || "-"}</td>
+      <td>${item.name}</td>
+      <td class="income">${item.amount}</td>
+      <td>
+        <button class="edit" onclick="editIncome(${realIndex})">Edit</button>
+        <button class="delete" onclick="deleteIncome(${realIndex})">Delete</button>
+      </td>
+    `;
+
+    incomeList.appendChild(tr);
+  });
+};
+
+window.searchExpense = function (value) {
+  if (!value) {
+    renderPendingPage();
+    return;
+  }
+
+  const pendingListPage = document.getElementById("pendingListPage");
+  pendingListPage.innerHTML = "";
+
+  let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+
+  let filtered = expenses.filter(
+    (item) =>
+      item.name.toLowerCase().includes(value.toLowerCase()) ||
+      item.amount.toString().includes(value),
+  );
+
+  filtered.forEach((item) => {
+    const realIndex = expenses.findIndex(
+      (e) => e.name === item.name && e.amount === item.amount,
+    );
+
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${realIndex + 1}</td>
+      <td>${item.date || "-"}</td>
+      <td>${item.name}</td>
+      <td class="expense">${item.amount}</td>
+      <td>
+        <button class="edit" onclick="editExpense(${realIndex})">Edit</button>
+        <button class="delete" onclick="deleteExpense(${realIndex})">Delete</button>
+      </td>
+    `;
+
+    pendingListPage.appendChild(tr);
+  });
+};
