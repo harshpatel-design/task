@@ -9,7 +9,7 @@
 
 body {
   background: #030303;
-  width: 100vw;
+  width: 100%;
 }
 
 .row {
@@ -31,16 +31,18 @@ ul {
   align-items: center;
   justify-content: center;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 .container-fluid {
   margin: 0px auto;
   background: #1c1c1c;
-  width: 65%;
+  max-width: 65%;
 }
 
 .main {
   display: grid;
   grid-template-columns: 240px 1fr;
+  width: 100%;
 }
 
 .sidebar {
@@ -81,6 +83,7 @@ ul {
 
 .sidebar-menu li {
   font-size: 18px !important;
+  padding: 0;
 }
 
 .logo img {
@@ -138,7 +141,7 @@ ul {
 
 .pendding-tasks {
   display: grid;
-  grid-template-columns: 4fr 5fr;
+  grid-template-columns: 1fr;
   gap: 20px;
 }
 
@@ -165,6 +168,7 @@ ul {
   color: #73716a;
   margin: 0;
   padding: 0;
+  margin-top: 5px;
 }
 
 .box ul li {
@@ -209,7 +213,7 @@ ul {
   justify-content: center;
   padding: 10px 10px !important;
   background: #272729 !important;
-  width: 80%;
+  width: 100%;
   margin: 0px auto;
   text-align: center;
   box-shadow: 0px;
@@ -221,8 +225,11 @@ ul {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100vh;
   background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
 }
 
 .none {
@@ -259,6 +266,17 @@ ul {
   cursor: pointer;
 }
 
+.expenseList {
+  margin: 0;
+  margin-top: 10px !important;
+  padding: 0;
+}
+
+.expenseList li {
+  margin-top: 5px;
+  padding: 5px 0px;
+  background: red;
+}
 .expense-form {
   position: fixed;
   top: 0;
@@ -298,18 +316,10 @@ ul {
   background-color: rgba(153, 205, 50, 0.5);
 }
 
-.approve {
-  background-color: lightseagreen;
-  border: none;
-  outline: none;
-  padding: 4px 8px;
-  border-radius: 5px;
-  font-size: 10px !important;
-  transition: 0.3s;
-}
-
-.approve:hover {
-  background-color: rgba(32, 178, 171, 0.537);
+.edit ,
+.delete {
+  padding: 8px 12px;
+  min-width: 100px;
 }
 button {
   cursor: pointer;
@@ -319,8 +329,7 @@ button {
   background: #1c1c1c;
   padding: 30px 20px;
   border-radius: 5px;
-
-  width: fit-content;
+  width: 50%;
   margin: 0px auto;
   display: flex;
   align-items: center;
@@ -330,14 +339,20 @@ button {
   margin-top: 100px;
 }
 
+.approve-page h2 {
+  text-align: center;
+  padding-bottom: 10px;
+}
 #approvedListPage,
-#pendingListPage {
+#pendingListPage,
+#incomeList {
   margin: 0;
   padding: 0;
   min-width: 320px;
 }
 #approvedListPage li,
-#pendingListPage li {
+#pendingListPage li,
+#incomeList li {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -345,6 +360,7 @@ button {
   padding: 5px 5px 8px;
   border-bottom: 1px solid #444446;
 }
+
 .back {
   display: block;
   background: #1c1c1c;
@@ -362,21 +378,20 @@ button {
 }
 
 .dolar {
-  display: grid;
-  grid-template-columns: 5fr 1fr;
+  display: flex;
   gap: 10px;
   align-items: center;
-  justify-content: space-between;
 }
 
 .dolar span {
   text-align: right;
+  
 }
 
 .btn-con {
   display: block;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 #balancePage {
@@ -401,4 +416,41 @@ button {
   margin-bottom: 10px;
   border-radius: 10px;
   padding: 10px;
+}
+
+.expenss-con {
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+  gap: 10px;
+  padding: 5px ;
+}
+
+.li-date {
+  display: flex;
+  gap: 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  
+}
+
+.table tr td ,
+.tablr tr,
+.table tr th{
+  border: 1px solid #272729;
+  padding: 10px 20px;
+}
+
+
+.name {
+  width: 100%;
+}
+
+.action {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }

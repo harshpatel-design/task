@@ -25,10 +25,9 @@
                                 </div>
                                 <div>
                                     <ul class="sidebar-menu">
+                                        <li id="sidebarAdd">Add Income</li>
                                         <li id="sidebarExpense">Add Expenses</li>
-                                        <li id="approvePageBtn">Approve Expenses </li>
-                                        <li id="balancePageBtn">Balance</li>
-                                        <li>Support</li>
+                                        <li id="balancePageBtn">transactions</li>
 
                                     </ul>
                                 </div>
@@ -44,50 +43,59 @@
                         <div class="card">
                             <div class="row pendding-tasks ">
                                 <div class="col box">
-                                    <h4 class="heading">Pendding Expenses <span style="float: right;">last 3</span></h4>
-                                    <ul id="expenseList">
+                                    <h4 class="heading">Income <span style="float: right;">last 3</span></h4>
+                                    <ul id="incomeListLastThree">
                                     </ul>
                                 </div>
                                 <div class="col box">
-                                    <h4 class="heading">Approve Expenses <span style="float: right;">last 3</span></h4>
-                                    <ul id="approvedList"></ul>
+                                    <h4 class="heading">Expenses <span style="float: right;">last 3</span></h4>
+                                    <ul id="expenseList">
+                                    </ul>
                                 </div>
-
                             </div>
 
                             <div class="row box">
                                 <h3 class="heading">Quick Access</h3>
-                                <ul class="quick-ul">
-                                    <li>
+                                <ul class="quick-ul  quick-ul-2">
+                                    <li id="addBalanceBtn">
+                                        <span>
+                                            <i class="fa-solid fa-plus"></i>
+                                            <p>Add Income</p>
+                                        </span>
+                                    </li>
+                                    <li id="allIncome">
+                                        <span><i class="fa-solid fa-file-circle-plus"></i>
+                                            <p>Show All Income</p>
+                                        </span>
+                                    </li>
+                                    <li id="openExpenseForm">
                                         <div>
-                                            <span id="openExpenseForm">
+                                            <span>
                                                 <i class="fa-solid fa-file-invoice"></i>
                                                 <p>Add Expenses</p>
                                             </span>
                                         </div>
                                     </li>
-                                    <li id="desktopExpense">
-                                        <span><i class="fa-solid fa-receipt"></i>
-                                            <p>Approve Expenses</p>
-                                        </span>
-                                    </li>
+
                                     <li id="pendingex">
                                         <span><i class="fa-solid fa-file-circle-plus"></i>
-                                            <p>Pending Expenses</p>
+                                            <p>Show All Expenses</p>
                                         </span>
                                     </li>
+
+
 
                                 </ul>
                             </div>
 
                             <div class="row box">
-                                <h3 class="heading">Monthly Summary</h3>
-                                <ul class="quick-ul quick-ul-2">
+                                <h3 class="heading">Summary</h3>
+                                <ul class="quick-ul">
                                     <li>
                                         <div>
                                             <span>
 
-                                                <p>Total Add</p>
+                                                <p>Total Income</p>
                                                 <p id="totalAdd">$0</p>
                                             </span>
                                         </div>
@@ -104,11 +112,7 @@
                                             <p id="netBalance">$0</p>
                                         </span>
                                     </li>
-                                    <li id="addBalanceBtn">
-                                        <span>
-                                            <p>Add balance</p>
-                                        </span>
-                                    </li>
+
                                 </ul>
                             </div>
 
@@ -122,9 +126,11 @@
     <div class="add none">
         <div class="add-balance-form" id="balanceForm">
             <div class="form-box">
-                <h2>Add Balance</h2>
+                <h2 id="incomeTitle">Add Income</h2>
+
+                <input type="text" id="balanceName" placeholder="Expense name">
                 <input type="number" placeholder="Enter amount" id="amount">
-                <button onclick="submitBalance()">Submit</button>
+                <button id="incomeBtn" onclick="submitBalance()">Add</button>
                 <button onclick="closeForm()">Cancel</button>
             </div>
         </div>
@@ -132,28 +138,49 @@
 
     <div class="expense-form none " id="expenseFormWrapper">
         <div class="form-box">
-            <h2>Add Expense</h2>
+            <h2 id="expenseTitle">Add Expense</h2>
             <input type="text" id="expenseName" placeholder="Expense name">
             <input type="number" id="expenseAmount" placeholder="Amount">
 
-            <button onclick="addExpense()">Add</button>
+            <button id="expenseBtn" onclick="addExpense()">Add</button>
             <button onclick="closeExpenseForm()">Cancel</button>
         </div>
     </div>
 
+    <div class="approve-page none" id="pendingPage">
+        <h2>All Expenses</h2>
 
-    <div class="approve-page  none" id="approvePage">
-        <h2>Approved Expenses</h2>
-
-        <ul id="approvedListPage"></ul>
+        <table id="pendingTable" class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="pendingListPage"></tbody>
+        </table>
 
         <button class="back" onclick="backToHome()">Back</button>
     </div>
 
-    <div class="approve-page none" id="pendingPage">
-        <h2>Pending Expenses</h2>
+    <div class="income-page approve-page none" id="incomePage">
+        <h2>All Income</h2>
 
-        <ul id="pendingListPage"></ul>
+        <table id="incomeTable" class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="incomeList"></tbody>
+        </table>
 
         <button class="back" onclick="backToHome()">Back</button>
     </div>
@@ -161,14 +188,17 @@
     <div class="approve-page none" id="balancePage">
         <h2 class="tran">Transactions</h2>
 
-        <table >
+        <table class="table">
             <thead>
                 <tr>
-                   
+
+                    <th>Number</th>
+                    <th>Date</th>
                     <th>Name</th>
                     <th>Credit</th>
                     <th>Debit</th>
                     <th>Balance</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="transactionTable"></tbody>
