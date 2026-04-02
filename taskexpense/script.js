@@ -921,6 +921,10 @@ window.searchedTransactions = [];
     });
   }
 
+  function convertToISO(dateStr) {
+  const [d, m, y] = dateStr.split("/");
+  return `${y}-${m}-${d}`;
+}
   window.exportTransactions = function () {
   let transactions = [];
 
@@ -956,7 +960,7 @@ window.searchedTransactions = [];
       debit = item.amount;
     }
 
-    csv += `${index + 1},${item.date},${item.name},${credit},${debit},${balance}\n`;
+ csv += `${index + 1},"\t${convertToISO(item.date)}",${item.name},${credit},${debit},${balance}\n`;
   });
 
   let blob = new Blob([csv], { type: "text/csv" });
@@ -969,6 +973,7 @@ window.searchedTransactions = [];
 
   URL.revokeObjectURL(url);
 };
+
 window.resetTra = function () {
 
   const fromDate = document.getElementById("fromDate");
