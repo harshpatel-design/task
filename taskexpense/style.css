@@ -469,3 +469,45 @@ button {
   font-size: 16px;
   font-weight: 500;
 }
+
+.table-searchBox {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+
+.seachbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: black !important;
+}
+.btn {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: #272729;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.btn:hover {
+  box-shadow: 0 0px 5px 5px rgba(82, 80, 80, 0.5);
+}
+#fromDate,
+#toDate {
+  background: #272729;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  text-transform: uppercase;
+}
+
+#incomeDate,
+#expenseDate {
+  text-transform: uppercase;
+}
