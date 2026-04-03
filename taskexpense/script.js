@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.filteredTransactions = [];
   window.searchedTransactions = [];
+  window.isFilterApplied = false;
 
   let isEdit = false;
   let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
@@ -39,12 +40,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   main.style.display = "grid";
 
+  function getTodayDate() {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  }
+
   addBtn.addEventListener("click", () => {
     balanceName.innerText = "";
     main.style.display = "none";
     add.style.display = "flex";
     balanceName.value = "";
     amount.value = "";
+    document.getElementById("incomeDate").value = getTodayDate();
   });
 
   function getValidDate(inputId) {
@@ -74,6 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     balanceName.innerText = "";
     main.style.display = "none";
     add.style.display = "flex";
+    document.getElementById("incomeDate").value = getTodayDate();
   });
 
   window.closeForm = function () {
@@ -166,6 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!isEdit) {
       document.getElementById("expenseTitle").innerText = "Add Expense";
       document.getElementById("expenseBtn").innerText = "Add";
+      document.getElementById("expenseDate").value = getTodayDate();
     }
   }
 
@@ -249,7 +258,7 @@ document.addEventListener("DOMContentLoaded", () => {
     expenseList.innerHTML = "";
 
     let expensess = JSON.parse(localStorage.getItem("expenses")) || [];
-    let threeEx = expensess.slice(-3).reverse();
+    let threeEx = sortByDateDesc(expensess).slice(0, 3);
 
     threeEx.forEach((item) => {
       const realIndex = expensess.findIndex(
@@ -384,8 +393,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
       return;
     }
-
-    let revEx = expenses.slice().reverse();
+    let revEx = sortByDateDesc(expenses);
 
     revEx.forEach((item, index) => {
       const oriIndex = expenses.findIndex(
@@ -424,7 +432,7 @@ document.addEventListener("DOMContentLoaded", () => {
     table.innerHTML = "";
     let originalTransactions =
       JSON.parse(localStorage.getItem("transactions")) || [];
-    let transactions = originalTransactions.slice().reverse();
+    let transactions = sortByDateDesc(originalTransactions);
     let balance = 0;
 
     transactions.forEach((item, index) => {
@@ -519,6 +527,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (item.type === "income") {
       document.getElementById("balanceName").value = item.name;
       document.getElementById("amount").value = item.amount;
+      document.getElementById("incomeDate").value = formatToInput(item.date);
+
+      document.getElementById("incomeTitle").innerText = "Update Income";
+      document.getElementById("incomeBtn").innerText = "Update";
 
       incomeEditIndex = transactions
         .filter((t) => t.type === "income")
@@ -529,6 +541,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       document.getElementById("expenseName").value = item.name;
       document.getElementById("expenseAmount").value = item.amount;
+      document.getElementById("expenseDate").value = formatToInput(item.date);
 
       let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
 
@@ -572,7 +585,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    let rev = incomes.slice().reverse();
+    let rev = sortByDateDesc(incomes);
 
     rev.forEach((item, index) => {
       const oriIndex = incomes.findIndex(
@@ -614,7 +627,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
     let incomes = transactions.filter((item) => item.type === "income");
 
-    let lastThree = incomes.slice(-3).reverse();
+    let lastThree = sortByDateDesc(incomes).slice(0, 3);
 
     lastThree.forEach((item) => {
       const realIndex = incomes.findIndex(
@@ -677,6 +690,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderAllIncome();
     updateTransactionTable();
     updateNetBalance();
+    renderIncomeLastThree();
   };
 
   window.editIncome = function (index) {
@@ -718,6 +732,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     window.searchedTransactions = filtered;
+    filtered = sortByDateDesc(filtered);
     let balance = 0;
 
     filtered.forEach((item, index) => {
@@ -777,6 +792,8 @@ document.addEventListener("DOMContentLoaded", () => {
         item.amount.toString().includes(value),
     );
 
+    filtered = sortByDateDesc(filtered);
+
     filtered.forEach((item) => {
       const realIndex = incomes.findIndex(
         (i) => i.name === item.name && i.amount === item.amount,
@@ -816,6 +833,7 @@ document.addEventListener("DOMContentLoaded", () => {
         item.amount.toString().includes(value),
     );
 
+    filtered = sortByDateDesc(filtered);
     filtered.forEach((item) => {
       const realIndex = expenses.findIndex(
         (e) => e.name === item.name && e.amount === item.amount,
@@ -842,6 +860,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const fromValue = document.getElementById("fromDate").value;
     const toValue = document.getElementById("toDate").value;
 
+    window.isFilterApplied = true;
+
     if (!fromValue || !toValue) {
       alert("Select both dates");
       return;
@@ -851,7 +871,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.searchedTransactions = [];
 
     function parseInputDate(dateStr) {
-      const [d, m, y] = dateStr.split("-");
+      const [y, m, d] = dateStr.split("-");
       return new Date(y, m - 1, d);
     }
 
@@ -873,6 +893,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.filteredTransactions = filtered;
 
+    filtered = sortByDateDesc(filtered);
     renderFilteredTransactions(filtered);
   };
 
@@ -946,24 +967,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.exportTransactions = function () {
     let transactions = [];
-
     if (
       Array.isArray(window.searchedTransactions) &&
       window.searchedTransactions.length > 0
     ) {
       transactions = window.searchedTransactions;
-    } else if (Array.isArray(window.filteredTransactions)) {
+    } else if (window.isFilterApplied) {
       transactions = window.filteredTransactions;
     } else {
       transactions = JSON.parse(localStorage.getItem("transactions")) || [];
     }
+
     if (transactions.length === 0) {
       alert("No data to export");
       return;
     }
 
-    transactions = transactions.slice().reverse();
-    console.log("Export Data:", transactions);
+    transactions = sortByDateDesc(transactions);
 
     let csv = "Number,Date,Name,Credit,Debit,Balance\n";
     let balance = 0;
@@ -980,7 +1000,7 @@ document.addEventListener("DOMContentLoaded", () => {
         debit = item.amount;
       }
 
-      csv += `${index + 1},"\t${convertToISO(item.date)}",${item.name},${credit},${debit},${balance}\n`;
+      csv += `${index + 1},"${item.date}",${item.name},${credit},${debit},${balance}\n`;
     });
 
     let blob = new Blob([csv], { type: "text/csv" });
@@ -1005,10 +1025,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.filteredTransactions = [];
     window.searchedTransactions = [];
+    window.isFilterApplied = false;
 
     updateTransactionTable();
   };
 
+  function sortByDateDesc(arr) {
+    return arr.slice().sort((a, b) => {
+      const [d1, m1, y1] = a.date.split("/");
+      const [d2, m2, y2] = b.date.split("/");
+
+      const dateA = new Date(y1, m1 - 1, d1);
+      const dateB = new Date(y2, m2 - 1, d2);
+
+      return dateB - dateA;
+    });
+  }
   renderExpenses();
   updateTotalExpense();
   updateNetBalance();
