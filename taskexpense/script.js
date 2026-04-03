@@ -18,13 +18,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebarAdd = document.getElementById("sidebarAdd");
   const allIncomeBtn = document.getElementById("allIncome");
   const incomePage = document.getElementById("incomePage");
- 
 
   let editIndex = -1;
   let incomeEditIndex = -1;
 
   window.filteredTransactions = [];
-window.searchedTransactions = [];
+  window.searchedTransactions = [];
 
   let isEdit = false;
   let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
@@ -700,8 +699,9 @@ window.searchedTransactions = [];
   };
 
   window.searchTransaction = function (value) {
+    window.filteredTransactions = [];
     if (!value) {
-       window.searchedTransactions = [];
+      window.searchedTransactions = [];
       updateTransactionTable();
       return;
     }
@@ -717,7 +717,7 @@ window.searchedTransactions = [];
         item.amount.toString().includes(value),
     );
 
-  window.searchedTransactions = filtered;
+    window.searchedTransactions = filtered;
     let balance = 0;
 
     filtered.forEach((item, index) => {
@@ -839,29 +839,40 @@ window.searchedTransactions = [];
   };
 
   window.filterTransactionsByDate = function () {
-    const from = document.getElementById("fromDate").value;
-    const to = document.getElementById("toDate").value;
+    const fromValue = document.getElementById("fromDate").value;
+    const toValue = document.getElementById("toDate").value;
 
-    if (!from || !to) {
+    if (!fromValue || !toValue) {
       alert("Select both dates");
       return;
     }
 
-    let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+    window.filteredTransactions = [];
+    window.searchedTransactions = [];
 
-    function convert(dateStr) {
-      const [d, m, y] = dateStr.split("/");
-      return `${y}-${m}-${d}`;
+    function parseInputDate(dateStr) {
+      const [d, m, y] = dateStr.split("-");
+      return new Date(y, m - 1, d);
     }
 
+    const from = parseInputDate(fromValue);
+    const to = parseInputDate(toValue);
+    to.setHours(23, 59, 59, 999);
+
+    function convertToDate(dateStr) {
+      const [d, m, y] = dateStr.split("/");
+      return new Date(y, m - 1, d);
+    }
+
+    let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
     let filtered = transactions.filter((item) => {
-      const itemDate = convert(item.date);
+      const itemDate = convertToDate(item.date);
       return itemDate >= from && itemDate <= to;
     });
 
+    window.filteredTransactions = filtered;
 
-  window.filteredTransactions = filtered;
-   window.searchedTransactions = [];
     renderFilteredTransactions(filtered);
   };
 
@@ -874,6 +885,14 @@ window.searchedTransactions = [];
 
     let balance = 0;
 
+    if (data.length === 0) {
+      table.innerHTML = `
+    <tr>
+      <td colspan="7">No data found</td>
+    </tr>
+  `;
+      return;
+    }
     data.forEach((item, index) => {
       const originalIndex = originalTransactions.findIndex(
         (t) =>
@@ -885,7 +904,6 @@ window.searchedTransactions = [];
 
       if (item.type === "income") {
         balance += item.amount;
-
         table.innerHTML += `
         <tr>
           <td>${index + 1}</td>
@@ -922,77 +940,77 @@ window.searchedTransactions = [];
   }
 
   function convertToISO(dateStr) {
-  const [d, m, y] = dateStr.split("/");
-  return `${y}-${m}-${d}`;
-}
+    const [d, m, y] = dateStr.split("/");
+    return `${y}-${m}-${d}`;
+  }
+
   window.exportTransactions = function () {
-  let transactions = [];
+    let transactions = [];
 
-  if (window.searchedTransactions && window.searchedTransactions.length > 0) {
-    transactions = window.searchedTransactions;
-  }
-
-  else if (window.filteredTransactions && window.filteredTransactions.length > 0) {
-    transactions = window.filteredTransactions;
-  }
-
-  else {
-    transactions = JSON.parse(localStorage.getItem("transactions")) || [];
-  }
-
-  if (transactions.length === 0) {
-    alert("No data to export");
-    return;
-  }
-
-  let csv = "Number,Date,Name,Credit,Debit,Balance\n";
-  let balance = 0;
-
-  transactions.forEach((item, index) => {
-    let credit = "";
-    let debit = "";
-
-    if (item.type === "income") {
-      balance += item.amount;
-      credit = item.amount;
+    if (
+      Array.isArray(window.searchedTransactions) &&
+      window.searchedTransactions.length > 0
+    ) {
+      transactions = window.searchedTransactions;
+    } else if (Array.isArray(window.filteredTransactions)) {
+      transactions = window.filteredTransactions;
     } else {
-      balance -= item.amount;
-      debit = item.amount;
+      transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+    }
+    if (transactions.length === 0) {
+      alert("No data to export");
+      return;
     }
 
- csv += `${index + 1},"\t${convertToISO(item.date)}",${item.name},${credit},${debit},${balance}\n`;
-  });
+    transactions = transactions.slice().reverse();
+    console.log("Export Data:", transactions);
 
-  let blob = new Blob([csv], { type: "text/csv" });
-  let url = URL.createObjectURL(blob);
+    let csv = "Number,Date,Name,Credit,Debit,Balance\n";
+    let balance = 0;
 
-  let a = document.createElement("a");
-  a.href = url;
-  a.download = "transactions_report.csv";
-  a.click();
+    transactions.forEach((item, index) => {
+      let credit = "";
+      let debit = "";
 
-  URL.revokeObjectURL(url);
-};
+      if (item.type === "income") {
+        balance += item.amount;
+        credit = item.amount;
+      } else {
+        balance -= item.amount;
+        debit = item.amount;
+      }
 
-window.resetTra = function () {
+      csv += `${index + 1},"\t${convertToISO(item.date)}",${item.name},${credit},${debit},${balance}\n`;
+    });
 
-  const fromDate = document.getElementById("fromDate");
-  const toDate = document.getElementById("toDate");
-  const searchInput = document.getElementById("input");
+    let blob = new Blob([csv], { type: "text/csv" });
+    let url = URL.createObjectURL(blob);
 
-  if (fromDate) fromDate.value = "";
-  if (toDate) toDate.value = "";
-  if (searchInput) searchInput.value = "";
+    let a = document.createElement("a");
+    a.href = url;
+    a.download = "transactions_report.csv";
+    a.click();
 
-  window.filteredTransactions = [];
-  window.searchedTransactions = [];
+    URL.revokeObjectURL(url);
+  };
 
-  updateTransactionTable();
-};
+  window.resetTra = function () {
+    const fromDate = document.getElementById("fromDate");
+    const toDate = document.getElementById("toDate");
+    const searchInput = document.getElementById("input");
+
+    if (fromDate) fromDate.value = "";
+    if (toDate) toDate.value = "";
+    if (searchInput) searchInput.value = "";
+
+    window.filteredTransactions = [];
+    window.searchedTransactions = [];
+
+    updateTransactionTable();
+  };
 
   renderExpenses();
   updateTotalExpense();
   updateNetBalance();
   renderIncomeLastThree();
 });
-

@@ -27,7 +27,7 @@
                                     <ul class="sidebar-menu">
                                         <li id="sidebarAdd">Add Income</li>
                                         <li id="sidebarExpense">Add Expenses</li>
-                                        <li id="balancePageBtn">transactions</li>                                        
+                                        <li id="balancePageBtn">transactions</li>
                                     </ul>
                                 </div>
                                 <div class="logo">
@@ -169,7 +169,7 @@
     <div class="income-page approve-page none" id="incomePage">
         <h2>All Income</h2>
         <div class="toal-count">
-            <input  type="text" class="input" placeholder="Search income..." onkeyup="searchIncome(this.value)">
+            <input type="text" class="input" placeholder="Search income..." onkeyup="searchIncome(this.value)">
             <span id="totalCountIncome"></span>
         </div>
         <table id="incomeTable" class="table">
@@ -190,20 +190,20 @@
 
     <div class="approve-page none" id="balancePage">
         <h2 class="tran">Transactions</h2>
-       <div class="table-searchBox">
-         <div class="toal-count">
-            <input type="text" id="input" class="input" placeholder="Search transaction..."
-                onkeyup="searchTransaction(this.value)">
-            <span id="totalCountTra"></span>
+        <div class="table-searchBox">
+            <div class="toal-count">
+                <input type="text" id="input" class="input" placeholder="Search transaction..."
+                    onkeyup="searchTransaction(this.value)">
+                <span id="totalCountTra"></span>
+            </div>
+            <div class="seachbar">
+                <input type="date" id="fromDate">
+                <input type="date" id="toDate">
+                <button class="btn" onclick="filterTransactionsByDate()">Filter</button>
+                <button class="btn" onclick="exportTransactions()">Export</button>
+                <button class="btn" onclick="resetTra()">Reset</button>
+            </div>
         </div>
-        <div class="seachbar">
-            <input type="date" id="fromDate">
-            <input type="date" id="toDate">
-            <button class="btn" onclick="filterTransactionsByDate()">Filter</button>
-           <button class="btn" onclick="exportTransactions()">Export</button>
-            <button class= "btn"  onclick="resetTra()">Reset</button>
-        </div>
-       </div>
         <table class="table">
             <thead>
                 <tr>
