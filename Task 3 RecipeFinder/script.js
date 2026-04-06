@@ -6,15 +6,102 @@ document.addEventListener("DOMContentLoaded", () => {
   const showMoreBtn = document.getElementById("showMoreBtn");
   const input = document.getElementById("ingredientInput");
   const searchInput = document.getElementById("recipeInputSearch");
-  const menuItem = document.getElementById("menu-item");
+  const name = document.getElementById("name");
+  const confirm = document.getElementById("confirm");
+  const conBox = document.querySelectorAll(".con-box");
+  const loginInput = document.getElementById("loginInput");
+  const logout = document.getElementById("logout");
+  const loginform = document.getElementById("login");
 
   const API = "https://dummyjson.com/recipes";
 
   let recipeData = [];
   let allIngredients = [];
   let selectedIngredients = [];
+  let currentUser = "";
   let selectedRecipes =
     JSON.parse(localStorage.getItem("selectedRecipes")) || [];
+  let login = false;
+
+  const savedUser = localStorage.getItem("currentUser");
+
+  if (!login) {
+    conBox.forEach((v) => {
+      v.classList.add("none");
+    });
+    document.getElementById("name").classList.add("none");
+    document.getElementById("logout").classList.add("none");
+  }
+
+  if (login) {
+    loginform.classList.add("none");
+  }
+
+  if (savedUser) {
+    currentUser = savedUser;
+    login = true;
+    conBox.forEach((v) => v.classList.remove("none"));
+    loginform.classList.add("none");
+    document.getElementById("name").innerText = currentUser;
+    document.getElementById("logout").classList.remove("none");
+    document.getElementById("name").classList.remove("none");
+
+    selectedIngredients = [];
+    renderSelectedTags();
+    renderTags("");
+    filterRecipesByMultiple();
+    selectedRecipes =
+      JSON.parse(localStorage.getItem(`recipes_${currentUser}`)) || [];
+  }
+
+  logout.addEventListener("click", () => {
+    login = false;
+    document.getElementById("name").classList.add("none");
+    document.getElementById("logout").classList.add("none");
+    localStorage.removeItem("currentUser");
+    currentUser = "";
+    selectedRecipes = [];
+    selectedIngredients = [];
+
+    renderSelectedTags();
+    renderTags("");
+    filterRecipesByMultiple();
+
+    loginform.classList.remove("none");
+    conBox.forEach((v) => v.classList.add("none"));
+  });
+
+  confirm.addEventListener("click", (e) => {
+    e.preventDefault();
+    const inputValue = loginInput.value;
+
+    if (inputValue.trim()) {
+      login = true;
+      currentUser = inputValue;
+      localStorage.setItem("currentUser", currentUser);
+      conBox.forEach((v) => {
+        v.classList.remove("none");
+      });
+
+      document.getElementById("name").innerText = inputValue;
+      document.getElementById("name").classList.remove("none");
+      document.getElementById("logout").classList.remove("none");
+      selectedRecipes =
+        JSON.parse(localStorage.getItem(`recipes_${currentUser}`)) || [];
+      document.getElementById("login").classList.add("none");
+      loginInput.value = "";
+
+      selectedIngredients = [];
+      renderSelectedTags();
+      renderTags("");
+      filterRecipesByMultiple();
+
+      renderRecipes(recipeData);
+    } else {
+      login = false;
+      alert("Please Enter Your Name");
+    }
+  });
 
   window.getRecipes = async function () {
     try {
@@ -23,8 +110,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       recipeData = data.recipes;
       allIngredients = [...new Set(recipeData.flatMap((r) => r.ingredients))];
-      window.renderRecipes(recipeData);
-      window.renderTags();
+      renderRecipes(recipeData);
+      renderTags();
     } catch (error) {
       console.error("Error fetching recipes:", error);
     }
@@ -58,6 +145,32 @@ document.addEventListener("DOMContentLoaded", () => {
     renderRecipes(filtered);
   }
 
+  function renderSelectedTags() {
+    const container = document.getElementById("selectedTags");
+    container.innerHTML = "";
+
+    selectedIngredients.forEach((item) => {
+      const span = document.createElement("span");
+      span.classList.add("selected-item");
+      span.innerHTML = `
+      ${item}
+      <span class="remove-btn">×</span>
+    `;
+
+      span.querySelector(".remove-btn").addEventListener("click", () => {
+        selectedIngredients = selectedIngredients.filter((i) => i !== item);
+
+        document.getElementById("ingredientInput").value = "";
+
+        renderTags("");
+        renderSelectedTags();
+        filterRecipesByMultiple();
+      });
+
+      container.appendChild(span);
+    });
+  }
+
   function renderModalTags(search = "") {
     modalTags.innerHTML = "";
     let filtered = [...allIngredients];
@@ -82,7 +195,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       span.addEventListener("click", () => {
         toggleTag(item, span);
-
         renderModalTags(search);
       });
 
@@ -94,41 +206,40 @@ document.addEventListener("DOMContentLoaded", () => {
     renderModalTags(this.value);
   });
 
-  window.renderRecipes = function (recipes) {
+  function renderRecipes(recipes) {
     const container = document.querySelector(".recipes");
     if (!container) return;
-
     container.innerHTML = "";
 
     if (recipes.length === 0) {
-    container.innerHTML = `
+      container.innerHTML = `
       <div class="no-data">
          No recipes found
       </div>
     `;
-    return;
-  }
+      return;
+    }
+
+    selectedRecipes =
+      JSON.parse(localStorage.getItem(`recipes_${currentUser}`)) || [];
 
     recipes.forEach((item) => {
       const card = document.createElement("div");
       card.classList.add("card");
 
-      if (selectedRecipes.some((r) => r.name === item.name)) {
-        card.classList.add("active-card");
-      }
-
-
-
       card.innerHTML = `
-      
   <img src="${item.image}" alt="${item.name}" />
+  
 
   <div class="card-content">
     <h3>${item.name}</h3>
 
     <div class="meta">
       <span>⏱ ${item.cookTimeMinutes} min</span>
-      <span class="category">${item.cuisine}</span>
+     <div id="liked-con">
+     <span class="category">${item.cuisine}</span>
+     <span id="liked"><i class="fa-solid fa-heart"></i></span>
+     </div>
     </div>
 
     <div class="ingredients instructions">
@@ -136,7 +247,6 @@ document.addEventListener("DOMContentLoaded", () => {
 </div>
 
     <button class="view-btn">View Recipe</button>
-
 
     <div class="ex">
       <div class="divider"></div>
@@ -157,59 +267,70 @@ document.addEventListener("DOMContentLoaded", () => {
   </div>
 `;
 
-const viewBtn = card.querySelector(".view-btn");
-const lessBtn = card.querySelector(".less-btn");
+      const liked = card.querySelector("#liked");
 
-viewBtn.addEventListener("click", (e) => {
-  e.stopPropagation(); 
+      if (selectedRecipes.some((r) => r.name === item.name)) {
+        card.classList.add("active-card");
+        if (liked) liked.style.color = "#ff7a18";
+      }
 
-  document.querySelectorAll(".card").forEach((c) => {
-    if (c !== card) c.classList.remove("open");
-  });
+      const viewBtn = card.querySelector(".view-btn");
+      const lessBtn = card.querySelector(".less-btn");
 
-  card.classList.toggle("open");
-});
+      viewBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
 
-lessBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  card.classList.remove("open");
-});
+        document.querySelectorAll(".card").forEach((c) => {
+          if (c !== card) c.classList.remove("open");
+        });
 
-      card.addEventListener("click", () => {
+        card.classList.toggle("open");
+      });
+
+      lessBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        card.classList.remove("open");
+      });
+
+      card.addEventListener("click", (e) => {
         const exists = selectedRecipes.some((r) => r.name === item.name);
 
         if (!exists) {
           selectedRecipes.push(item);
           card.classList.add("active-card");
+          const liked = card.querySelector("#liked");
+          liked.style.color = "#ff7a18";
         } else {
           selectedRecipes = selectedRecipes.filter((r) => r.name !== item.name);
           card.classList.remove("active-card");
+          const liked = card.querySelector("#liked");
+          liked.style.color = "";
         }
 
         localStorage.setItem(
-          "selectedRecipes",
+          `recipes_${currentUser}`,
           JSON.stringify(selectedRecipes),
         );
       });
 
       container.appendChild(card);
     });
-  };
+  }
 
   function toggleTag(item, span) {
     if (selectedIngredients.includes(item)) {
       selectedIngredients = selectedIngredients.filter((i) => i !== item);
       span.classList.remove("active");
+      console.log("item", item);
     } else {
       selectedIngredients.push(item);
       span.classList.add("active");
     }
 
     document.getElementById("ingredientInput").value = "";
-
+    renderSelectedTags();
     filterRecipesByMultiple();
     renderTags("");
-    renderSelectedTags();
   }
 
   input.addEventListener("keydown", (e) => {
@@ -238,33 +359,7 @@ lessBtn.addEventListener("click", (e) => {
     }
   });
 
-  window.renderSelectedTags = function () {
-    const container = document.getElementById("selectedTags");
-    container.innerHTML = "";
-
-    selectedIngredients.forEach((item) => {
-      const span = document.createElement("span");
-      span.classList.add("selected-item");
-      span.innerHTML = `
-      ${item}
-      <span class="remove-btn">×</span>
-    `;
-
-      span.querySelector(".remove-btn").addEventListener("click", () => {
-        selectedIngredients = selectedIngredients.filter((i) => i !== item);
-
-        document.getElementById("ingredientInput").value = "";
-
-        renderTags("");
-        renderSelectedTags();
-        filterRecipesByMultiple();
-      });
-
-      container.appendChild(span);
-    });
-  };
-
-  window.renderTags = function (searchText = "") {
+  function renderTags(searchText = "") {
     tagsContainer.innerHTML = "";
 
     let filteredTags;
@@ -276,10 +371,10 @@ lessBtn.addEventListener("click", (e) => {
         tag.toLowerCase().includes(search),
       );
     } else {
-      filteredTags = allIngredients.slice(0, 20);
+      filteredTags = [];
     }
 
-    filteredTags.slice(0, 20).forEach((item) => {
+    filteredTags.forEach((item) => {
       const span = document.createElement("span");
       span.innerText = item;
       span.classList.add("tag-item");
@@ -315,9 +410,9 @@ lessBtn.addEventListener("click", (e) => {
 
       tagsContainer.appendChild(span);
     });
-  };
+  }
 
-  window.filterRecipesByMultiple = function () {
+  function filterRecipesByMultiple() {
     if (selectedIngredients.length === 0) {
       renderRecipes(recipeData);
       return;
@@ -332,7 +427,7 @@ lessBtn.addEventListener("click", (e) => {
     );
 
     renderRecipes(filtered);
-  };
+  }
 
   window.showModal = function () {
     modal.style.display = "flex";
@@ -385,14 +480,11 @@ lessBtn.addEventListener("click", (e) => {
   });
 
   document.getElementById("resetBtn").addEventListener("click", () => {
-    if (confirm("Clear all selected ingredients?")) {
-      selectedIngredients = [];
-
-      renderSelectedTags();
-      renderTags("");
-      renderModalTags("");
-      filterRecipesByMultiple();
-    }
+    selectedIngredients = [];
+    renderSelectedTags();
+    renderTags("");
+    renderModalTags("");
+    filterRecipesByMultiple();
   });
 
   document.getElementById("menu-item").addEventListener("click", () => {
@@ -401,12 +493,10 @@ lessBtn.addEventListener("click", (e) => {
 
   function openSavedModal() {
     const modal = document.getElementById("savedModal");
-
     const container = document.getElementById("savedRecipesContainer");
 
     const savedRecipes =
-      JSON.parse(localStorage.getItem("selectedRecipes")) || [];
-
+      JSON.parse(localStorage.getItem(`recipes_${currentUser}`)) || [];
     container.innerHTML = "";
 
     if (savedRecipes.length === 0) {
@@ -424,20 +514,65 @@ lessBtn.addEventListener("click", (e) => {
 
           <div class="meta">
             <span>⏱ ${item.cookTimeMinutes} min</span>
+            <div class="liked-con">
             <span class="category">${item.cuisine}</span>
+              <button class="remove-btn remove-btn-selected">X</button>
+              </div>
           </div>
 
           <div class="ingredients">
             ${item.ingredients.map((i) => `<span>${i}</span>`).join("")}
           </div>
 
-          <button class="remove-btn">❌ Remove</button>
+           <button class="view-btn">View Recipe</button>
+           
+
+    <div class="ex">
+      <div class="divider"></div>
+
+      <p>Ingredients</p>
+      <div class="ingredients">
+        ${item.ingredients.map((ing) => `<span>${ing}</span>`).join("")}
+      </div>
+
+      <div class="divider"></div>
+
+      <p>Instructions</p>
+      <div class="ingredients">
+        ${item.instructions.map((ing) => `<span>${ing}</span>`).join("")}
+      </div>
+      <button class="less-btn">Less</button>
+
+        
         </div>
       `;
 
-        card.querySelector(".remove-btn").addEventListener("click", (e) => {
+        const liked = card.querySelector("#liked");
+
+        if (selectedRecipes.some((r) => r.name === item.name)) {
+          card.classList.add("active-card");
+          if (liked) liked.style.color = "#ff7a18";
+        }
+
+        const viewBtn = card.querySelector(".view-btn");
+        const lessBtn = card.querySelector(".less-btn");
+
+        viewBtn.addEventListener("click", (e) => {
           e.stopPropagation();
 
+          document.querySelectorAll(".card").forEach((c) => {
+            if (c !== card) c.classList.remove("open");
+          });
+
+          card.classList.toggle("open");
+        });
+
+        lessBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          card.classList.remove("open");
+        });
+        card.querySelector(".remove-btn").addEventListener("click", (e) => {
+          e.stopPropagation();
           removeRecipe(item.name);
         });
 
@@ -449,12 +584,11 @@ lessBtn.addEventListener("click", (e) => {
   }
 
   function removeRecipe(name) {
-    let saved = JSON.parse(localStorage.getItem("selectedRecipes")) || [];
-
+    let saved =
+      JSON.parse(localStorage.getItem(`recipes_${currentUser}`)) || [];
     saved = saved.filter((r) => r.name !== name);
-
-    localStorage.setItem("selectedRecipes", JSON.stringify(saved));
-
+    localStorage.setItem(`recipes_${currentUser}`, JSON.stringify(saved));
+    renderRecipes(recipeData);
     openSavedModal();
   }
 

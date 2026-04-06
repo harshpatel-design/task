@@ -21,9 +21,13 @@ body {
   overflow: hidden;
 }
 
+.none {
+  display: none !important;
+}
 .container {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 .sidebar {
   width: 260px;
@@ -111,12 +115,17 @@ body {
 }
 
 .email {
-  font-size: 12px;
+  font-size: 18px;
   color: #aaa;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
+  text-align: center;
+  box-shadow: 0 0 6px 0px rgba(255, 140, 0, 0.6);
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
 }
 
 .logout {
@@ -132,7 +141,6 @@ body {
   background: #1a1a1a;
 }
 .content {
-  width: 100%;
   padding: 25px;
   height: 100vh;
   overflow-y: auto;
@@ -174,7 +182,8 @@ body {
 }
 
 .input-group input,
-#recipeInputSearch {
+#recipeInputSearch,
+#loginInput {
   flex: 1;
   padding: 12px;
   border-radius: 10px;
@@ -182,8 +191,11 @@ body {
   background: #0b0b0b;
   color: white;
 }
+.loginInput {
+  margin-top: 0px !important;
+}
 
-.input-group button {
+.input-group button{
   width: 45px;
   border: none;
   border-radius: 10px;
@@ -191,6 +203,15 @@ body {
   color: white;
   font-size: 18px;
   cursor: pointer;
+}
+.input-btn button{
+  border: none;
+  border-radius: 10px;
+  background: #ff7a18;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 10px;
 }
 
 .tags {
@@ -392,6 +413,28 @@ body {
   color: #aaa;
 }
 
+.remove-btn-selected {
+  padding: 10px;
+ height: 25px;
+ width: 25px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: var(--text-color);
+  background: #ff7a18;
+  transition: 0.3s ease;
+}
+
+.remove-btn-selected:hover {
+  box-shadow: 0 0 4px 2px #ffb347;
+}
+
+
+
 .tag-item.active .remove-btn {
   display: inline;
 }
@@ -536,23 +579,40 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
+
   background: rgba(0, 0, 0, 0.7);
+
   display: none;
+
   justify-content: center;
   align-items: center;
+
   z-index: 1000;
 }
 
 #savedModal .modal-content {
   background: #111;
   padding: 20px;
-
   border-radius: 10px;
   width: 80%;
-  max-height: 80%;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+ 
 }
 
+#savedRecipesContainer {
+display: grid;  
+grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+  padding: 10px;
+}
 .ex {
   max-height: 0;
   overflow: hidden;
@@ -601,4 +661,60 @@ body {
 }
 .card.open .view-btn {
   display: none;
+}
+
+.login {
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin-top: 20px;
+}
+
+.login .login-form
+ {
+  padding: 20px 30px;
+  background: var(--secondary-color);
+  border-radius: 10px;
+  min-width: 320px;
+  height: fit-content;
+}
+
+
+#ingredientSelect {
+  display: inline-block;
+      padding: 8px 10px;
+      height: 50px;
+      border-radius: 10px;
+      outline: none;
+      border: none;
+      background: var(--input-color);
+      color: white;
+      font-weight: 500;
+}
+.login .login-form input {
+  width: 100% !important;
+}
+.input-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+#liked-con,
+.liked-con {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#liked-con i {
+  font-size: 18px;
+  margin-top: 6px;
+}
+
+.tag {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 10px;
 }

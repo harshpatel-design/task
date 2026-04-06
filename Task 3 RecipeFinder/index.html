@@ -28,12 +28,14 @@
 
         <div class="bottom">
             <div class="profile">
-                <div class="email">harshpattel1156@gmail.com</div>
+                <div class="email" id="name">Your Name</div>
+            </div>
+            <div class="profile">
+                <div class="email" id="logout">Log out</div>
             </div>
 
         </div>
     </div>
-
 
     <div class="content">
 
@@ -42,7 +44,7 @@
             <p>Select ingredients to find matching recipes</p>
         </div>
 
-        <div class="ingredient-box">
+        <div class="ingredient-box con-box">
 
             <h3>Select Your Ingredients</h3>
             <p>Choose ingredients you have available or add custom ones</p>
@@ -53,6 +55,7 @@
 
             <div id="selectedTags" class="selected-tags"></div>
             <div class="devider"></div>
+
             <div class="tags" id="tagsContainer"></div>
             <button id="showMoreBtn">Show More</button>
             <button id="resetBtn">Reset</button>
@@ -70,18 +73,18 @@
 
         </div>
 
-        <div class="recipes-header">
+        <div class="recipes-header con-box">
             <h2>All Recipes</h2>
         </div>
 
-        <div class="recipes-header recipes-header-2">
+        <div class="recipes-header recipes-header-2 con-box">
             <input type="text" id="recipeInputSearch" placeholder="Search recipe by name and tag">
         </div>
 
-        <div class="recipes"></div>
+        <div class="recipes con-box"></div>
 
-        <div id="savedModal">
-            <div class="modal-content">
+        <div id="savedModal" class="con-box">
+            <div class="modal-content  con-box">
                 <h2>Saved Recipes</h2>
 
                 <div id="savedRecipesContainer"></div>
@@ -90,7 +93,17 @@
             </div>
         </div>
 
+        <div class="login" id="login">
+            <div class="login-form">
+                <h1>Your Name</h1>
+                <div class="input-btn">
+                    <input type="text" placeholder="Enter Your name.." id="loginInput">
+                    <button id="confirm">Confirm</button>
+                </div>
+            </div>
+        </div>
     </div>
+
 
 
     <script src="script.js"></script>
