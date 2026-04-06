@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginInput = document.getElementById("loginInput");
   const logout = document.getElementById("logout");
   const loginform = document.getElementById("login");
+  const div = document.getElementById("div");
+  const showInd = document.getElementById("show-ind");
 
   const API = "https://dummyjson.com/recipes";
 
@@ -24,6 +26,18 @@ document.addEventListener("DOMContentLoaded", () => {
   let login = false;
 
   const savedUser = localStorage.getItem("currentUser");
+
+  div.classList.add("none");
+
+  showInd.addEventListener("click", () => {
+  if (showInd.innerText === "Fillter by Ingrident") {
+    div.classList.remove("none");
+    showInd.innerText = "Less";
+  } else {
+    div.classList.add("none");
+    showInd.innerText = "Fillter by Ingrident";
+  }
+});
 
   if (!login) {
     conBox.forEach((v) => {
@@ -292,7 +306,7 @@ document.addEventListener("DOMContentLoaded", () => {
         card.classList.remove("open");
       });
 
-      card.addEventListener("click", (e) => {
+      liked.addEventListener("click", (e) => {
         const exists = selectedRecipes.some((r) => r.name === item.name);
 
         if (!exists) {
@@ -520,6 +534,7 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
           </div>
 
+
           <div class="ingredients">
             ${item.ingredients.map((i) => `<span>${i}</span>`).join("")}
           </div>
@@ -541,6 +556,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="ingredients">
         ${item.instructions.map((ing) => `<span>${ing}</span>`).join("")}
       </div>
+     
       <button class="less-btn">Less</button>
 
         

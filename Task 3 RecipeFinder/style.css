@@ -284,7 +284,8 @@ body {
 }
 
 #showMoreBtn,
-#resetBtn {
+#resetBtn,
+#show-ind {
   margin-top: 10px;
   padding: 8px 15px;
   border-radius: 10px;
@@ -293,6 +294,9 @@ body {
   color: white;
   cursor: pointer;
   font-weight: 500;
+}
+#show-ind {
+  margin-top: 0px;
 }
 
 #resetBtn {
@@ -502,6 +506,7 @@ body {
   overflow: hidden;
   color: white;
   cursor: pointer;
+  border: 1px solid var(--text--2-color);
 }
 
 .card img {

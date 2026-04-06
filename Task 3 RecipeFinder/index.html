@@ -45,7 +45,9 @@
         </div>
 
         <div class="ingredient-box con-box">
-
+            <button id="show-ind">Fillter by Ingrident</button>
+            
+           <div class="div" id="div">
             <h3>Select Your Ingredients</h3>
             <p>Choose ingredients you have available or add custom ones</p>
 
@@ -53,12 +55,14 @@
                 <input type="text" id="ingredientInput" placeholder="Add more ingredients..." />
             </div>
 
-            <div id="selectedTags" class="selected-tags"></div>
+             <div id="selectedTags" class="selected-tags"></div>
             <div class="devider"></div>
 
             <div class="tags" id="tagsContainer"></div>
             <button id="showMoreBtn">Show More</button>
             <button id="resetBtn">Reset</button>
+           </div>
+
             <div class="modal" id="modal">
                 <div class="modal-content">
                     <h3>All Ingredients</h3>
@@ -103,8 +107,6 @@
             </div>
         </div>
     </div>
-
-
 
     <script src="script.js"></script>
 </body>
