@@ -100,6 +100,9 @@ section {
   display: none;
 }
 
+.list {
+  display: none;
+}
 .d-flex {
   display: flex;
 }
@@ -246,7 +249,7 @@ section {
 
 .main-img {
   background: url("./Image/main.png") no-repeat center top/cover;
-  height: 920px;
+  height: 850px;
   width: 100%;
   background-repeat: no-repeat;
   background-size: 100% 100%;
