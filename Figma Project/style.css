@@ -78,6 +78,9 @@
 .gap-80 {
   gap: 80px;
 }
+.gap-60 {
+  gap: 60px;
+}
 
 body {
   background-color: var(--bg-color);
@@ -85,12 +88,18 @@ body {
   padding: 0px;
   margin: 0;
   max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+html,
+body {
+  height: 100%;
 }
 
 ul {
   margin: 0;
   padding: 0;
-  list-style: none;
+  list-style: none !important;
 }
 
 section {
@@ -105,6 +114,10 @@ section {
 }
 .d-flex {
   display: flex;
+}
+.d-block {
+  display: block;
+  width: 100% !important;
 }
 
 .align-center {
@@ -200,10 +213,9 @@ section {
   padding: 2px;
   border-radius: 10px;
   background: linear-gradient(0deg, #ffffff, rgba(255, 255, 255, 0));
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   mask-composite: exclude;
   z-index: -1;
 }
@@ -281,7 +293,6 @@ section {
   color: var(--text--2-color);
 }
 .division-pocker {
-  height: 100%;
   width: 100%;
   padding: 100px 60px;
   position: relative;
@@ -349,9 +360,7 @@ section {
 
 .find-games-con {
   background: url("./Image/3-section.png");
-  height: 100%;
   padding: 60px 0px;
-  width: 100%;
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -639,7 +648,6 @@ section {
 .footer {
   background: url("./Image/Footer.png");
   width: 100%;
-  height: 100%;
   padding: 80px 60px 40px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -712,6 +720,321 @@ section {
   background: transparent;
 }
 
+.d-none {
+  display: none !important;
+}
+
+.adde {
+  transform: translateY(100px);
+}
+
+.error-password {
+  padding-top: 5px;
+  font-weight: 500;
+  background:var(--bg-grey-color);
+  color: var(--red-color);
+  border: 2px solid var(--red-color);
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  width: fit-content;
+  transition: 0.3s  ;
+}
+
+.justy-between {
+  justify-content: space-between;
+}
+
+.model {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+
+
+.signUp-left {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.signUp-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sigUp-right {
+  height: 100vh;
+  overflow-y: auto;
+  padding: 40px 46px 20px 0px ;
+}
+
+.process,
+.form-wapper {
+  width: 80%;
+  margin: 0px auto;
+}
+
+.divider {
+  width: 60px;
+  height: 2px;
+  border: 2.03px solid #302E33
+}
+
+.process ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0px auto;
+
+}
+
+.process ul li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.process-img {
+  height: 60px;
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.process-red {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(
+    118.89deg,
+    rgba(221, 0, 26, 0.7) 16.59%,
+    rgba(28, 24, 24, 0.7) 88.29%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.process-red-border {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(154.05deg, #c70018 16.19%, #2d0207 89.6%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.process-img img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.bg-red {
+  background: red;
+}
+
+.flex-1 {
+  flex: 1;
+}
+.input {
+  background: #232325;
+border-radius: 8px;
+gap: 16px;
+padding: 0px 14px;
+height: 50px;
+border: none;
+outline: none;
+width: 100%;
+color: var(--text--color);
+  cursor: text; 
+  font-size: 12px;
+  font-weight: 400;
+}
+
+input[type="date"] {
+  color: #aaa !important;
+}
+
+input[type="date"]:valid {
+  color: #fff;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+input::placeholder {
+  color: #aaa;
+  opacity: 1;
+}
+label {
+  font-size: 14px;
+  padding-left: 4px;
+  font-weight: normal;
+}
+
+.term-box {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 10px;
+}
+
+.termP {
+  color: var(--text--2-color);
+  font-size: 14px;
+}
+
+.form-verify {
+  border-radius: 10px;
+  background: #131314;
+border: 1px solid #202022;
+padding: 30px;
+}
+
+.verify h2 {
+  font-size: 24px;
+  text-transform: capitalize;
+  padding-bottom: 10px;
+}
+.verify p {
+  font-size: 14px;
+  padding-bottom: 10px ;
+  font-weight: 300 !important;
+}
+.verify h2 {
+  font-size: 24px;
+  text-transform: capitalize;
+  padding-bottom: 10px;
+}
+
+.clubId span {
+  color: var(--red-color);
+}
+.verify-div {
+  padding: 20px 10px;
+  border-radius: 12px;
+}
+
+.verift-details h3  {
+  font-size: 17px;
+}
+.verift-details p {
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.verifyP {
+  text-align: center;
+  font-size: 12px;
+}
+
+.addressUi {
+  list-style: none;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.addressUi li {
+  line-height: 35px;  
+}
+
+#sign1,
+#sign2,
+#sign3,
+#sign-alert,
+#sign-falid {
+  display: flex;
+}
+
+.sign-falid .form-wapper,
+.sign-alert .form-wapper
+ {
+  margin-top: 100px;
+}
+
+.login-right {
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  padding: 40px 46px 20px 0px ;
+}
+
+.forgetPassword {
+ color: var(--text--2-color);
+  text-align: right;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.forgetPassword:hover {
+   color: #7b2cff;
+}
+
+.login-wapper {
+  padding: 50px 0px 20px;
+  width: 80%;
+  margin: 0px auto;
+}
+
+.login-heading h1 {
+  font-size: 48px !important;
+  text-transform: capitalize;
+}
+
+.login-button-container p {
+  padding-top: 20px;
+}
+
+.reset-heading {
+  margin-bottom: 50px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.reset-heading p {
+  padding-top: 20px;
+  color: var(--text--2-color);
+  font-size: 13px;
+}
+.login1 {
+  display: none;
+}
+.bg-grey {
+  background: #232325;
+}
+
+.green {
+  color: #06D300;
+}
+
+.h-60 {
+  height: 60px !important;
+  letter-spacing: 1px;
+  font-size: 16px;
+}
 @media screen and (max-width: 1280px) {
   section {
     padding: 80px 0px;
@@ -765,7 +1088,7 @@ section {
   }
 
   .find-games-con {
-    height: 100%;
+
     padding: 70px 0px;
   }
   .division-content {
@@ -812,7 +1135,7 @@ section {
   }
 
   .division-content {
-    margin-top: -124px;
+    margin-top: -88px;
   }
 
   .main-heading h1:nth-child(2) {
@@ -837,7 +1160,6 @@ section {
   }
 
   .find-games-con {
-    height: 100%;
     padding: 60px 0px;
   }
 
@@ -884,17 +1206,16 @@ section {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-   
   }
-}
-.faq-left h1 br {
-  display: none;
-}
-.faq-img {
-  text-align: center;
-}
-.faq-img img {
-  width: 100%;
+  .faq-left h1 br {
+    display: none;
+  }
+  .faq-img {
+    text-align: center;
+  }
+  .faq-img img {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -942,7 +1263,6 @@ section {
     font-size: 41px;
   }
   .find-games-con {
-    height: 100%;
     padding: 40px 0px;
   }
   .find-category {
@@ -1009,14 +1329,14 @@ section {
     padding: 0px;
   }
 
-     .faq-left {
-        min-height: 449px;
-        background-position: 0px 154px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-    }
+  .faq-left {
+    min-height: 449px;
+    background-position: 0px 154px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
 
   .faq-content {
     padding: 0;
@@ -1217,13 +1537,13 @@ section {
     font-size: 11px;
   }
   .faq-left {
-        min-height: 350px;
-        background-position: 0px 130px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-    }
+    min-height: 350px;
+    background-position: 0px 130px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
   .faq-left .heading {
     font-size: 26px;
   }
