@@ -213,9 +213,13 @@ section {
   padding: 2px;
   border-radius: 10px;
   background: linear-gradient(0deg, #ffffff, rgba(255, 255, 255, 0));
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
   mask-composite: exclude;
   z-index: -1;
 }
@@ -223,7 +227,9 @@ section {
 .btn {
   border-radius: 10px;
   height: 45px;
-  width: 100px;
+  min-width: 100px;
+  padding-left: 10px;
+  padding-right: 10px;
   font-weight: 700;
   color: #fafafa;
   cursor: pointer;
@@ -392,6 +398,7 @@ section {
 
 .find-category-img {
   padding: 20px;
+  height: 100%;
 }
 
 .find-category-img img,
@@ -731,14 +738,14 @@ section {
 .error-password {
   padding-top: 5px;
   font-weight: 500;
-  background:var(--bg-grey-color);
+  background: var(--bg-grey-color);
   color: var(--red-color);
   border: 2px solid var(--red-color);
   padding: 10px;
   border-radius: 8px;
   font-size: 12px;
   width: fit-content;
-  transition: 0.3s  ;
+  transition: 0.3s;
 }
 
 .justy-between {
@@ -747,14 +754,11 @@ section {
 
 .model {
   height: 100vh;
-  overflow: hidden;
 }
 
 .h-100 {
   height: 100%;
 }
-
-
 
 .signUp-left {
   position: sticky;
@@ -773,7 +777,7 @@ section {
 .sigUp-right {
   height: 100vh;
   overflow-y: auto;
-  padding: 40px 46px 20px 0px ;
+  padding: 40px 46px 20px 0px;
 }
 
 .process,
@@ -785,7 +789,7 @@ section {
 .divider {
   width: 60px;
   height: 2px;
-  border: 2.03px solid #302E33
+  border: 2.03px solid #302e33;
 }
 
 .process ul {
@@ -794,7 +798,6 @@ section {
   justify-content: space-between;
   width: 100%;
   margin: 0px auto;
-
 }
 
 .process ul li {
@@ -854,15 +857,15 @@ section {
 }
 .input {
   background: #232325;
-border-radius: 8px;
-gap: 16px;
-padding: 0px 14px;
-height: 50px;
-border: none;
-outline: none;
-width: 100%;
-color: var(--text--color);
-  cursor: text; 
+  border-radius: 8px;
+  gap: 16px;
+  padding: 0px 14px;
+  height: 50px;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: var(--text--color);
+  cursor: text;
   font-size: 12px;
   font-weight: 400;
 }
@@ -872,11 +875,10 @@ input[type="date"] {
 }
 
 input[type="date"]:valid {
-  color: #fff;
+  background: #e8f0fe !;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
   cursor: pointer;
 }
 input::placeholder {
@@ -904,8 +906,8 @@ label {
 .form-verify {
   border-radius: 10px;
   background: #131314;
-border: 1px solid #202022;
-padding: 30px;
+  border: 1px solid #202022;
+  padding: 30px;
 }
 
 .verify h2 {
@@ -915,7 +917,7 @@ padding: 30px;
 }
 .verify p {
   font-size: 14px;
-  padding-bottom: 10px ;
+  padding-bottom: 10px;
   font-weight: 300 !important;
 }
 .verify h2 {
@@ -932,7 +934,7 @@ padding: 30px;
   border-radius: 12px;
 }
 
-.verift-details h3  {
+.verift-details h3 {
   font-size: 17px;
 }
 .verift-details p {
@@ -954,7 +956,7 @@ padding: 30px;
 }
 
 .addressUi li {
-  line-height: 35px;  
+  line-height: 35px;
 }
 
 #sign1,
@@ -966,8 +968,7 @@ padding: 30px;
 }
 
 .sign-falid .form-wapper,
-.sign-alert .form-wapper
- {
+.sign-alert .form-wapper {
   margin-top: 100px;
 }
 
@@ -976,11 +977,11 @@ padding: 30px;
   overflow-y: auto;
   display: flex;
   align-items: center;
-  padding: 40px 46px 20px 0px ;
+  padding: 40px 46px 20px 0px;
 }
 
 .forgetPassword {
- color: var(--text--2-color);
+  color: var(--text--2-color);
   text-align: right;
   text-decoration: underline;
   cursor: pointer;
@@ -988,7 +989,7 @@ padding: 30px;
 }
 
 .forgetPassword:hover {
-   color: #7b2cff;
+  color: #7b2cff;
 }
 
 .login-wapper {
@@ -1027,13 +1028,28 @@ padding: 30px;
 }
 
 .green {
-  color: #06D300;
+  color: #06d300;
 }
 
 .h-60 {
   height: 60px !important;
   letter-spacing: 1px;
   font-size: 16px;
+}
+
+.term-label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.term-label input {
+  cursor: pointer;
+}
+
+.termP {
+  cursor: pointer;
 }
 @media screen and (max-width: 1280px) {
   section {
@@ -1088,7 +1104,6 @@ padding: 30px;
   }
 
   .find-games-con {
-
     padding: 70px 0px;
   }
   .division-content {
@@ -1115,6 +1130,60 @@ padding: 30px;
 
   .faq-left {
     background-position: 16px 321px;
+  }
+
+  .signUp-container {
+    grid-template-columns: 1fr;
+  }
+  .signUp-left {
+    width: 100%;
+    height: 300px;
+    background-repeat: no-repeat !important;
+    background-size: 100% 100% !important;
+    background: url("./Image/Slice\ 1.png");
+  }
+  .signUp-left img {
+    display: none;
+  }
+  .sigUp-right {
+    padding: 20px 40px;
+    height: 100%;
+  }
+
+  .process,
+  .form-wapper {
+    width: 80%;
+  }
+  .personal-details {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .signUp-left {
+    height: 300px;
+  }
+
+  .sign-falid .form-wapper {
+    margin-top: 30px;
+  }
+
+  .login-wapper {
+    padding: 0px;
+    width: 90%;
+    margin: 0px auto;
+  }
+  .login-right {
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    padding: 00px 60px 100px;
+  }
+
+  .ll {
+    justify-content: start;
+  }
+
+  #resetForm {
+    justify-content: start;
   }
 }
 
@@ -1412,6 +1481,26 @@ padding: 30px;
     margin-top: 30px;
     width: 90%;
   }
+
+  .process,
+  .form-wapper {
+    width: 100%;
+  }
+
+  .signUp-left {
+    height: 250px;
+  }
+
+  .signUp-container {
+    gap: 20px;
+  }
+
+  .signUp-container {
+    height: unset;
+  }
+  .login-right {
+    margin-top: 40px;
+  }
 }
 
 @media screen and (max-width: 576px) {
@@ -1437,33 +1526,33 @@ padding: 30px;
     height: 20px;
   }
   .main-heading h1:nth-child(1) {
-    font-size: 20px;
+    font-size: 18px;
   }
   .main-heading h1:nth-child(2) {
-    font-size: 25px;
+    font-size: 22px;
   }
   .main-img {
     height: 400px;
   }
   .main-heading h1:nth-child(3) {
-    font-size: 23px;
+    font-size: 20px;
   }
 
+  .main-context p {
+    font-size: 10px;
+  }
   .btn {
     height: 40px;
-    width: 90px;
+    min-width: 90px;
     font-size: 12px;
   }
   .main-section {
     margin-top: 0px !important;
   }
-  .main-context p {
-    font-size: 12px;
-  }
 
   .main-content {
     gap: 8px;
-    margin-top: 20px;
+    margin-top: 15px;
     min-width: 300px;
   }
 
@@ -1472,14 +1561,22 @@ padding: 30px;
     font-size: 12px;
   }
   .division-content {
-    margin-top: -52px;
+    margin-top: -35px;
+    gap: 30px;
   }
   .division-content h1 {
-    font-size: 26px;
+    font-size: 20px;
   }
   .div-ul {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+
+  .div-ul li h3 {
+    font-size: 12px;
+  }
+  .div-ul li p {
+    font-size: 10px;
   }
 
   .find-ul {
@@ -1495,10 +1592,37 @@ padding: 30px;
     padding: 0px;
     font-size: 14px;
   }
-  .find-content-img {
-    height: 100%;
+
+  .find-cotent-details {
+    gap: 14px;
+    min-height: 110px;
+    padding: 10px 0px;
   }
 
+  .no {
+    display: inline-block;
+    background: linear-gradient(180deg, #c90f25 0%, #ef0c27 100%);
+    border-radius: 10px;
+    width: fit-content;
+    height: 20px;
+    width: 30px;
+    text-align: center;
+    line-height: 20;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  .find-cotent-details h1 {
+    font-size: 14px;
+    line-height: 00px !important;
+  }
+
+  .find-cotent-details p {
+    font-size: 10px;
+  }
   .find-content-img img {
     width: 100%;
     object-fit: cover;
@@ -1527,6 +1651,7 @@ padding: 30px;
 
   .join-box-content .heading {
     font-size: 12px;
+    margin-bottom: 0px;
   }
   .join-box-content p {
     font-size: 10px;
@@ -1537,15 +1662,15 @@ padding: 30px;
     font-size: 11px;
   }
   .faq-left {
-    min-height: 350px;
-    background-position: 0px 130px;
+    min-height: 300px;
+    background-position: 0px 140px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
   }
   .faq-left .heading {
-    font-size: 26px;
+    font-size: 20px;
   }
   .faq-li {
     padding: 10px 12px;
@@ -1575,10 +1700,10 @@ padding: 30px;
     padding: 30px;
   }
   .glass-card .heading {
-    font-size: 24px;
+    font-size: 22px;
   }
   .glass-card p {
-    font-size: 14px;
+    font-size: 12px;
   }
   .social-icons span {
     height: 24px;
@@ -1592,11 +1717,13 @@ padding: 30px;
     padding: 30px 10px 40px;
   }
   .footer-right-col a {
-    font-size: 11px;
-    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: left;
   }
+
   .p-white {
-    font-size: 14px;
+    font-size: 12px;
   }
   .footer-bottom {
     font-size: 10px;
@@ -1643,8 +1770,61 @@ padding: 30px;
   .footer-right .footer-right-col {
     align-items: start;
   }
-  .footer-right-col a {
-    font-size: 14px;
-    font-weight: 500;
+
+  .process-img {
+    height: 55px;
+    width: 55px;
+  }
+  .signUp-left {
+    height: 160px;
+  }
+  .divider {
+    width: 30px;
+  }
+  .sigUp-right {
+    padding: 20px;
+  }
+  .process p {
+    font-size: 10px;
+  }
+
+  .verify p {
+    font-size: 10px;
+  }
+
+  .verify h2 {
+    font-size: 20px;
+  }
+  .verify-btn {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sign-falid .form-wapper {
+    margin-top: 20px;
+  }
+
+  .login-heading h1 {
+    font-size: 23px !important;
+    padding: 10px !important;
+  }
+
+  .login-right {
+    padding: 20px 10px;
+  }
+
+  .login-button-container p {
+    font-size: 12px;
+  }
+
+  .forgetPassword {
+    font-size: 12px;
+  }
+
+  .login-right {
+    margin-top: 0px;
+  }
+  .termP {
+    font-size: 10px;
   }
 }
