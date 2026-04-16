@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const kycRegisterBtn = document.getElementById("kycRegisterBtn");
   const kycDone = document.getElementById("kycDone");
   const faildlater = document.querySelectorAll(".faildlater");
+  const haveAccount = document.getElementById("haveAccount");
 
   const alertForm = document.getElementById("alertForm");
   const loginForm = document.getElementById("loginForm");
@@ -38,6 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
   sign2.classList.add("d-none");
   sign1.classList.add("d-none");
   errorPassword.classList.add("d-none");
+
+  const terms1 = document.getElementById("terms1");
+  const terms2 = document.getElementById("terms2");
+
+  console.log(terms1, terms2);
 
   class User {
     constructor(
@@ -97,6 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     signUpBox.classList.remove("d-none");
     wp.classList.add("d-none");
     headder.classList.add("d-none");
+    resetForms();
   }
 
   function closeModal() {
@@ -104,6 +111,20 @@ document.addEventListener("DOMContentLoaded", () => {
     signUpBox.classList.add("d-none");
     wp.classList.remove("d-none");
     headder.classList.remove("d-none");
+  }
+
+  function resetForms() {
+    form1.reset();
+    loginForm.reset();
+    resetForm.reset();
+    sign3Address.reset();
+    alertForm.reset();
+    document.querySelectorAll("input").forEach((input) => {
+      input.value = "";
+    });
+    document.querySelectorAll("input[type='checkbox']").forEach((cb) => {
+      cb.checked = false;
+    });
   }
 
   function getCurrentStep() {
@@ -139,6 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   kycDone.addEventListener("click", (e) => {
+    e.preventDefault();
     closeModal();
     hideAllSteps();
   });
@@ -158,22 +180,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const confirmPassword = document.getElementById(
       "form1confirmPassword",
     ).value;
-    const terms1 = document.getElementById("terms1");
-    const terms2 = document.getElementById("terms2");
 
-    if (!terms1.checked || !terms2.checked) {
+    const allTerms = document.querySelectorAll(".terms");
+
+    const allChecked = [...allTerms].every((e) => e.checked);
+
+    if (!allChecked) {
       alert("Please accept Terms & Conditions");
       return;
     }
 
     let users = JSON.parse(localStorage.getItem("users")) || [];
-
-    const exists = users.some((user) => user.email === email);
-
-    if (exists) {
-      alert("Email Already Register");
-      return;
-    }
 
     if (
       !firstName ||
@@ -186,6 +203,13 @@ document.addEventListener("DOMContentLoaded", () => {
       !confirmPassword
     ) {
       alert("All fields are required ");
+      return;
+    }
+
+    const exists = users.some((user) => user.email === email);
+
+    if (exists) {
+      alert("Email Already Register");
       return;
     }
 
@@ -329,8 +353,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentUser = JSON.parse(localStorage.getItem("currentUser"));
     let users = JSON.parse(localStorage.getItem("users")) || [];
 
-    registerGo.innerText = currentUser.userName;
-
     currentUser.updateKyc = true;
     const index = users.findIndex((user) => user.id === currentUser.id);
     if (index !== -1) {
@@ -343,11 +365,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   registerGo.addEventListener("click", (e) => {
     e.preventDefault();
+    resetForms();
     const step = getCurrentStep();
 
     if (step === "done") {
-      alert("You have alredy Register");
-      return;
+      localStorage.removeItem("currentUser"); // reset user
+      step = "register";
     }
 
     openModal();
@@ -372,7 +395,6 @@ document.addEventListener("DOMContentLoaded", () => {
       signAlert.classList.remove("d-none");
       sign3.classList.add("d-none");
     } else {
-      alert("All steps completed");
       step = "done";
       closeModal();
     }
@@ -479,11 +501,23 @@ document.addEventListener("DOMContentLoaded", () => {
     currentUser.password = p1;
     currentUser.confirmPassword = p2;
 
-    alert("password change successfully")
+    alert("password change successfully");
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("currentUser", JSON.stringify(user));
 
-     closeModal();
+    closeModal();
     console.log(p1, p2, email);
+  });
+
+  haveAccount.addEventListener("click", (e) => {
+    e.preventDefault();
+    resetForms();
+    hideAllSteps();
+    MODEL.classList.remove("d-none");
+    wp.classList.add("d-none");
+    headder.classList.add("d-none");
+    signUpBox.classList.add("d-none");
+    login2.classList.add("d-none");
+    loginBox.classList.remove("d-none");
   });
 });
