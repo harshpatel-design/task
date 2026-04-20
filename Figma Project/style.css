@@ -210,6 +210,10 @@ section {
   gap: 10px;
 }
 
+.icon {
+  cursor: pointer;
+}
+
 .btn-effect {
   padding-top: 20px;
   padding-right: 36px;
@@ -855,6 +859,7 @@ section {
   gap: 20px;
   flex: none;
   order: 1;
+  width: 100%;
   flex-grow: 1;
 }
 
@@ -1561,6 +1566,7 @@ label {
   top: unset !important;
 }
 
+
 @media screen and (max-width: 1440px) {
   .faq-image {
     position: absolute;
@@ -1907,6 +1913,7 @@ label {
   .faq-details {
     height: 100%;
   }
+
 
   .faq-ul li {
     display: flex;
@@ -3017,7 +3024,14 @@ label {
   .faq-li h3 {
     font-weight: 700;
     font-size: 14px !important;
-    line-height: 17px;
+   
+  }
+
+
+
+  .down ,.up {
+    height: 17px;
+    width: 17px;
   }
 
   .faq-li p {
@@ -3026,6 +3040,7 @@ label {
     font-size: 12px !important;
     line-height: 17px;
     color: var(--text--2-color);
+    margin-top: 10px;
   }
 
   .community-section {
