@@ -889,6 +889,7 @@ section {
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
+  margin-top: 10px;
   color: var(--text--2-color);
 }
 
@@ -1895,7 +1896,6 @@ label {
   }
 
   .faq-image2 img {
-    height: 254px;
     width: 100%;
   }
 
@@ -1988,6 +1988,17 @@ label {
     height: 420px !important;
     left: 50% !important;
     top: unset !important;
+  }
+  .faq-effect2 {
+    position: absolute;
+    width: 49%;
+    height: 97px;
+    left: 51%;
+    top: 450px;
+    z-index: -1;
+    background: #7717ff;
+    filter: blur(50.95px);
+    transform: translateX(-50%);
   }
 }
 
