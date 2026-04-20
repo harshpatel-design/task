@@ -435,16 +435,6 @@ section {
   z-index: 1;
 }
 
-.find-games-con::after {
-  content: "";
-  position: absolute;
-  width: 410px;
-  height: 410px;
-  left: 1130px;
-  top: -225px;
-  background: #7717ff;
-  filter: blur(164.65px);
-}
 
 .find-games-con::before {
   content: "";
@@ -462,11 +452,13 @@ section {
   position: absolute;
   width: 410px;
   height: 410px;
-  left: 1130px;
+  left: 1550px;
   top: -225px;
   background: #7717ff;
   filter: blur(164.65px);
 }
+
+
 
 .find-img {
   text-align: center;
@@ -1581,6 +1573,17 @@ label {
     background: url(./Image/FAQ.png);
     z-index: 3;
   }
+  .find-games-con::after {
+  content: "";
+  position: absolute;
+  width: 410px;
+  height: 410px;
+  left: 1130px;
+  top: -225px;
+  background: #7717ff;
+  filter: blur(164.65px);
+}
+
 }
 @media screen and (max-width: 1280px) {
   section {
