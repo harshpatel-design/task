@@ -42,9 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const terms1 = document.getElementById("terms1");
   const terms2 = document.getElementById("terms2");
-
-  console.log(terms1, terms2);
-
   class User {
     constructor(
       firstName,
@@ -519,5 +516,43 @@ document.addEventListener("DOMContentLoaded", () => {
     signUpBox.classList.add("d-none");
     login2.classList.add("d-none");
     loginBox.classList.remove("d-none");
+  });
+
+  const faqItems = document.querySelectorAll(".faq-li");
+
+  faqItems.forEach((item) => {
+    const downIcon = item.querySelector(".down");
+    const upIcon = item.querySelector(".up");
+    const p = item.querySelector(".faq-li-p");
+
+    downIcon.addEventListener("click", () => {
+      faqItems.forEach((el) => {
+        if (el !== item) {
+          el.classList.remove("active");
+
+          const d = el.querySelector(".down");
+          const u = el.querySelector(".up");
+          const para = el.querySelector(".faq-li-p");
+
+          if (para) para.classList.add("d-none");
+          d.classList.remove("d-none");
+          u.classList.add("d-none");
+        }
+      });
+
+      item.classList.add("active");
+
+      if (p) p.classList.remove("d-none");
+      downIcon.classList.add("d-none");
+      upIcon.classList.remove("d-none");
+    });
+
+    upIcon.addEventListener("click", () => {
+      item.classList.remove("active");
+
+      if (p) p.classList.add("d-none");
+      downIcon.classList.remove("d-none");
+      upIcon.classList.add("d-none");
+    });
   });
 });
