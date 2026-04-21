@@ -1182,15 +1182,6 @@ footer::after {
   color: #969696 !important;
 }
 
-.footer-bottom p {
-  font-size: 10px !important;
-  line-height: 120%;
-  width: 100%;
-}
-
-.footerCopyRight {
-  font-size: 14px !important;
-}
 .d-none {
   display: none !important;
 }
@@ -2041,9 +2032,6 @@ label {
     filter: blur(50.95px);
     transform: translateX(-50%);
   }
-  .footer {
-    padding: 40px 20px 0px;
-  }
 }
 
 @media screen and (max-width: 768px) {
@@ -2610,7 +2598,7 @@ label {
     height: 219px;
     left: 50%;
     transform: translateX(-50%);
-    top: 566.03px;
+    top: 534.03px;
     background: #7717ff;
     opacity: 0.4;
     filter: blur(37.3264px);
@@ -3549,6 +3537,17 @@ label {
     height: 145.72px;
     left: 115px;
     top: 106px;
+  }
+
+  footer .division {
+    font-size: 70px;
+    position: absolute;
+    bottom: -26px;
+    left: 50%;
+    letter-spacing: 0px;
+    transform: translateX(-50%);
+    margin: 0px auto;
+    color: var(--bg-grey-color);
   }
 
   .signUpCard {
