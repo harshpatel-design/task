@@ -867,7 +867,6 @@ section {
 .faq-ul li {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   padding: 32px;
   gap: 10px;
   min-height: 88px;
@@ -1601,6 +1600,46 @@ label {
   margin-top: 20px !important;
 }
 
+
+.terms {
+  appearance: none;
+  -webkit-appearance: none;
+
+  width: 22px;
+  height: 22px;
+  border: 1px solid #131314;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.terms:checked {
+  border: 1px solid #131314;
+  background-color: #131314;
+}
+
+.terms:checked::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.haveAccount  p a {
+  color: var(--btn-color);
+}
+.login-button-container p {
+  margin-top: 18px;
+}
+
+.dd {
+  margin-top: 76px;
+}
 @media screen and (max-width: 1440px) {
   .faq-image {
     position: absolute;
@@ -1941,7 +1980,6 @@ label {
   .faq-ul li {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 20px;
     gap: 10px;
     min-height: 70px;
@@ -3458,6 +3496,16 @@ label {
   .signUp-container {
     height: unset;
   }
+
+  .login-right {
+    padding: 0px 20px;
+  }
+  .login-button-container p {
+    margin-top: 20px;
+  }
+  .login-button-container p a {
+    color: var(--btn-color);
+  }
 }
 
 @media screen and (max-width: 500px) {
@@ -3507,7 +3555,7 @@ label {
     opacity: 0.4;
     filter: blur(37.3264px);
   }
-  
+
   .footer-bottom {
     z-index: 100;
   }
