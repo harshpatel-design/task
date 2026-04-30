@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Finder App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" type="image/png" href="fevi.png">
+</head>
+
+<body>
+    <div class="sidebar">
+
+        <div>
+            <div class="logo">
+                <div class="logo-icon">👨‍🍳</div>
+                <h2>Recipe Find</h2>
+            </div>
+
+            <div class="menu">
+                <div class="menu-item" id="menu-item">📄 Saved Recipes</div>
+            </div>
+        </div>
+
+        <div class="bottom">
+            <div class="profile">
+                <div class="email" id="name">Your Name</div>
+            </div>
+            <div class="profile">
+                <div class="email" id="logout">Log out</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div class="header">
+            <h2>Discover Recipes</h2>
+            <p>Select ingredients to find matching recipes</p>
+        </div>
+
+        <div class="ingredient-box con-box">
+            <button id="show-ind">Fillter by Ingrident</button>
+            
+           <div class="div" id="div">
+            <h3>Select Your Ingredients</h3>
+            <p>Choose ingredients you have available or add custom ones</p>
+
+            <div class="input-group">
+                <input type="text" id="ingredientInput" placeholder="Add more ingredients..." />
+            </div>
+
+             <div id="selectedTags" class="selected-tags"></div>
+            <div class="devider"></div>
+
+            <div class="tags" id="tagsContainer"></div>
+            <button id="showMoreBtn">Show More</button>
+            <button id="resetBtn">Reset</button>
+           </div>
+
+            <div class="modal" id="modal">
+                <div class="modal-content">
+                    <h3>All Ingredients</h3>
+                    <div>
+                        <input type="text" id="allIngredientInput" class="inputAll"
+                            placeholder="Add more ingredients..." />
+                    </div>
+                    <div class="modal-tags" id="modalTags"></div>
+                    <button class="closebtn" onclick="closeModal()">Close</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="recipes-header con-box">
+            <h2>All Recipes</h2>
+        </div>
+
+        <div class="recipes-header recipes-header-2 con-box">
+            <input type="text" id="recipeInputSearch" placeholder="Search recipe by name and tag">
+        </div>
+
+        <div class="recipes con-box"></div>
+
+        <div id="savedModal" class="con-box">
+            <div class="modal-content  con-box">
+                <h2>Saved Recipes</h2>
+
+                <div id="savedRecipesContainer"></div>
+
+                <button id="closeSavedBtn" class="closebtn">Close</button>
+            </div>
+        </div>
+
+        <div class="login" id="login">
+            <div class="login-form">
+                <h1>Your Name</h1>
+                <div class="input-btn">
+                    <input type="text" placeholder="Enter Your name.." id="loginInput">
+                    <button id="confirm">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
