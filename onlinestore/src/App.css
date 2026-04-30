@@ -1,0 +1,195 @@
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0px 2%;
+}
+
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100px;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  gap: 10px;
+  font-size: 20px;
+}
+
+.navLinks li {
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  cursor: pointer;
+}
+
+.navLinks  button{
+  height: 100%;
+  width: 80px;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 0px;
+}
+.searchBar input {
+  padding: 10px 5px;
+  width: 320px;
+  outline: none;
+  border: 1px solid black;
+  border-radius: 5px;
+  height: 40px;
+}
+
+.searchBar button {
+  height: 40px;
+  padding: 0px 20px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.restaurantsContainer {
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  gap: 30px;
+  margin: 20px 0px 30px;
+}
+
+.heading {
+  padding-top: 20px;
+}
+
+.restaurantsContainer .card {
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+  overflow: hidden;
+  cursor: pointer;
+
+}
+
+.noData {
+  display: block !important;
+  width: 100% !important;
+}
+
+.restaurantsContainer .card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.restaurantsContainer .card .cardDetails {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.restaurantsContainer .card .cardDetails h3 {
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.restaurantsContainer .card .cardDetails p {
+  font-size: 14px;
+}
+
+.restaurantsContainer .card .cardDetails h4 {
+  font-size: 16px;
+}
+
+
+
+.itemCard {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.itemImage {
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  justify-content: center;
+}
+.itemImage img {
+  width: 270px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.itemDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.itemDetails h3 {
+  font-size: 30px;
+}
+
+.itemDetails p {
+  font-size: 22px !important;
+}
+
+.itemDetails h4 {
+  font-size: 20px !important;
+}
+
+.groupItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 0px;
+}
+.groupItem ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 18px;
+}
+
+.itemCard2 {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.itemCard2 img {
+  width: 270px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.inside {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 20px !important;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
