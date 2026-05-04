@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
 import Heding from "./components/Heding";
 import QuestionBox from "./components/QuestionBox";
 import QuestionPreview from "./components/QuestionPreview";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const navigate = useNavigate();
+  const [form, setForm] = useState("");
+  const [fromDiscription, setFromDiscription] = useState("");
   const [questions, setQuestions] = useState([
     {
       id: Date.now(),
@@ -150,14 +152,21 @@ function App() {
     setActiveQuestion((prev) => [...prev, newQ]);
   };
 
+  console.log(form);
+  
   return (
     <div className="App">
       <div className="countainer">
-        <Heding />
+        <Heding
+          fromDiscription={fromDiscription}
+          setFromDiscription={setFromDiscription}
+          form={form}
+          setForm={setForm}
+        />
         <div className="PreviewButton">
-          <button 
+          <button
             onClick={() => {
-              navigate('/preview', { state: { activeQuestion } });
+              navigate("/preview", { state: { activeQuestion,form,fromDiscription } });
             }}
           >
             Preview

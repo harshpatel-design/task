@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 
-function Heding() {
-  const [form, setForm] = useState("");
-  const [fromDiscription, setFromDiscription] = useState("");
+function Heding({form, setForm, fromDiscription, setFromDiscription}) {
   const [activeField, setActiveField] = useState(null);
   const [titleStyle, setTitleStyle] = useState({
     bold: false,

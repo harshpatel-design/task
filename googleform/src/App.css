@@ -968,3 +968,16 @@ select:focus {
   color: #5f6368;
   font-size: 16px;
 }
+
+.PreviewHeading {
+ align-items: stretch;
+  padding: 20px;
+  color: #5f6368;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  min-height: 120px;
+}
+

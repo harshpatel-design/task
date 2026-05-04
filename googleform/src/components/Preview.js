@@ -5,26 +5,30 @@ import PreviewAnswer from "./PreviewAnswer";
 function Preview() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { activeQuestion } = location.state || {};
+  const { activeQuestion, form, fromDiscription } = location.state || [];
+  console.log("active", activeQuestion);
 
   const handleBack = () => {
-    navigate('/', { state: { returnQuestions: activeQuestion } });
+    navigate("/", { state: { returnQuestions: activeQuestion } });
   };
 
   return (
     <>
       <div className="countainer">
-        <h1 className="heading">Preview</h1>
+        <div className="heading PreviewHeading">
+          <h1 className="">{form.length > 0 ? form : "Untitled form"}</h1>
+          <p>{fromDiscription.length > 0 ? fromDiscription : "Description"}</p>
+        </div>
         <div className="BackCon">
-          <button onClick={handleBack}>
-            Back to Form
-          </button>
+          <button onClick={handleBack}>Back to Form</button>
         </div>
         <div>
           {activeQuestion && activeQuestion.length > 0 ? (
             <PreviewAnswer q={activeQuestion} />
           ) : (
-            <p className="noQuestion">No questions to preview. Please add questions first.</p>
+            <p className="noQuestion">
+              No questions to preview. Please add questions first.
+            </p>
           )}
         </div>
       </div>
