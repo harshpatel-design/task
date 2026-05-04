@@ -1,23 +1,15 @@
 import React, { useState } from "react";
-import QuestionBox from "./QuestionBox";
 
-const QuestionPreview = ({
-  q,
-  setQuestions,
-  questions,
-  updateOption,
-  deleteOption,
-  addOption,
-  handleCopyQuestion,
-  handleAddQuestion,
-  editQ,
-  setEditQ,
-  setActiveQuestion,
-  activeQuestion,
-}) => {
-  const [isedit, setIsedit] = useState(false);
-
+const PreviewAnswer = ({ q }) => {
+  const [ratings, setRatings] = useState({});
   if (!q || q.length === 0) return null;
+
+  const handleRatingChange = (questionId, ratingValue) => {
+    setRatings((prev) => ({
+      ...prev,
+      [questionId]: ratingValue,
+    }));
+  };
 
   const getEmptyIcon = (icon) => {
     switch (icon) {
@@ -32,89 +24,52 @@ const QuestionPreview = ({
     }
   };
 
-  const handleEdit = (q) => {
-    setEditQ(q);
-    setIsedit(true);
-  };
-
-  const handleConfirmEdit = () => {
-    if (!editQ) return;
-
-    setQuestions((prev) => {
-      const index = prev.findIndex((q) => q.id === editQ.id);
-      if (index === -1) return prev;
-
-      const updated = [...prev];
-      updated[index] = editQ;
-      return updated;
-    });
-
-    setActiveQuestion((prev) =>
-      prev.map((q) => (q.id === editQ.id ? editQ : q)),
-    );
-
-    setIsedit(false);
-  };
   return (
     <div className="previewContainer">
-      {q.map((item) => {
+      {q.map((item,i) => {
         const type = item.type;
-
-        if (isedit && editQ?.id === item.id) {
-          return (
-            <QuestionBox
-              key={item.id}
-              q={editQ}
-              editQ={editQ}
-              setEditQ={setEditQ}
-              setQuestions={setQuestions}
-              questions={questions}
-              updateOption={updateOption}
-              deleteOption={deleteOption}
-              addOption={addOption}
-              handleCopyQuestion={handleCopyQuestion}
-              handleAddQuestion={handleAddQuestion}
-              isEditMode={isedit && editQ?.id === item.id}
-              onConfirm={handleConfirmEdit}
-              setActiveQuestion={setActiveQuestion}
-              activeQuestion={activeQuestion}
-              
-            />
-          );
-        }
-
         return (
-          <div
-            key={item.id}
-            className="previewBox"
-            onClick={() => handleEdit(item)}
-          >
+          <div key={i} className="previewBox previewAnswer">
             <h3>{item.question || "Untitled Question"}</h3>
 
             {type === "Short answer" && (
-              <input type="text" disabled placeholder="Short answer text" />
+              <input type="text" style={{ width: "100%" , fontSize: "16px"}} placeholder="Short answer text" />
             )}
 
             {type === "Paragraph" && (
-              <textarea disabled placeholder="Long answer text" />
+              <textarea style={{ width: "100%" , fontSize: "16px"}} placeholder="Long answer text" />
             )}
 
             {type === "Multiple choice" &&
               (item.options || []).map((opt, i) => (
                 <div key={i} className="PreQuestionChoice">
-                  <input type="radio" disabled /> {opt}
+                  <label style={{ cursor: "pointer" }}>
+                    <input
+                      type="radio"
+                      name={item.id}
+                      style={{ cursor: "pointer" }}
+                    />{" "}
+                    {opt}
+                  </label>
                 </div>
               ))}
 
             {type === "Checkboxes" &&
               (item.options || []).map((opt, i) => (
-                <div key={i} className="checkBoxOption">
-                  <input type="checkbox" disabled /> {opt}
+                <div key={i} className="checkBoxOption PreQuestionChoice">
+                  <label style={{ cursor: "pointer" }}>
+                    <input
+                      type="checkbox"
+                      name={item.id}
+                      style={{ cursor: "pointer" }}
+                    />{" "}
+                    {opt}
+                  </label>
                 </div>
               ))}
 
             {type === "Drop-down" && (
-              <select disabled>
+              <select name={item.id} style={{ cursor: "pointer", fontSize: "16px" }}>
                 {(item.options || []).map((opt, i) => (
                   <option key={i}>{opt}</option>
                 ))}
@@ -141,7 +96,12 @@ const QuestionPreview = ({
                             type={
                               type === "Tick box grid" ? "checkbox" : "radio"
                             }
-                            disabled
+                            name={
+                              type === "Tick box grid"
+                                ? `${item.id}_${i}_${j}`
+                                : `${item.id}_row_${i}`
+                            }
+                            style={{ cursor: "pointer", fontSize: "16px" }}
                           />
                         </td>
                       ))}
@@ -154,14 +114,25 @@ const QuestionPreview = ({
             {type === "Rating" && (
               <div className="ratingContainer">
                 <div className="ratingScale">
-                  {[...Array(item.ratingCount || 5)].map((_, i) => (
-                    <div key={i} className="ratingItem">
-                      <span className="ratingNumber">{i + 1}</span>
-                      <span className="ratingIcon">
-                        {getEmptyIcon(item.ratingIcon)}
-                      </span>
-                    </div>
-                  ))}
+                  {[...Array(item.ratingCount || 5)].map((_, i) => {
+                    const currentRating = ratings[item.id] || 0;
+                    const ratingIcon = item.ratingIcon || "⭐";
+                    const isFilled = i < currentRating;
+
+                    return (
+                      <div
+                        key={i}
+                        className="ratingItem"
+                        onClick={() => handleRatingChange(item.id, i + 1)}
+                        style={{ cursor: "pointer", fontSize: "16px" }}
+                      >
+                        <span className="ratingNumber">{i + 1}</span>
+                        <span className="ratingIcon">
+                          {isFilled ? ratingIcon : getEmptyIcon(ratingIcon)}
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -178,7 +149,12 @@ const QuestionPreview = ({
 
                   <div className="linearRow">
                     {[...Array(item.scaleEnd || 5)].map((_, i) => (
-                      <input key={i} type="radio" disabled />
+                      <input
+                        key={i}
+                        type="radio"
+                        name={`${item.id}`}
+                        style={{ cursor: "pointer", fontSize: "16px" }}
+                      />
                     ))}
                   </div>
                 </div>
@@ -187,8 +163,8 @@ const QuestionPreview = ({
               </div>
             )}
 
-            {type === "Date" && <input type="date" disabled />}
-            {type === "Time" && <input type="time" disabled />}
+            {type === "Date" && <input type="date" />}
+            {type === "Time" && <input type="time" />}
           </div>
         );
       })}
@@ -196,4 +172,4 @@ const QuestionPreview = ({
   );
 };
 
-export default QuestionPreview;
+export default PreviewAnswer;

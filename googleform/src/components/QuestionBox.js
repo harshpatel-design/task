@@ -14,9 +14,7 @@ const QuestionBox = ({
   setEditQ,
   isEditMode,
   onConfirm,
-  activeQuestion,
   setActiveQuestion,
-  questionLength,
   setQuestionLength,
 }) => {
   const [ques, setQues] = useState("");

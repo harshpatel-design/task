@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import Heding from "./components/Heding";
 import QuestionBox from "./components/QuestionBox";
 import QuestionPreview from "./components/QuestionPreview";
+import { Link, useNavigate } from "react-router-dom";
 
 function App() {
+  const navigate = useNavigate();
   const [questions, setQuestions] = useState([
     {
       id: Date.now(),
@@ -152,6 +154,15 @@ function App() {
     <div className="App">
       <div className="countainer">
         <Heding />
+        <div className="PreviewButton">
+          <button 
+            onClick={() => {
+              navigate('/preview', { state: { activeQuestion } });
+            }}
+          >
+            Preview
+          </button>
+        </div>
         {!questionLength && (
           <div className="emptyState">
             <button
