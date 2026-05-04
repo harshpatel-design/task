@@ -110,7 +110,6 @@ const QuestionBox = ({
       });
 
       setEditQ(null);
-      console.log("harsh");
     } else {
       setQuestions((prev) => {
         const index = prev.findIndex((item) => item.id === q.id);

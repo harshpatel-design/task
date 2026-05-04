@@ -103,7 +103,7 @@ const QuestionPreview = ({
 
             {type === "Multiple choice" &&
               (item.options || []).map((opt, i) => (
-                <div key={i}>
+                <div key={i} className="PreQuestionChoice">
                   <input type="radio" disabled /> {opt}
                 </div>
               ))}

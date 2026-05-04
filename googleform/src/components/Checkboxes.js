@@ -5,8 +5,6 @@ const Checkboxes = ({
   addOption,
   handleCopyQuestion,
 }) => {
-  console.log("q", q);
-
   return (
     <>
       {q.options.map((opt, i) => (

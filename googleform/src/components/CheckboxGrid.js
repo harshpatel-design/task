@@ -103,8 +103,7 @@ const CheckboxGrid = ({
   };
 
   const handleDeleteCol = (index) => {
-    console.log("harsh");
-
+  
     if (isEditMode) {
       setEditQ((prev) => ({
         ...prev,
@@ -174,11 +173,7 @@ const CheckboxGrid = ({
           <button onClick={handleAddCol}>Add column</button>
         </div>
       </div>
-      <div className="footerBtn">
-        <button className="btn copy" onClick={() => handleCopyQuestion(q)}>
-          Copy
-        </button>
-      </div>
+     
     </div>
   );
 };

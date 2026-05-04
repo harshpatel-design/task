@@ -30,9 +30,7 @@ const Dropdown = ({
         <button className="btn add" onClick={() => addOption(q.id)}>
           Add Option
         </button>
-        <button className="btn copy" onClick={() => handleCopyQuestion(q)}>
-          Copy
-        </button>
+        
       </div>
     </>
   );

@@ -65,11 +65,7 @@ const LinearScale = ({
           />
         </div>
       </div>
-      <div className="footerBtn">
-        <button className="btn copy" onClick={() => handleCopyQuestion(q)}>
-          Copy
-        </button>
-      </div>
+      
     </div>
   );
 };

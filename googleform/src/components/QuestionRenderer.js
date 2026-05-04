@@ -113,11 +113,6 @@ function QuestionRenderer({
       return (
         <>
           <input type="date" className="date" disabled />
-          <div className="footerBtn">
-            <button className="btn copy" onClick={() => handleCopyQuestion(q)}>
-              Copy
-            </button>
-          </div>
         </>
       );
 
@@ -125,11 +120,7 @@ function QuestionRenderer({
       return (
         <>
           <input type="time" className="time" disabled />
-          <div className="footerBtn">
-            <button className="btn copy" onClick={() => handleCopyQuestion(q)}>
-              Copy
-            </button>
-          </div>
+        
         </>
       );
 

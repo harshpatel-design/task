@@ -1,7 +1,6 @@
  .countainer {
    display: flex;
    justify-content: center;
-   align-items: center;
    flex-direction: column;
    padding: 20px;
    width: 50%;
@@ -16,8 +15,8 @@
 .toolbar button {
   margin-right: 8px;
   padding: 5px 10px;
-  width: 4%;
   height: 30px;
+  width: 30px;
   cursor: pointer;
   font-weight: 700;
   border: 1px solid #8c8c8c52;
@@ -734,4 +733,11 @@ select:focus {
   cursor: pointer;
   font-weight: 700;
   cursor: pointer;
+}
+
+.PreQuestionChoice {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }

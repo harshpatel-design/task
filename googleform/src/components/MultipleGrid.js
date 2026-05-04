@@ -103,8 +103,6 @@ const MultipleGrid = ({
   };
 
   const handleDeleteCol = (index) => {
-    console.log("harsh");
-
     if (isEditMode) {
       setEditQ((prev) => ({
         ...prev,
@@ -175,11 +173,7 @@ const MultipleGrid = ({
         </div>
       </div>
 
-      <div className="footerBtn">
-        <button className="btn copy" onClick={() => handleCopyQuestion(q)}>
-          Copy
-        </button>
-      </div>
+      
     </div>
   );
 };
