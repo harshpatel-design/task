@@ -76,6 +76,56 @@ const QuestionBox = ({
     }
   };
 
+  const handleUpdateOption = (qid, index, value) => {
+    if (isEditMode) {
+      setEditQ((prev) => {
+        if (prev && prev.id === qid) {
+          return {
+            ...prev,
+            options: (prev.options || []).map((opt, i) =>
+              i === index ? value : opt,
+            ),
+          };
+        }
+        return prev;
+      });
+    } else {
+      updateOption(qid, index, value);
+    }
+  };
+
+  const handleDeleteOption = (qid, index) => {
+    if (isEditMode) {
+      setEditQ((prev) => {
+        if (prev && prev.id === qid) {
+          return {
+            ...prev,
+            options: (prev.options || []).filter((_, i) => i !== index),
+          };
+        }
+        return prev;
+      });
+    } else {
+      deleteOption(qid, index);
+    }
+  };
+
+  const handleAddOption = (qid) => {
+    if (isEditMode) {
+      setEditQ((prev) => {
+        if (prev && prev.id === qid) {
+          return {
+            ...prev,
+            options: [...(prev.options || []), `Option ${(prev.options || []).length + 1}`],
+          };
+        }
+        return prev;
+      });
+    } else {
+      addOption(qid);
+    }
+  };
+
   const questionTypes = [
     "Short answer",
     "Paragraph",
@@ -148,12 +198,12 @@ const QuestionBox = ({
         </div>
 
         <QuestionRenderer
-          q={q}
+          q={isEditMode ? editQ : q}
           setQuestions={setQuestions}
           questions={questions}
-          updateOption={updateOption}
-          deleteOption={deleteOption}
-          addOption={addOption}
+          updateOption={handleUpdateOption}
+          deleteOption={handleDeleteOption}
+          addOption={handleAddOption}
           handleCopyQuestion={handleCopyQuestion}
           isEditMode={isEditMode}
           setEditQ={setEditQ}
