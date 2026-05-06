@@ -1,25 +1,30 @@
-const MultipleGrid = ({
-  q,
-  setQuestions,
-  questions,
-  handleCopyQuestion,
-  isEditMode,
-  setEditQ,
-}) => {
+import { useSelector, useDispatch } from "react-redux";
+import { setQuestions, setEditQ } from "../redux/questionSlice";
+
+const MultipleGrid = ({ q, isEditMode }) => {
+  const dispatch = useDispatch();
+  const { questions, editQ } = useSelector((state) => state.questions);
+
   const handleRowChange = (i, value) => {
     if (isEditMode) {
-      setEditQ((prev) => {
-        const newRows = [...(prev.rows || ["Row 1"])];
-        newRows[i] = value;
-        return { ...prev, rows: newRows };
-      });
+      const newRows = [...(editQ?.rows || ["Row 1"])];
+      newRows[i] = value;
+
+      dispatch(
+        setEditQ({
+          ...editQ,
+          rows: newRows,
+        }),
+      );
     } else {
       const newRows = [...(q.rows || ["Row 1"])];
       newRows[i] = value;
 
-      setQuestions(
-        questions.map((item) =>
-          item.id === q.id ? { ...item, rows: newRows } : item,
+      dispatch(
+        setQuestions(
+          questions.map((item) =>
+            item.id === q.id ? { ...item, rows: newRows } : item,
+          ),
         ),
       );
     }
@@ -27,20 +32,24 @@ const MultipleGrid = ({
 
   const handleAddRow = () => {
     if (isEditMode) {
-      setEditQ((prev) => {
-        const currentRows = prev.rows || ["Row 1"];
-        return {
-          ...prev,
+      const currentRows = editQ?.rows || ["Row 1"];
+
+      dispatch(
+        setEditQ({
+          ...editQ,
           rows: [...currentRows, `Row ${currentRows.length + 1}`],
-        };
-      });
+        }),
+      );
     } else {
       const currentRows = q.rows || ["Row 1"];
+
       const newRows = [...currentRows, `Row ${currentRows.length + 1}`];
 
-      setQuestions(
-        questions.map((item) =>
-          item.id === q.id ? { ...item, rows: newRows } : item,
+      dispatch(
+        setQuestions(
+          questions.map((item) =>
+            item.id === q.id ? { ...item, rows: newRows } : item,
+          ),
         ),
       );
     }
@@ -48,38 +57,49 @@ const MultipleGrid = ({
 
   const handleColChange = (i, value) => {
     if (isEditMode) {
-      setEditQ((prev) => {
-        const newCols = [...(prev.cols || ["Column 1"])];
-        newCols[i] = value;
-        return { ...prev, cols: newCols };
-      });
+      const newCols = [...(editQ?.cols || ["Column 1"])];
+      newCols[i] = value;
+
+      dispatch(
+        setEditQ({
+          ...editQ,
+          cols: newCols,
+        }),
+      );
     } else {
       const newCols = [...(q.cols || ["Column 1"])];
       newCols[i] = value;
 
-      setQuestions(
-        questions.map((item) =>
-          item.id === q.id ? { ...item, cols: newCols } : item,
+      dispatch(
+        setQuestions(
+          questions.map((item) =>
+            item.id === q.id ? { ...item, cols: newCols } : item,
+          ),
         ),
       );
     }
   };
+
   const handleAddCol = () => {
     if (isEditMode) {
-      setEditQ((prev) => {
-        const currentCols = prev.cols || ["Column 1"];
-        return {
-          ...prev,
+      const currentCols = editQ?.cols || ["Column 1"];
+
+      dispatch(
+        setEditQ({
+          ...editQ,
           cols: [...currentCols, `Column ${currentCols.length + 1}`],
-        };
-      });
+        }),
+      );
     } else {
       const currentCols = q.cols || ["Column 1"];
+
       const newCols = [...currentCols, `Column ${currentCols.length + 1}`];
 
-      setQuestions(
-        questions.map((item) =>
-          item.id === q.id ? { ...item, cols: newCols } : item,
+      dispatch(
+        setQuestions(
+          questions.map((item) =>
+            item.id === q.id ? { ...item, cols: newCols } : item,
+          ),
         ),
       );
     }
@@ -87,16 +107,20 @@ const MultipleGrid = ({
 
   const handleDeleteRow = (index) => {
     if (isEditMode) {
-      setEditQ((prev) => ({
-        ...prev,
-        rows: (prev.rows || []).filter((_, i) => i !== index),
-      }));
+      dispatch(
+        setEditQ({
+          ...editQ,
+          rows: (editQ?.rows || []).filter((_, i) => i !== index),
+        }),
+      );
     } else {
       const newRows = (q.rows || []).filter((_, i) => i !== index);
 
-      setQuestions((prev) =>
-        prev.map((item) =>
-          item.id === q.id ? { ...item, rows: newRows } : item,
+      dispatch(
+        setQuestions(
+          questions.map((item) =>
+            item.id === q.id ? { ...item, rows: newRows } : item,
+          ),
         ),
       );
     }
@@ -104,16 +128,20 @@ const MultipleGrid = ({
 
   const handleDeleteCol = (index) => {
     if (isEditMode) {
-      setEditQ((prev) => ({
-        ...prev,
-        cols: (prev.cols || []).filter((_, i) => i !== index),
-      }));
+      dispatch(
+        setEditQ({
+          ...editQ,
+          cols: (editQ?.cols || []).filter((_, i) => i !== index),
+        }),
+      );
     } else {
       const newCols = (q.cols || []).filter((_, i) => i !== index);
 
-      setQuestions((prev) =>
-        prev.map((item) =>
-          item.id === q.id ? { ...item, cols: newCols } : item,
+      dispatch(
+        setQuestions(
+          questions.map((item) =>
+            item.id === q.id ? { ...item, cols: newCols } : item,
+          ),
         ),
       );
     }
@@ -172,8 +200,6 @@ const MultipleGrid = ({
           <button onClick={handleAddCol}>Add column</button>
         </div>
       </div>
-
-      
     </div>
   );
 };

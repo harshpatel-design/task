@@ -3,7 +3,6 @@ const Checkboxes = ({
   updateOption,
   deleteOption,
   addOption,
-  handleCopyQuestion,
 }) => {
   return (
     <>

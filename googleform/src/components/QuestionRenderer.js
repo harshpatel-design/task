@@ -13,22 +13,19 @@ function QuestionRenderer({
   updateOption,
   deleteOption,
   addOption,
-  setQuestions,
-  questions,
-  handleCopyQuestion,
   isEditMode,
-  setEditQ,
 }) {
+
   if (!q) return null;
 
   const type = q.type?.toLowerCase();
 
   switch (type) {
     case "short answer":
-      return <ShortAnswer q={q} handleCopyQuestion={handleCopyQuestion} />;
+      return <ShortAnswer />;
 
     case "paragraph":
-      return <Paragraph q={q} handleCopyQuestion={handleCopyQuestion} />;
+      return <Paragraph />;
 
     case "multiple choice":
       return (
@@ -37,7 +34,6 @@ function QuestionRenderer({
           updateOption={updateOption}
           deleteOption={deleteOption}
           addOption={addOption}
-          handleCopyQuestion={handleCopyQuestion}
         />
       );
 
@@ -48,7 +44,6 @@ function QuestionRenderer({
           updateOption={updateOption}
           deleteOption={deleteOption}
           addOption={addOption}
-          handleCopyQuestion={handleCopyQuestion}
         />
       );
 
@@ -59,55 +54,20 @@ function QuestionRenderer({
           updateOption={updateOption}
           deleteOption={deleteOption}
           addOption={addOption}
-          handleCopyQuestion={handleCopyQuestion}
         />
       );
 
     case "multiple-choice grid":
-      return (
-        <MultipleGrid
-          q={q}
-          setQuestions={setQuestions}
-          questions={questions}
-          handleCopyQuestion={handleCopyQuestion}
-          isEditMode={isEditMode}
-          setEditQ={setEditQ}
-        />
-      );
+      return <MultipleGrid q={q} isEditMode={isEditMode} />;
 
     case "tick box grid":
-      return (
-        <CheckboxGrid
-          q={q}
-          setQuestions={setQuestions}
-          questions={questions}
-          handleCopyQuestion={handleCopyQuestion}
-          isEditMode={isEditMode}
-          setEditQ={setEditQ}
-        />
-      );
+      return <CheckboxGrid q={q} isEditMode={isEditMode} />;
 
     case "rating":
-      return (
-        <Rating
-          q={q}
-          setQuestions={setQuestions}
-          handleCopyQuestion={handleCopyQuestion}
-           isEditMode={isEditMode}
-          setEditQ={setEditQ}
-        />
-      );
+      return <Rating q={q} isEditMode={isEditMode} />;
 
     case "linear scale":
-      return (
-        <LinearScale
-          q={q}
-          setQuestions={setQuestions}
-          handleCopyQuestion={handleCopyQuestion}
-           isEditMode={isEditMode}
-          setEditQ={setEditQ}
-        />
-      );
+      return <LinearScale q={q} isEditMode={isEditMode} />;
 
     case "date":
       return (
@@ -120,7 +80,6 @@ function QuestionRenderer({
       return (
         <>
           <input type="time" className="time" disabled />
-        
         </>
       );
 

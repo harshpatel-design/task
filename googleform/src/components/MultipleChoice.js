@@ -5,7 +5,6 @@ const MultipleChoice = ({
   updateOption,
   deleteOption,
   addOption,
-  handleCopyQuestion,
 }) => {
   return (
     <>

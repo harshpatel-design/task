@@ -1,6 +1,6 @@
 import React from "react";
 
-function ShortAnswer({ q, handleCopyQuestion }) {
+function ShortAnswer() {
   return (
     <>
       <input type="text" disabled placeholder="Short answer text" />

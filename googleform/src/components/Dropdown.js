@@ -3,7 +3,6 @@ const Dropdown = ({
   updateOption,
   deleteOption,
   addOption,
-  handleCopyQuestion,
 }) => {
   return (
     <>

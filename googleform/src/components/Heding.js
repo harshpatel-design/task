@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setForm,
+  setFormDescription,
+  setActiveField,
+  setTitleStyle,
+  setDescStyle,
+} from "../redux/questionSlice";
 
-function Heding({form, setForm, fromDiscription, setFromDiscription}) {
-  const [activeField, setActiveField] = useState(null);
-  const [titleStyle, setTitleStyle] = useState({
-    bold: false,
-    italic: false,
-    underline: false,
-  });
+function Heding() {
+  const dispatch = useDispatch();
+  const { form, formDescription, activeField, titleStyle, descStyle } =
+    useSelector((state) => state.questions);
 
-  const [descStyle, setDescStyle] = useState({
-    bold: false,
-    italic: false,
-    underline: false,
-  });
   return (
     <>
       <div
@@ -26,8 +26,8 @@ function Heding({form, setForm, fromDiscription, setFromDiscription}) {
     ${titleStyle.underline ? "underline-active" : ""}`}
           placeholder="Untitled form"
           value={form}
-          onFocus={() => setActiveField("title")}
-          onChange={(e) => setForm(e.target.value)}
+          onFocus={() => dispatch(setActiveField("title"))}
+          onChange={(e) => dispatch(setForm(e.target.value))}
         />
 
         {activeField === "title" && (
@@ -35,7 +35,12 @@ function Heding({form, setForm, fromDiscription, setFromDiscription}) {
             <button
               className={titleStyle.bold ? "active" : ""}
               onMouseDown={() =>
-                setTitleStyle({ ...titleStyle, bold: !titleStyle.bold })
+                dispatch(
+                  setTitleStyle({
+                    ...titleStyle,
+                    bold: !titleStyle.bold,
+                  }),
+                )
               }
             >
               B
@@ -43,7 +48,12 @@ function Heding({form, setForm, fromDiscription, setFromDiscription}) {
             <button
               className={titleStyle.italic ? "active" : ""}
               onMouseDown={() =>
-                setTitleStyle({ ...titleStyle, italic: !titleStyle.italic })
+                dispatch(
+                  setTitleStyle({
+                    ...titleStyle,
+                    italic: !titleStyle.italic,
+                  }),
+                )
               }
             >
               I
@@ -51,17 +61,19 @@ function Heding({form, setForm, fromDiscription, setFromDiscription}) {
             <button
               className={titleStyle.underline ? "active" : ""}
               onMouseDown={() =>
-                setTitleStyle({
-                  ...titleStyle,
-                  underline: !titleStyle.underline,
-                })
+                dispatch(
+                  setTitleStyle({
+                    ...titleStyle,
+                    underline: !titleStyle.underline,
+                  }),
+                )
               }
             >
               U
             </button>
             <button
               className="close-btn"
-              onMouseDown={() => setActiveField(null)}
+              onMouseDown={() => dispatch(setActiveField(null))}
             >
               ✖
             </button>
@@ -74,9 +86,9 @@ function Heding({form, setForm, fromDiscription, setFromDiscription}) {
     ${descStyle.italic ? "italic-active" : ""} 
     ${descStyle.underline ? "underline-active" : ""}`}
           placeholder="form discription"
-          value={fromDiscription}
-          onFocus={() => setActiveField("descriptions")}
-          onChange={(e) => setFromDiscription(e.target.value)}
+          value={formDescription}
+          onFocus={() => dispatch(setActiveField("descriptions"))}
+          onChange={(e) => dispatch(setFormDescription(e.target.value))}
         />
 
         {activeField === "descriptions" && (
@@ -84,7 +96,7 @@ function Heding({form, setForm, fromDiscription, setFromDiscription}) {
             <button
               className={descStyle.bold ? "active" : ""}
               onMouseDown={() =>
-                setDescStyle({ ...descStyle, bold: !descStyle.bold })
+                dispatch(setDescStyle({ ...descStyle, bold: !descStyle.bold }))
               }
             >
               B
@@ -92,7 +104,9 @@ function Heding({form, setForm, fromDiscription, setFromDiscription}) {
             <button
               className={descStyle.italic ? "active" : ""}
               onMouseDown={() =>
-                setDescStyle({ ...descStyle, italic: !descStyle.italic })
+                dispatch(
+                  setDescStyle({ ...descStyle, italic: !descStyle.italic }),
+                )
               }
             >
               I
@@ -100,14 +114,19 @@ function Heding({form, setForm, fromDiscription, setFromDiscription}) {
             <button
               className={descStyle.underline ? "active" : ""}
               onMouseDown={() =>
-                setDescStyle({ ...descStyle, underline: !descStyle.underline })
+                dispatch(
+                  setDescStyle({
+                    ...descStyle,
+                    underline: !descStyle.underline,
+                  }),
+                )
               }
             >
               U
             </button>
             <button
               className="close-btn"
-              onMouseDown={() => setActiveField(null)}
+              onMouseDown={() => dispatch(setActiveField(null))}
             >
               ✖
             </button>

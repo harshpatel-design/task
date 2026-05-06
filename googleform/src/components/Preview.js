@@ -1,27 +1,51 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PreviewAnswer from "./PreviewAnswer";
+import { useSelector } from "react-redux";
 
 function Preview() {
-  const location = useLocation();
+  const { form, activeQuestion, formDescription, titleStyle, descStyle } =
+    useSelector((state) => state.questions);
+
   const navigate = useNavigate();
-  const { activeQuestion, form, fromDiscription } = location.state || [];
-  console.log("active", activeQuestion);
 
   const handleBack = () => {
-    navigate("/", { state: { returnQuestions: activeQuestion } });
+    navigate("/", {
+      state: {
+        returnQuestions: activeQuestion,
+      },
+    });
   };
 
   return (
     <>
       <div className="countainer">
         <div className="heading PreviewHeading">
-          <h1 className="">{form.length > 0 ? form : "Untitled form"}</h1>
-          <p>{fromDiscription.length > 0 ? fromDiscription : "Description"}</p>
+          <h1
+            className={`
+              ${titleStyle.bold ? "bold-active" : ""}
+              ${titleStyle.italic ? "italic-active" : ""}
+              ${titleStyle.underline ? "underline-active" : ""}
+            `}
+          >
+            {form?.length > 0 ? form : "Untitled form"}
+          </h1>
+
+          <p
+            className={`
+              ${descStyle.bold ? "bold-active" : ""}
+              ${descStyle.italic ? "italic-active" : ""}
+              ${descStyle.underline ? "underline-active" : ""}
+            `}
+          >
+            {formDescription?.length > 0 ? formDescription : "Form Description"}
+          </p>
         </div>
+
         <div className="BackCon">
           <button onClick={handleBack}>Back to Form</button>
         </div>
+
         <div>
           {activeQuestion && activeQuestion.length > 0 ? (
             <PreviewAnswer q={activeQuestion} />

@@ -1,5 +1,5 @@
 import React from "react";
-const Paragraph = ({ q, handleCopyQuestion }) => {
+const Paragraph = () => {
   return (
     <>
       <textarea className="textBox" disabled placeholder="Long answer text" />

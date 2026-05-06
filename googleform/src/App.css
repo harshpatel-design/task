@@ -977,7 +977,7 @@ select:focus {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 5px;
+  gap: 10px;
   min-height: 120px;
 }
 

@@ -1,26 +1,22 @@
-import { useState } from "react";
 import "./App.css";
 import Heding from "./components/Heding";
 import QuestionBox from "./components/QuestionBox";
 import QuestionPreview from "./components/QuestionPreview";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setQuestions,
+  setActiveQuestion,
+  setEditQ,
+  setQuestionLength,
+} from "./redux/questionSlice";
 
 function App() {
   const navigate = useNavigate();
-  const [form, setForm] = useState("");
-  const [fromDiscription, setFromDiscription] = useState("");
-  const [questions, setQuestions] = useState([
-    {
-      id: Date.now(),
-      question: "",
-      type: "Short answer",
-      options: [],
-    },
-  ]);
-  const [activeQuestion, setActiveQuestion] = useState([]);
-  const [editQ, setEditQ] = useState(null);
-
-  const [questionLength, setQuestionLength] = useState(true);
+  const dispatch = useDispatch();
+  const { questions, activeQuestion, editQ, questionLength } = useSelector(
+    (state) => state.questions,
+  );
 
   const createQuestionByType = (type) => {
     const safeType = typeof type === "string" ? type : "Short answer";
@@ -57,116 +53,123 @@ function App() {
   const createNewQuestion = (type = "Short answer") => {
     return createQuestionByType(type);
   };
+
   const deleteOption = (qid, index) => {
-    setQuestions((prev) =>
-      prev.map((q) =>
-        q.id === qid
-          ? {
-              ...q,
-              options: (q.options || []).filter((_, i) => i !== index),
-            }
-          : q,
-      ),
-    );
-    setEditQ((prev) => {
-      if (prev && prev.id === qid) {
-        return {
-          ...prev,
-          options: (prev.options || []).filter((_, i) => i !== index),
-        };
-      }
-      return prev;
-    });
-  };
-  const updateOption = (qid, index, value) => {
-    setQuestions((prev) =>
-      prev.map((q) =>
-        q.id === qid
-          ? {
-              ...q,
-              options: (q.options || []).map((opt, i) =>
-                i === index ? value : opt,
-              ),
-            }
-          : q,
-      ),
+    const updatedQuestions = questions.map((q) =>
+      q.id === qid
+        ? {
+            ...q,
+            options: (q.options || []).filter((_, i) => i !== index),
+          }
+        : q,
     );
 
-    setEditQ((prev) => {
-      if (prev && prev.id === qid) {
-        return {
-          ...prev,
-          options: (prev.options || []).map((opt, i) =>
+    dispatch(setQuestions(updatedQuestions));
+
+    if (editQ && editQ.id === qid) {
+      dispatch(
+        setEditQ({
+          ...editQ,
+          options: (editQ.options || []).filter((_, i) => i !== index),
+        }),
+      );
+    }
+  };
+
+  const updateOption = (qid, index, value) => {
+    const updatedQuestions = questions.map((q) =>
+      q.id === qid
+        ? {
+            ...q,
+            options: (q.options || []).map((opt, i) =>
+              i === index ? value : opt,
+            ),
+          }
+        : q,
+    );
+
+    dispatch(setQuestions(updatedQuestions));
+
+    if (editQ && editQ.id === qid) {
+      dispatch(
+        setEditQ({
+          ...editQ,
+          options: (editQ.options || []).map((opt, i) =>
             i === index ? value : opt,
           ),
-        };
-      }
-      return prev;
-    });
+        }),
+      );
+    }
   };
+
   const addOption = (qid) => {
-    setQuestions((prev) =>
-      prev.map((q) =>
-        q.id === qid
-          ? {
-              ...q,
-              options: [...(q.options || []), `Option ${q.options.length + 1}`],
-            }
-          : q,
-      ),
+    const updatedQuestions = questions.map((q) =>
+      q.id === qid
+        ? {
+            ...q,
+            options: [
+              ...(q.options || []),
+              `Option ${(q.options || []).length + 1}`,
+            ],
+          }
+        : q,
     );
 
-    setEditQ((prev) => {
-      if (prev && prev.id === qid) {
-        return {
-          ...prev,
+    dispatch(setQuestions(updatedQuestions));
+
+    if (editQ && editQ.id === qid) {
+      dispatch(
+        setEditQ({
+          ...editQ,
           options: [
-            ...(prev.options || []),
-            `Option ${prev.options.length + 1}`,
+            ...(editQ.options || []),
+            `Option ${(editQ.options || []).length + 1}`,
           ],
-        };
-      }
-      return prev;
-    });
+        }),
+      );
+    }
   };
 
   const handleEdit = (q) => {
-    setActiveQuestion([q]);
+    dispatch(setActiveQuestion([q]));
   };
 
   const handleAddQuestion = (type, currentQ) => {
     const updatedQ = questions.find((q) => q.id === currentQ.id);
+    dispatch(setActiveQuestion([...activeQuestion, updatedQ]));
 
-    setActiveQuestion((prev) => [...prev, updatedQ]);
     const newBlank = createNewQuestion(type);
-
-    setQuestions((prev) =>
-      prev.map((q) => (q.id === currentQ.id ? newBlank : q)),
+    const updatedQuestions = questions.map((q) =>
+      q.id === currentQ.id ? newBlank : q,
     );
+
+    dispatch(setQuestions(updatedQuestions));
   };
 
   const handleCopyQuestion = (q) => {
-    const newQ = JSON.parse(JSON.stringify(q));
-    newQ.id = Date.now() + Math.floor(Math.random() * 1000);
+    const newQ = {
+      ...JSON.parse(JSON.stringify(q)),
+      id: Date.now(),
+    };
+    const activeIndex = activeQuestion.findIndex((item) => item.id === q.id);
 
-    setActiveQuestion((prev) => [...prev, newQ]);
+    const updatedActiveQuestion = [
+      ...activeQuestion.slice(0, activeIndex + 1),
+      newQ,
+      ...activeQuestion.slice(activeIndex + 1),
+    ];
+
+    dispatch(setActiveQuestion(updatedActiveQuestion));
   };
 
-  console.log(form);
-  
   return (
     <div className="App">
       <div className="countainer">
-        <Heding
-          fromDiscription={fromDiscription}
-          setFromDiscription={setFromDiscription}
-          form={form}
-          setForm={setForm}
-        />
+        <Heding />
         <div className="PreviewButton">
           <button
             onClick={() => {
-              navigate("/preview", { state: { activeQuestion,form,fromDiscription } });
+              navigate("/preview");
             }}
           >
             Preview
@@ -177,16 +180,18 @@ function App() {
             <button
               className=""
               onClick={() => {
-                setQuestionLength(true);
+                dispatch(setQuestionLength(true));
                 if (questions.length === 0) {
-                  setQuestions([
-                    {
-                      id: Date.now(),
-                      question: "",
-                      type: "Short answer",
-                      options: [],
-                    },
-                  ]);
+                  dispatch(
+                    setQuestions([
+                      {
+                        id: Date.now(),
+                        question: "",
+                        type: "Short answer",
+                        options: [],
+                      },
+                    ]),
+                  );
                 }
               }}
             >
@@ -194,19 +199,12 @@ function App() {
             </button>
           </div>
         )}
+
         {Array.isArray(activeQuestion) && activeQuestion.length > 0 && (
           <QuestionPreview
-            setQuestionLength={setQuestionLength}
-            q={activeQuestion}
-            setQuestions={setQuestions}
-            questions={questions}
             addOption={addOption}
-            editQ={editQ}
-            setEditQ={setEditQ}
             handleCopyQuestion={handleCopyQuestion}
             deleteOption={deleteOption}
-            setActiveQuestion={setActiveQuestion}
-            activeQuestion={activeQuestion}
           />
         )}
 
@@ -215,18 +213,12 @@ function App() {
             <QuestionBox
               key={q.id}
               q={q}
-              setQuestions={setQuestions}
-              questions={questions}
               updateOption={updateOption}
               deleteOption={deleteOption}
               addOption={addOption}
               handleCopyQuestion={handleCopyQuestion}
               handleAddQuestion={handleAddQuestion}
               handleEdit={handleEdit}
-              activeQuestion={activeQuestion}
-              setActiveQuestion={setActiveQuestion}
-              setEditQ={setEditQ}
-              setQuestionLength={setQuestionLength}
             />
           ))}
       </div>

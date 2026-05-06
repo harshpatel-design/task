@@ -26,18 +26,25 @@ const PreviewAnswer = ({ q }) => {
 
   return (
     <div className="previewContainer">
-      {q.map((item,i) => {
+      {q.map((item, i) => {
         const type = item.type;
         return (
           <div key={i} className="previewBox previewAnswer">
             <h3>{item.question || "Untitled Question"}</h3>
 
             {type === "Short answer" && (
-              <input type="text" style={{ width: "100%" , fontSize: "16px"}} placeholder="Short answer text" />
+              <input
+                type="text"
+                style={{ width: "100%", fontSize: "16px" }}
+                placeholder="Short answer text"
+              />
             )}
 
             {type === "Paragraph" && (
-              <textarea style={{ width: "100%" , fontSize: "16px"}} placeholder="Long answer text" />
+              <textarea
+                style={{ width: "100%", fontSize: "16px" }}
+                placeholder="Long answer text"
+              />
             )}
 
             {type === "Multiple choice" &&
@@ -69,7 +76,10 @@ const PreviewAnswer = ({ q }) => {
               ))}
 
             {type === "Drop-down" && (
-              <select name={item.id} style={{ cursor: "pointer", fontSize: "16px" }}>
+              <select
+                name={item.id}
+                style={{ cursor: "pointer", fontSize: "16px" }}
+              >
                 {(item.options || []).map((opt, i) => (
                   <option key={i}>{opt}</option>
                 ))}
@@ -139,27 +149,47 @@ const PreviewAnswer = ({ q }) => {
 
             {type === "Linear scale" && (
               <div className="linearWrapper">
-                <span className="linearLabel">{item.leftLabel || "min"}</span>
+                <span className="linearLabel">
+                 {item.leftLabel || "min"}
+                </span>
+
                 <div className="lineCon">
                   <div className="linearNumbers">
-                    {[...Array(item.scaleEnd || 5)].map((_, i) => (
-                      <span key={i}>{i + 1}</span>
+                    {Array.from(
+                      {
+                        length:
+                          (item.scaleEnd || 5) - (item.scaleStart || 1) + 1,
+                      },
+                      (_, i) => (item.scaleStart || 1) + i,
+                    ).map((n) => (
+                      <span key={n}>{n}</span>
                     ))}
                   </div>
 
                   <div className="linearRow">
-                    {[...Array(item.scaleEnd || 5)].map((_, i) => (
+                    {Array.from(
+                      {
+                        length:
+                          (item.scaleEnd || 5) - (item.scaleStart || 1) + 1,
+                      },
+                      (_, i) => (item.scaleStart || 1) + i,
+                    ).map((n) => (
                       <input
-                        key={i}
+                        key={n}
                         type="radio"
                         name={`${item.id}`}
-                        style={{ cursor: "pointer", fontSize: "16px" }}
+                        style={{
+                          cursor: "pointer",
+                          fontSize: "16px",
+                        }}
                       />
                     ))}
                   </div>
                 </div>
 
-                <span className="linearLabel">{item.rightLabel || "max"}</span>
+                <span className="linearLabel">
+                  {item.rightLabel || "max"}
+                </span>
               </div>
             )}
 
