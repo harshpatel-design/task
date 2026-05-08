@@ -10,10 +10,14 @@ import {
   setEditQ,
   setQuestionLength,
 } from "./redux/questionSlice";
+import { useState } from "react";
 
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [hasError, setHasError] = useState({});
+  const isAnyError = Object.values(hasError).some((item) => item === true);
+
   const { questions, activeQuestion, editQ, questionLength } = useSelector(
     (state) => state.questions,
   );
@@ -178,10 +182,10 @@ function App() {
         {!questionLength && (
           <div className="emptyState">
             <button
-              className=""
               onClick={() => {
                 dispatch(setQuestionLength(true));
                 if (questions.length === 0) {
+                  setHasError({});
                   dispatch(
                     setQuestions([
                       {
@@ -205,6 +209,9 @@ function App() {
             addOption={addOption}
             handleCopyQuestion={handleCopyQuestion}
             deleteOption={deleteOption}
+            setHasError={setHasError}
+            hasError={hasError}
+            isAnyError={isAnyError}
           />
         )}
 
@@ -219,6 +226,9 @@ function App() {
               handleCopyQuestion={handleCopyQuestion}
               handleAddQuestion={handleAddQuestion}
               handleEdit={handleEdit}
+              hasError={hasError}
+              setHasError={setHasError}
+              isAnyError={isAnyError}
             />
           ))}
       </div>

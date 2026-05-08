@@ -1,10 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import { setQuestions, setEditQ } from "../redux/questionSlice";
+import { Formik, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
-const MultipleGrid = ({ q, isEditMode }) => {
+const MultipleGrid = ({ q, isEditMode, setHasError }) => {
   const dispatch = useDispatch();
   const { questions, editQ } = useSelector((state) => state.questions);
-
   const handleRowChange = (i, value) => {
     if (isEditMode) {
       const newRows = [...(editQ?.rows || ["Row 1"])];
@@ -81,24 +82,33 @@ const MultipleGrid = ({ q, isEditMode }) => {
   };
 
   const handleAddCol = () => {
-    if (isEditMode) {
-      const currentCols = editQ?.cols || ["Column 1"];
+    const currentCols = isEditMode
+      ? editQ?.cols || ["Column 1"]
+      : q.cols || ["Column 1"];
 
+    const lastCol = currentCols[currentCols.length - 1];
+
+    const lastNumber = parseInt(lastCol?.split(" ")[1] || 0);
+
+    const newCols = [...currentCols, `Column ${lastNumber + 1}`];
+
+    if (isEditMode) {
       dispatch(
         setEditQ({
           ...editQ,
-          cols: [...currentCols, `Column ${currentCols.length + 1}`],
+          cols: newCols,
         }),
       );
     } else {
-      const currentCols = q.cols || ["Column 1"];
-
-      const newCols = [...currentCols, `Column ${currentCols.length + 1}`];
-
       dispatch(
         setQuestions(
           questions.map((item) =>
-            item.id === q.id ? { ...item, cols: newCols } : item,
+            item.id === q.id
+              ? {
+                  ...item,
+                  cols: newCols,
+                }
+              : item,
           ),
         ),
       );
@@ -154,17 +164,70 @@ const MultipleGrid = ({ q, isEditMode }) => {
 
           {(q.rows || ["Row 1"]).map((row, i) => (
             <div key={i} className="gridRowItem">
-              {i + 1}.
-              <input
-                type="text"
-                placeholder={`Row ${i + 1}`}
-                onFocus={(e) => e.target.select()}
-                value={row}
-                onChange={(e) => handleRowChange(i, e.target.value)}
-              />
+              <div>
+                {i + 1}.
+                <Formik
+                  initialValues={{
+                    row: row,
+                  }}
+                  validateOnChange={true}
+                  validateOnBlur={true}
+                  enableReinitialize={true}
+                  validationSchema={Yup.object({
+                    row: Yup.string()
+                      .min(2, "Minimum 2 characters")
+                      .required("Row is required"),
+                  })}
+                >
+                  {({ values, handleChange, errors, validateForm }) => {
+                    return (
+                      <>
+                        <Field
+                          type="text"
+                          name="row"
+                          placeholder={`Row ${i + 1}`}
+                          onFocus={(e) => e.target.select()}
+                          value={values.row}
+                          onChange={async (e) => {
+                            handleChange(e);
+                            const value = e.target.value;
+                            handleRowChange(i, value);
+                            const formErrors = await validateForm({
+                              row: value,
+                            });
+
+                            setHasError((prev) => ({
+                              ...prev,
+                              [`row-${i}`]: Object.keys(formErrors).length > 0,
+                            }));
+                          }}
+                        />
+
+                        <ErrorMessage
+                          name="row"
+                          component="p"
+                          className="error-row"
+                        />
+                      </>
+                    );
+                  }}
+                </Formik>
+              </div>
               <span
                 className="deleteBtn deleteBtn2"
-                onClick={() => handleDeleteRow(i)}
+                onClick={() => {
+                  setHasError((prev) => {
+                    const updated = {
+                      ...prev,
+                    };
+
+                    delete updated[`row-${i}`];
+
+                    return updated;
+                  });
+
+                  handleDeleteRow(i);
+                }}
               >
                 X
               </span>
@@ -179,18 +242,69 @@ const MultipleGrid = ({ q, isEditMode }) => {
 
           {(q.cols || ["Column 1"]).map((col, i) => (
             <div key={i} className="gridRowItem">
-              <input type="radio" disabled />
+              <Formik
+                initialValues={{
+                  col: col,
+                }}
+                validateOnChange={true}
+                validateOnBlur={true}
+                enableReinitialize={true}
+                validationSchema={Yup.object({
+                  col: Yup.string()
+                    .min(2, "Minimum 2 characters")
+                    .required("Column is required"),
+                })}
+              >
+                {({ values, handleChange, errors, validateForm }) => {
+                  return (
+                    <>
+                      <div className="colRadio">
+                        <input type="radio" disabled />
+                        <Field
+                          type="text"
+                          name="col"
+                          value={values.col}
+                          placeholder={`Column ${i + 1}`}
+                          onFocus={(e) => e.target.select()}
+                          onChange={async (e) => {
+                            handleChange(e);
+                            const value = e.target.value;
+                            handleColChange(i, value);
+                            const formErrors = await validateForm({
+                              col: value,
+                            });
+                            setHasError((prev) => ({
+                              ...prev,
+                              [`col-${i}`]: Object.keys(formErrors).length > 0,
+                            }));
+                          }}
+                        />
+                      </div>
 
-              <input
-                type="text"
-                value={col}
-                placeholder={`Column ${i + 1}`}
-                onFocus={(e) => e.target.select()}
-                onChange={(e) => handleColChange(i, e.target.value)}
-              />
+                      <ErrorMessage
+                        name="col"
+                        component="p"
+                        className="error-row"
+                      />
+                    </>
+                  );
+                }}
+              </Formik>
               <span
                 className="deleteBtn deleteBtn2"
-                onClick={() => handleDeleteCol(i)}
+                onClick={() => {
+                  setHasError((prev) => {
+                    const updated = {
+                      ...prev,
+                    };
+
+                    delete updated[`col-${i}`];
+
+                    return updated;
+                  });
+
+                  handleDeleteCol(i);
+                }}
               >
                 X
               </span>

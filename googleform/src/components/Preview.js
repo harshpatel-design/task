@@ -10,11 +10,7 @@ function Preview() {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate("/", {
-      state: {
-        returnQuestions: activeQuestion,
-      },
-    });
+    navigate("/");
   };
 
   return (

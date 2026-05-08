@@ -13,6 +13,9 @@ const QuestionPreview = ({
   addOption,
   handleCopyQuestion,
   handleAddQuestion,
+  hasError,
+  isAnyError,
+  setHasError,
 }) => {
   const [isedit, setIsedit] = useState(false);
 
@@ -84,6 +87,9 @@ const QuestionPreview = ({
               handleAddQuestion={handleAddQuestion}
               isEditMode={isedit && editQ?.id === item.id}
               onConfirm={handleConfirmEdit}
+              hasError={hasError}
+              isAnyError={isAnyError}
+              setHasError={setHasError}
             />
           );
         }

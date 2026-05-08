@@ -64,7 +64,6 @@ const Rating = ({ q, isEditMode }) => {
   const iconsMap = {
     "⭐": "☆",
     "❤️": "🤍",
-    "👍": "👍🏻",
   };
 
   const filled = q.ratingIcon || "⭐";
@@ -107,10 +106,6 @@ const Rating = ({ q, isEditMode }) => {
 
           <option value="❤️">
             ❤️ Heart
-          </option>
-
-          <option value="👍">
-            👍 Thumb
           </option>
         </select>
       </div>

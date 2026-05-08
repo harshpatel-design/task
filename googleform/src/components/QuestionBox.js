@@ -7,6 +7,8 @@ import {
   setActiveQuestion,
   setQuestionLength,
 } from "../redux/questionSlice";
+import { Formik, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 const QuestionBox = ({
   q,
@@ -17,13 +19,15 @@ const QuestionBox = ({
   handleCopyQuestion,
   isEditMode,
   onConfirm,
+  hasError,
+  setHasError,
+  isAnyError,
 }) => {
   const dispatch = useDispatch();
 
   const { editQ, questions, activeQuestion } = useSelector(
     (state) => state.questions,
   );
-
   const [localQuestion, setLocalQuestion] = useState(q.question || "");
 
   useEffect(() => {
@@ -125,6 +129,18 @@ const QuestionBox = ({
   };
 
   const handleDeleteOption = (qid, index) => {
+    setHasError((prev) => {
+      const updated = { ...prev };
+
+      delete updated[`option-${index}`];
+
+      delete updated[`checkbox-${index}`];
+
+      delete updated[`dropdown-${index}`];
+
+      return updated;
+    });
+
     if (editQ && editQ.id === qid) {
       dispatch(
         setEditQ({
@@ -198,12 +214,41 @@ const QuestionBox = ({
   return (
     <div className="questionBox active">
       <div className="questionHeader">
-        <input
-          className="questionInput"
-          placeholder="Untitled Question"
-          value={localQuestion}
-          onChange={(e) => handleQuestionChange(e.target.value)}
-        />
+        <Formik
+          initialValues={{
+            question: localQuestion,
+          }}
+          enableReinitialize={true}
+          validationSchema={Yup.object({
+            question: Yup.string()
+              .min(3, "Question minimum 3 characters")
+              .required("Question is required"),
+          })}
+        >
+          {({ values, handleChange }) => (
+            <>
+              <div className="questionBoxInputContainer">
+                <Field
+                  type="text"
+                  name="question"
+                  className="questionInput"
+                  placeholder="Untitled Question"
+                  value={values.question}
+                  onChange={(e) => {
+                    handleChange(e);
+                    handleQuestionChange(e.target.value);
+                  }}
+                />
+
+                <ErrorMessage
+                  name="question"
+                  component="p"
+                  className="error-1"
+                />
+              </div>
+            </>
+          )}
+        </Formik>
 
         <div className="selectWrapper">
           <select
@@ -227,12 +272,21 @@ const QuestionBox = ({
         deleteOption={handleDeleteOption}
         addOption={handleAddOption}
         isEditMode={isEditMode}
+        setHasError={setHasError}
+        isAnyError={isAnyError}
       />
 
       <div className="addCon">
         {isEditMode ? (
           <div className="spanBtn">
-            <span className="addBtn confiremBtn" onClick={onConfirm}>
+            <span
+              className={`addBtn confiremBtn ${isAnyError ? "disabledBtn" : ""}`}
+              onClick={() => {
+                if (isAnyError) return;
+                setHasError({});
+                onConfirm();
+              }}
+            >
               ✔️
             </span>
 
@@ -250,8 +304,11 @@ const QuestionBox = ({
         ) : (
           <div className="spanBtn">
             <span
-              className="addBtn"
-              onClick={() => handleAddQuestion(q.type, q)}
+              className={`addBtn ${isAnyError ? "disabledBtn" : ""}`}
+              onClick={() => {
+                if (isAnyError) return;
+                handleAddQuestion(q.type, q);
+              }}
             >
               ➕
             </span>

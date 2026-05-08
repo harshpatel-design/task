@@ -14,6 +14,7 @@ function QuestionRenderer({
   deleteOption,
   addOption,
   isEditMode,
+  setHasError,
 }) {
 
   if (!q) return null;
@@ -34,6 +35,7 @@ function QuestionRenderer({
           updateOption={updateOption}
           deleteOption={deleteOption}
           addOption={addOption}
+          setHasError={setHasError}
         />
       );
 
@@ -44,6 +46,7 @@ function QuestionRenderer({
           updateOption={updateOption}
           deleteOption={deleteOption}
           addOption={addOption}
+          setHasError={setHasError}
         />
       );
 
@@ -54,14 +57,15 @@ function QuestionRenderer({
           updateOption={updateOption}
           deleteOption={deleteOption}
           addOption={addOption}
+          setHasError={setHasError}
         />
       );
 
     case "multiple-choice grid":
-      return <MultipleGrid q={q} isEditMode={isEditMode} />;
+      return <MultipleGrid q={q} isEditMode={isEditMode} setHasError={setHasError} />;
 
     case "tick box grid":
-      return <CheckboxGrid q={q} isEditMode={isEditMode} />;
+      return <CheckboxGrid q={q} isEditMode={isEditMode} setHasError={setHasError} />;
 
     case "rating":
       return <Rating q={q} isEditMode={isEditMode} />;

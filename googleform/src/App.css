@@ -113,8 +113,8 @@
 
 .questionHeader {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  gap: 10px;
 }
 
 .questionInput {
@@ -253,9 +253,9 @@ select:focus {
 
 .gridRowItem {
   display: flex;
-  align-items: center;
   margin: 8px 0;
   position: relative;
+  flex-direction: column;
 }
 
 .ratingContainer {
@@ -402,12 +402,6 @@ select:focus {
   color: #5f6368;
 }
 
-.gridRowItem {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
 
 .gridRowItem input[type="text"] {
   flex: 1;
@@ -981,3 +975,71 @@ select:focus {
   min-height: 120px;
 }
 
+
+.error {
+  color: red;
+  font-size: 14px;
+  width: 100%;
+  text-align: left;
+}
+
+.questionBoxInputContainer {
+  flex: 1;
+}
+
+.questionBoxInputContainer input {
+  width: 100%;
+}
+
+.error-1 {
+  margin: 5px 0px;
+  font-size: 14px;
+  color: red;
+}
+
+.colRadio {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+
+.error-row {
+    font-size: 12px;
+    margin: 5px 10px 2px;
+    color: red;
+    font-weight: 500;
+}
+
+.option-input-container {
+  width: 100% !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.option-input-container input[type="text"] {
+
+  width: 100% !important;
+}
+
+.error-2 {
+  color: red;
+  font-size: 12px;
+  margin: 5px 10px 2px;
+  font-weight: 500;
+}
+
+.option-droop {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 60px;
+}
+
+
+.optionCheckbox {
+  flex-direction: column;
+  align-items: flex-start;
+  height: 60px;
+}
