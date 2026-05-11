@@ -402,7 +402,6 @@ select:focus {
   color: #5f6368;
 }
 
-
 .gridRowItem input[type="text"] {
   flex: 1;
   border: none;
@@ -955,7 +954,6 @@ select:focus {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-
 .noQuestion {
   text-align: center;
   padding: 20px;
@@ -964,7 +962,7 @@ select:focus {
 }
 
 .PreviewHeading {
- align-items: stretch;
+  align-items: stretch;
   padding: 20px;
   color: #5f6368;
   font-size: 16px;
@@ -974,7 +972,6 @@ select:focus {
   gap: 10px;
   min-height: 120px;
 }
-
 
 .error {
   color: red;
@@ -1003,12 +1000,11 @@ select:focus {
   gap: 5px;
 }
 
-
 .error-row {
-    font-size: 12px;
-    margin: 5px 10px 2px;
-    color: red;
-    font-weight: 500;
+  font-size: 12px;
+  margin: 5px 10px 2px;
+  color: red;
+  font-weight: 500;
 }
 
 .option-input-container {
@@ -1019,7 +1015,6 @@ select:focus {
 }
 
 .option-input-container input[type="text"] {
-
   width: 100% !important;
 }
 
@@ -1037,9 +1032,36 @@ select:focus {
   height: 60px;
 }
 
-
 .optionCheckbox {
   flex-direction: column;
   align-items: flex-start;
   height: 60px;
+}
+
+.sortableItem {
+  width: 100%;
+  position: relative;
+}
+
+.dragHandle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: grab;
+  font-size: 20px;
+  z-index: 100;
+}
+
+.dragHandle {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: grab;
+  font-size: 20px;
+  color: #555;
+  background: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
