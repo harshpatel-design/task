@@ -1,0 +1,21 @@
+.containerBox {
+  width: 660px !important;
+  box-shadow:
+    10px 10px 100px rgba(0, 0, 0, 0.08),
+    20px 20px 200px rgba(0, 0, 0, 0.06);
+}
+
+.leftSide {
+    background: #233A5F;
+    padding: 20px 12px;
+}
+
+.rightSide {
+    padding: 24px 20px 24px 4px;
+}
+
+.logo {
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+}
