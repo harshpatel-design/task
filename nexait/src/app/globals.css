@@ -1,0 +1,146 @@
+@import "tailwindcss";
+@font-face {
+  font-family: "Gilroy-thin";
+
+  src: url("https://db.onlinewebfonts.com/t/4443b611d51ff971972892a2ade08240.eot");
+
+  src:
+    url("https://db.onlinewebfonts.com/t/4443b611d51ff971972892a2ade08240.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/4443b611d51ff971972892a2ade08240.woff")
+      format("woff"),
+    url("https://db.onlinewebfonts.com/t/4443b611d51ff971972892a2ade08240.woff2")
+      format("woff2"),
+    url("https://db.onlinewebfonts.com/t/4443b611d51ff971972892a2ade08240.ttf")
+      format("truetype"),
+    url("https://db.onlinewebfonts.com/t/4443b611d51ff971972892a2ade08240.svg#Gilroy-Thin")
+      format("svg");
+
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Gilroy-thin", sans-serif;
+  font-weight: 400;
+}
+
+.container {
+  max-width: 1700px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.fw-600 {
+  font-weight: 600;
+}
+
+.fs-18 {
+  font-size: 18px;
+}
+
+.navbar > .container {
+  display: flex;
+  flex-wrap: inherit;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-brand {
+  padding: 7px 0px;
+  margin-right: 1rem;
+}
+
+header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  width: 100%;
+  z-index: 999;
+  transition: all 0.7s;
+}
+
+header .navbar .header-container {
+  position: static;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+header.active {
+  background-color: rgb(14 14 19 / 60%);
+  border-bottom: 1px solid rgba(128, 132, 141, 0.2);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+.navbar-nav {
+  display: flex !important;
+  width: 100%;
+}
+
+.navbar {
+  align-items: center;
+  padding: 5px 0px;
+}
+.orange-btn {
+  background: linear-gradient(to bottom, #ed5b2d, #ed5b2d);
+  border-radius: 50px;
+  text-align: center;
+  outline: none;
+  font-weight: 900;
+  box-shadow: unset;
+  cursor: pointer;
+}
+
+.effect-hero {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background: rgb(0 0 0 / 10%);
+}
+
+video {
+  background-size: cover;
+  transition: 1s opacity;
+  object-position: center center;
+  object-fit: cover;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.hero-content h1 {
+  text-shadow: 1px 2px 10px #222;
+}
+
+
