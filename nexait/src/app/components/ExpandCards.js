@@ -70,8 +70,8 @@ function ExpandCards() {
                     className={`whitespace-nowrap text-6xl font-bold transform transition-all duration-700
                                   ${
                                     active === index
-                                      ? "translate-y-0 md:translate-x-0 opacity-100"
-                                      : "translate-y-full md:translate-x-full opacity-0"
+                                      ? "opacity-100"
+                                      : " opacity-0"
                                   }`}
                   >
                     {card.number}
@@ -83,8 +83,8 @@ function ExpandCards() {
                     className={`whitespace-nowrap text-[30px] font-extrabold transform transition-all duration-700
                           ${
                             active === index
-                              ? "translate-y-0 md:translate-x-0 opacity-100"
-                              : "translate-y-full md:translate-x-full opacity-0"
+                              ? "opacity-100"
+                              : "opacity-0"
                           }`}
                   >
                     {card.title}
@@ -96,8 +96,8 @@ function ExpandCards() {
                     className={`text-[16px] w-full font-bold leading-relaxed transform transition-all duration-700
                             ${
                               active === index
-                                ? "translate-y-0 md:translate-x-0 opacity-100"
-                                : "translate-y-full md:translate-x-full opacity-0"
+                                ? "opacity-100"
+                                : "opacity-0"
                             }`}
                   >
                     {card.desc}
@@ -140,8 +140,8 @@ function ExpandCards() {
                           className={`whitespace-nowrap text-6xl font-bold transform transition-all duration-700
                                   ${
                                     active === index
-                                      ? "translate-y-0 md:translate-x-0 opacity-100"
-                                      : "translate-y-full md:translate-x-full opacity-0"
+                                      ? "opacity-100"
+                                      : "opacity-0"
                                   }`}
                         >
                           {card.number}
@@ -153,8 +153,8 @@ function ExpandCards() {
                           className={`whitespace-nowrap text-[30px] font-extrabold transform transition-all duration-700
                           ${
                             active === index
-                              ? "translate-y-0 md:translate-x-0 opacity-100"
-                              : "translate-y-full md:translate-x-full opacity-0"
+                              ? "opacity-100"
+                              : "opacity-0"
                           }`}
                         >
                           {card.title}
@@ -166,8 +166,8 @@ function ExpandCards() {
                           className={`max-w-md text-[16px] font-bold leading-relaxed transform transition-all duration-700
                             ${
                               active === index
-                                ? "translate-y-0 md:translate-x-0 opacity-100"
-                                : "translate-y-full md:translate-x-full opacity-0"
+                                ? "opacity-100"
+                                : "opacity-0"
                             }`}
                         >
                           {card.desc}
