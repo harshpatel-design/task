@@ -4,6 +4,7 @@ import "./globals.css";
 import Portfolio from "./components/Portfolio";
 import SwiperWrapper from "./components/SwiperWrapper";
 import ExpandCards from "./components/ExpandCards";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <Portfolio />
       <SwiperWrapper />
       <ExpandCards />
+      <Footer />
     </div>
   );
 }

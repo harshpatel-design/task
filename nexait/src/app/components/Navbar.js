@@ -32,7 +32,7 @@ function Navbar() {
         className={`navbar navbar-dark navbar-expand-lg min-[1025px]:block hidden ${
           active
             ? "backdrop-blur-0 border-b border-white/10"
-            : "backdrop-blur-0 border-b-0"
+            : "backdrop-blur-[5px] border-b-0"
         } transition-all transprent`}
       >
         <div className="container header-container">
@@ -124,7 +124,7 @@ function Navbar() {
           </Link>
 
           <div className="flex items-center justify-center cursor-pointer h-[51px] w-[51px] rounded-full">
-            {/* <svg
+            <svg
               className="text-dark-light bg-[#1F2937] rounded-full"
               width="51"
               height="51"
@@ -140,7 +140,7 @@ function Navbar() {
                 stroke-width="1.5"
                 stroke-linecap="round"
               ></path>
-            </svg> */}
+            </svg>
           </div>
         </div>
       </nav>
