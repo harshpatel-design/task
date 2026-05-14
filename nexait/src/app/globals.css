@@ -143,4 +143,20 @@ video {
   text-shadow: 1px 2px 10px #222;
 }
 
+@media (max-width: 1704px) {
+  .container {
+    max-width: 1440px;
+  }
+}
+@media (max-width: 1550px) {
+  .container {
+    max-width: 1300px;
+  }
+}
+@media (max-width: 1281px) {
+  .container {
+    max-width: 1240px;
+  }
+  
+}
 

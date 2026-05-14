@@ -9,17 +9,29 @@ function SwiperWrapper() {
     <section className="relative w-full overflow-hidden bg-[#000000] py-[100px] text-white">
       <div className="container-fluid ">
         <Swiper
-          slidesPerView={1.5}
-          centeredSlides={true}
-          spaceBetween={0}
+          slidesPerView={1}
+          centeredSlides={false}
+          spaceBetween={10}
           loop={true}
-          loopedSlides={4}
           speed={800}
           allowTouchMove={true}
           watchSlidesProgress={true}
           observer={true}
           observeParents={true}
           updateOnWindowResize={true}
+          breakpoints={{
+            1025: {
+              slidesPerView: 1.7,
+              centeredSlides: true,
+              spaceBetween: 0,
+            },
+
+            1550: {
+              slidesPerView: 1.7,
+              centeredSlides: true,
+              spaceBetween: 20,
+            },
+          }}
         >
           <SwiperSlide>
             <Wapper

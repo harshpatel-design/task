@@ -2,54 +2,59 @@
 
 import { useState } from "react";
 
-const cards = [
-  {
-    title: "Industries Expertise",
-    number: "15+",
-    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
-    desc: "Over the past decade, our expertise has transcended industries.",
-  },
-  {
-    title: "Tech Enthusiasts",
-    number: "100+",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
-    desc: "Dynamic team of developers and engineers.",
-  },
-  {
-    title: "Modernized Legacy",
-    number: "80%",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978",
-    desc: "Helping companies modernize systems.",
-  },
-  {
-    title: "Crafted Solutions",
-    number: "50+",
-    image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
-    desc: "We build scalable modern digital products.",
-  },
-  {
-    title: "Modernized Legacy",
-    number: "80%",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978",
-    desc: "Helping companies modernize systems.",
-  },
-];
-
 function ExpandCards() {
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(2);
+
+  const cards = [
+    {
+      title: "Industries Expertise",
+      number: "15+",
+      image: "https://nexait.io/assets/images/industries-mastered-bg.webp",
+      desc: "Over the past decade, our expertise has transcended 15+ diverse industries, allowing us to craft unparalleled digital solutions.",
+      p: "Industries Expertise",
+    },
+    {
+      title: "Crafted Solutions",
+      number: "50+",
+      image: "https://nexait.io/assets/images/tech-evangelists-bg.webp",
+      desc: "We build scalable modern digital products for growing businesses.",
+      p: "Industries Expertise",
+    },
+    {
+      title: "Tech Enthusiasts",
+      number: "100+",
+      image: "https://nexait.io/assets/images/solutions-designed-bg.webp",
+      desc: "Our team includes developers, engineers, and tech innovators.",
+      p: "Industries Expertise",
+    },
+    {
+      title: "Industries Expertise",
+      number: "15+",
+      image: "https://nexait.io/assets/images/industries-mastered-bg.webp",
+      desc: "Over the past decade, our expertise has transcended 15+ diverse industries, allowing us to craft unparalleled digital solutions.",
+      p: "Industries Expertise",
+    },
+    {
+      title: "Crafted Solutions",
+      number: "50+",
+      image: "https://nexait.io/assets/images/tech-evangelists-bg.webp",
+      desc: "We build scalable modern digital products for growing businesses.",
+      p: "Industries Expertise",
+    },
+  ];
 
   return (
-    <section className="py-[50px]">
-      <div className="container">
-        <div className="flex h-[500px] w-full gap-4 overflow-hidden justify-center bg-white p-10">
-          {cards.map((card, index) => (
+    <section className="min-[769px]:py-[100px] py-[80px] bg-white w-full">
+      <div className="block md:hidden min-[577px]:px-4 px-3 space-y-6 w-full">
+        {cards.map((card, index) => (
+          <div key={index} className="flex flex-col">
             <div
               key={index}
-              onMouseEnter={() => setActive(index)}
-              className={`group relative h-[420px] overflow-hidden rounded-[20px] bg-cover bg-center transition-all duration-500 cursor-pointer ${
+              onClick={() => setActive(index)}
+              className={`relative w-full overflow-hidden rounded-[12px] cursor-pointer transition-all duration-700 ${
                 active === index
-                  ? "opacity-100 w-[600px]"
-                  : "opacity-60 w-[160px]"
+                  ? "max-[576px]:h-[400px] h-[460px] opacity-100"
+                  : "max-[576px]:h-[80px] h-[80px] opacity-60"
               }`}
               style={{
                 backgroundImage: `url(${card.image})`,
@@ -57,23 +62,127 @@ function ExpandCards() {
                 backgroundPosition: "center",
               }}
             >
-              <div className="absolute inset-0 bg-black/30"></div>
+              <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />
 
-              <div className="z-10 text-white py-4 px-10 absolute left-0 top-[50%] transform -translate-y-1/2 overflow-hidden">
-                <h1 className="text-[70px] font-extrabold mb-[-10px] tracking-tight translate-x-20 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-700">
-                  {card.number}
-                </h1>
+              <div className="absolute left-0 top-1/2 z-20 w-full min-[1025px]:w-[600px] min-[577px]:px-8 px-6 -translate-y-1/2 text-white">
+                <div className="overflow-hidden w-full">
+                  <h1
+                    className={`whitespace-nowrap text-6xl font-bold transform transition-all duration-700
+                                  ${
+                                    active === index
+                                      ? "translate-y-0 md:translate-x-0 opacity-100"
+                                      : "translate-y-full md:translate-x-full opacity-0"
+                                  }`}
+                  >
+                    {card.number}
+                  </h1>
+                </div>
 
-                <h2 className="text-[30px] font-extrabold whitespace-nowrap translate-x-20 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-700">
-                  {card.title}
-                </h2>
+                <div className="mt-2 overflow-hidden">
+                  <div
+                    className={`whitespace-nowrap text-[30px] font-extrabold transform transition-all duration-700
+                          ${
+                            active === index
+                              ? "translate-y-0 md:translate-x-0 opacity-100"
+                              : "translate-y-full md:translate-x-full opacity-0"
+                          }`}
+                  >
+                    {card.title}
+                  </div>
+                </div>
 
-                <p className="max-w-md text-[16px] font-bold mt-3 translate-x-20 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-700 ">
-                  {card.desc}
-                </p>
+                <div className="mt-3 overflow-hidden w-full">
+                  <p
+                    className={`text-[16px] w-full font-bold leading-relaxed transform transition-all duration-700
+                            ${
+                              active === index
+                                ? "translate-y-0 md:translate-x-0 opacity-100"
+                                : "translate-y-full md:translate-x-full opacity-0"
+                            }`}
+                  >
+                    {card.desc}
+                  </p>
+                </div>
               </div>
             </div>
-          ))}
+            <p className="text-black font-extrabold mt-[10px] text-[18px]">
+              {card.p}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div className="hidden md:block">
+        <div className="container min-[1551px]:h-[420px] h-[400px]">
+          <div className="flex h-full w-full gap-6 justify-center rounded-[12px] bg-white">
+            {cards.map((card, index) => (
+              <>
+                <div key={index} className="flex flex-col">
+                  <div
+                    key={index}
+                    onMouseEnter={() => setActive(index)}
+                    className={`relative h-full overflow-hidden rounded-[12px] cursor-pointer transition-all duration-700 ${
+                      active === index
+                        ? "w-[400px] min-[1025px]:w-[600px] opacity-100"
+                        : "w-[80px] min-[1025px]:w-[180px] opacity-60"
+                    }`}
+                    style={{
+                      backgroundImage: `url(${card.image})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  >
+                    <div className="absolute inset-0 z-10 bg-black/40 backdrop-blur-[2px]" />
+
+                    <div className="absolute left-0 top-1/2 z-20 w-[380px] min-[1025px]:w-[600px] -translate-y-1/2 px-10 text-white">
+                      <div className="overflow-hidden">
+                        <h1
+                          className={`whitespace-nowrap text-6xl font-bold transform transition-all duration-700
+                                  ${
+                                    active === index
+                                      ? "translate-y-0 md:translate-x-0 opacity-100"
+                                      : "translate-y-full md:translate-x-full opacity-0"
+                                  }`}
+                        >
+                          {card.number}
+                        </h1>
+                      </div>
+
+                      <div className="mt-2 overflow-hidden">
+                        <div
+                          className={`whitespace-nowrap text-[30px] font-extrabold transform transition-all duration-700
+                          ${
+                            active === index
+                              ? "translate-y-0 md:translate-x-0 opacity-100"
+                              : "translate-y-full md:translate-x-full opacity-0"
+                          }`}
+                        >
+                          {card.title}
+                        </div>
+                      </div>
+
+                      <div className="mt-3 overflow-hidden">
+                        <p
+                          className={`max-w-md text-[16px] font-bold leading-relaxed transform transition-all duration-700
+                            ${
+                              active === index
+                                ? "translate-y-0 md:translate-x-0 opacity-100"
+                                : "translate-y-full md:translate-x-full opacity-0"
+                            }`}
+                        >
+                          {card.desc}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="text-black font-extrabold mt-[10px] text-[18px]">
+                    {card.p}
+                  </p>
+                </div>
+              </>
+            ))}
+          </div>
         </div>
       </div>
     </section>
