@@ -30,9 +30,7 @@ function Navbar() {
     >
       <nav
         className={`navbar navbar-dark navbar-expand-lg min-[1025px]:block hidden ${
-          active
-            ? "backdrop-blur-0 border-b border-white/10"
-            : "backdrop-blur-[5px] border-b-0"
+          active ? "backdrop-blur-[5px]" : "backdrop-blur-0"
         } transition-all transprent`}
       >
         <div className="container header-container">
@@ -62,22 +60,30 @@ function Navbar() {
             <ul className="navbar-nav flex flex-row justify-end">
               <li className="nav-item p-5">
                 <Link href="/" className="nav-link  p-0">
-                  <h3 className="fs-18 fw-600 text-white">About</h3>
+                  <h3 className="text-[18px] font-extrabold text-white">
+                    About
+                  </h3>
                 </Link>
               </li>
               <li className="nav-item p-5">
                 <Link href="/" className="nav-link p-0">
-                  <h3 className="fs-18 fw-600 text-white">Services</h3>
+                  <h3 className="text-[18px] font-extrabold text-white">
+                    Services
+                  </h3>
                 </Link>
               </li>
               <li className="nav-item p-5">
                 <Link href="/" className="nav-link  p-0">
-                  <h3 className="fs-18 fw-600 text-white">Portfolio</h3>
+                  <h3 className="text-[18px] font-extrabold text-white">
+                    Portfolio
+                  </h3>
                 </Link>
               </li>
               <li className="nav-item p-5">
                 <Link href="/" className="nav-link  p-0">
-                  <h3 className="fs-18 fw-600 text-white">Blog</h3>
+                  <h3 className="text-[18px] font-extrabold text-white">
+                    Blog
+                  </h3>
                 </Link>
               </li>
             </ul>
@@ -85,7 +91,7 @@ function Navbar() {
 
           <div className="d-flex align-items-center d-none d-lg-block">
             <Link href="/" className="btn flex items-center">
-              <h4 className="fs-18 orange-btn btn px-4 py-2 fw-500 text-white">
+              <h4 className="text-[18px] font-extrabold orange-btn btn px-4 py-2 text-white">
                 Contact Us
               </h4>
             </Link>
@@ -94,10 +100,8 @@ function Navbar() {
       </nav>
 
       <nav
-        className={`navbar navbar-dark navbar-expand-lg min-[1025px]:hidden   h-[77px] ${
-          active
-            ? "backdrop-blur-0 border-b border-white/10"
-            : "backdrop-blur-0 border-b-0"
+        className={`navbar navbar-dark navbar-expand-lg min-[1025px]:hidden items-center flex  h-[77px] ${
+          active ? "backdrop-blur-[5px]" : "backdrop-blur-0"
         } transition-all transprent`}
       >
         <div className="container header-container flex items-center justify-between">
@@ -117,30 +121,14 @@ function Navbar() {
                 src="https://nexait.io/assets/images/logo-full.svg"
                 alt="Nexait Logo"
                 className="img-fluid"
-                width={160}
-                height={43}
+                width={130}
+                height={35}
               />
             </picture>
           </Link>
 
-          <div className="flex items-center justify-center cursor-pointer h-[51px] w-[51px] rounded-full">
-            <svg
-              className="text-dark-light bg-[#1F2937] rounded-full"
-              width="51"
-              height="51"
-              viewBox="0 0 56 56"
-              fill="none"
-            
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect width="56" height="56" rx="28" fill="currentColor"></rect>
-              <path
-                d="M37 32H19M37 24H19"
-                stroke="white"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              ></path>
-            </svg>
+          <div className="flex items-center justify-center cursor-pointer h-[51px] w-[51px] rounded-full bg-[#1F2937]">
+            <i class="fa-solid fa-bars text-white"></i>
           </div>
         </div>
       </nav>
