@@ -81,11 +81,7 @@ function ExpandCards() {
                 <div className="mt-2 overflow-hidden">
                   <div
                     className={`whitespace-nowrap text-[30px] font-extrabold transform transition-all duration-700
-                          ${
-                            active === index
-                              ? "opacity-100"
-                              : "opacity-0"
-                          }`}
+                          ${active === index ? "opacity-100" : "opacity-0"}`}
                   >
                     {card.title}
                   </div>
@@ -94,11 +90,7 @@ function ExpandCards() {
                 <div className="mt-3 overflow-hidden w-full">
                   <p
                     className={`text-[16px] w-full font-bold leading-relaxed transform transition-all duration-700
-                            ${
-                              active === index
-                                ? "opacity-100"
-                                : "opacity-0"
-                            }`}
+                            ${active === index ? "opacity-100" : "opacity-0"}`}
                   >
                     {card.desc}
                   </p>
@@ -116,71 +108,60 @@ function ExpandCards() {
         <div className="container min-[1551px]:h-[420px] h-[400px]">
           <div className="flex h-full w-full gap-6 justify-center rounded-[12px] bg-white">
             {cards.map((card, index) => (
-              <>
-                <div key={index} className="flex flex-col">
-                  <div
-                    key={index}
-                    onMouseEnter={() => setActive(index)}
-                    className={`relative h-full overflow-hidden rounded-[12px] cursor-pointer transition-all duration-700 ${
-                      active === index
-                        ? "w-[400px] min-[1025px]:w-[600px] opacity-100"
-                        : "w-[80px] min-[1025px]:w-[180px] opacity-60"
-                    }`}
-                    style={{
-                      backgroundImage: `url(${card.image})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                  >
-                    <div className="absolute inset-0 z-10 bg-black/40 backdrop-blur-[2px]" />
+              <div key={index} className="flex flex-col">
+                <div
+                  onMouseEnter={() => setActive(index)}
+                  className={`relative h-full overflow-hidden rounded-[12px] cursor-pointer transition-all duration-700 ${
+                    active === index
+                      ? "min-[1281px]:w-[520px] min-[1551px]:w-[600px] min-[992px]:w-[480px] w-[420px] opacity-100"
+                      : "min-[1281px]:w-[160px] min-[1551px]:w-[180px]   opacity-60"
+                  }`}
+                  style={{
+                    backgroundImage: `url(${card.image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                >
+                  <div className="absolute inset-0 z-10 bg-black/40 backdrop-blur-[2px]" />
 
-                    <div className="absolute left-0 top-1/2 z-20 w-[380px] min-[1025px]:w-[600px] -translate-y-1/2 px-10 text-white">
-                      <div className="overflow-hidden">
-                        <h1
-                          className={`whitespace-nowrap text-6xl font-bold transform transition-all duration-700
+                  <div className="absolute left-0 top-1/2 z-20 w-[380px] min-[1025px]:w-[600px] -translate-y-1/2 px-10 text-white">
+                    <div className="overflow-hidden">
+                      <h1
+                        className={`whitespace-nowrap text-6xl font-bold transform transition-all duration-700
                                   ${
                                     active === index
                                       ? "opacity-100"
                                       : "opacity-0"
                                   }`}
-                        >
-                          {card.number}
-                        </h1>
-                      </div>
+                      >
+                        {card.number}
+                      </h1>
+                    </div>
 
-                      <div className="mt-2 overflow-hidden">
-                        <div
-                          className={`whitespace-nowrap text-[30px] font-extrabold transform transition-all duration-700
-                          ${
-                            active === index
-                              ? "opacity-100"
-                              : "opacity-0"
-                          }`}
-                        >
-                          {card.title}
-                        </div>
-                      </div>
-
-                      <div className="mt-3 overflow-hidden">
-                        <p
-                          className={`max-w-md text-[16px] font-bold leading-relaxed transform transition-all duration-700
-                            ${
-                              active === index
-                                ? "opacity-100"
-                                : "opacity-0"
-                            }`}
-                        >
-                          {card.desc}
-                        </p>
+                    <div className="mt-2 overflow-hidden">
+                      <div
+                        className={`whitespace-nowrap text-[30px] font-extrabold transform transition-all duration-700
+                          ${active === index ? "opacity-100" : "opacity-0"}`}
+                      >
+                        {card.title}
                       </div>
                     </div>
-                  </div>
 
-                  <p className="text-black font-extrabold mt-[10px] text-[18px]">
-                    {card.p}
-                  </p>
+                    <div className="mt-3 overflow-hidden">
+                      <p
+                        className={`max-w-md text-[16px] font-bold leading-relaxed transform transition-all duration-700
+                            ${active === index ? "opacity-100" : "opacity-0"}`}
+                      >
+                        {card.desc}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </>
+
+                <p className="text-black font-extrabold mt-[10px] min-[1281]:text-[18px] text-[16px]">
+                  {card.p}
+                </p>
+              </div>
             ))}
           </div>
         </div>

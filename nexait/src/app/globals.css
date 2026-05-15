@@ -16,12 +16,10 @@
     url("https://db.onlinewebfonts.com/t/4443b611d51ff971972892a2ade08240.svg#Gilroy-Thin")
       format("svg");
 
-  font-weight: normal;
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
-
-
 
 :root {
   --background: #ffffff;
@@ -50,7 +48,16 @@ body {
   background: var(--foreground);
   color: var(--background);
   font-family: "Gilroy-thin", sans-serif;
-  font-weight: 400;
+  font-weight: 500;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .container {
@@ -160,6 +167,4 @@ video {
   .container {
     max-width: 1240px;
   }
-  
 }
-

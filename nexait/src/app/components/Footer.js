@@ -15,7 +15,7 @@ const footerLinks2 = {
     "Software Development",
   ],
 };
-
+  
 const footerLinks3 = {
   links: [
     "Web Application Development",
@@ -27,7 +27,7 @@ const footerLinks3 = {
 
 function Footer() {
   return (
-    <section className="pt-[64px] min-[]577px:pb-[48px] pb-[38px] bg-black">
+    <section className="pt-[64px] min-[577px]:pb-[48px] pb-[38px] bg-black">
       <div className="container">
         <div className=" border-b border-[rgba(17,24,39)] min-[577px]:pb-[64px] pb-[32px]">
           <div className="grid grid-cols-12 justify-between ">
@@ -200,7 +200,7 @@ function Footer() {
       </div>
 
       <div className="container">
-        <div className="flex items-center min-[]577px:gap-[40px] gap-[20px] min-[577px]:mt-[48px] mt-[26px] flex-wrap ">
+        <div className="flex items-center min-[577px]:gap-[40px] gap-[20px] min-[577px]:mt-[48px] mt-[26px] flex-wrap ">
           <div className="logo pr-[40px] min-[577px]:border-r border-white/70 min-[577px]:flex gap-[20px] block">
             <img
               src="https://nexait.io/assets/images/logo-sm.svg"
